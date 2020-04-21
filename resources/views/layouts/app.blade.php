@@ -10,16 +10,16 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+   
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+   
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+   
+    <link rel="stylesheet" media="screen, print"  href="{{ asset('smartadmin/css/vendors.bundle.css') }}">
+    <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/app.bundle.css') }}">
 </head>
-<body>
+<body> 
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -76,5 +76,8 @@
             @yield('content')
         </main>
     </div>
+   
+    <script src="{{ asset('smartadmin/js/vendors.bundle.js') }}"></script>
+    <script src="{{ asset('smartadmin/js/app.bundle.js') }}" ></script>
 </body>
 </html>
