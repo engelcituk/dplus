@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>
-            Login - - SmartAdmin v4.0.1
+            Iniciar sesión
         </title>
         <meta name="description" content="Login">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
