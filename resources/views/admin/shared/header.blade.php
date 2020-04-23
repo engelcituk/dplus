@@ -618,7 +618,7 @@
                         <span data-i18n="drpdwn.print">Print</span>
                         <i class="float-right text-muted fw-n">Ctrl + P</i>
                     </a>
-                    <div class="dropdown-multilevel dropdown-multilevel-left">
+                    {{-- <div class="dropdown-multilevel dropdown-multilevel-left">
                         <div class="dropdown-item">
                             Language
                         </div>
@@ -630,7 +630,7 @@
                             <a href="#?lang=jp" class="dropdown-item" data-action="lang" data-lang="jp">日本語</a>
                             <a href="#?lang=ch" class="dropdown-item" data-action="lang" data-lang="ch">中文</a>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="dropdown-divider m-0"></div>
                     <a class="dropdown-item fw-500 pt-3 pb-3" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
