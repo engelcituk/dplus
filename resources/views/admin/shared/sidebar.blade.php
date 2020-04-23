@@ -25,7 +25,7 @@
                         {{ Auth::user()->name }} 
                     </span>
                 </a>
-                <span class="d-inline-block text-truncate text-truncate-sm">Toronto, Canada</span>
+                <span class="d-inline-block text-truncate text-truncate-sm">Señor, Q.Roo</span>
             </div>
             <img src="smartadmin/img/card-backgrounds/cover-2-lg.png" class="cover" alt="cover">
             <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
@@ -37,105 +37,115 @@
             
             <li class="nav-title">Principales</li>
             <li>
-                <a href="#" title="UI Components" data-filter-tags="ui components">
+                <a href="#" title="UI Ventas" data-filter-tags="ui ventas">
                     <i class="fal fa-window"></i>
-                    <span class="nav-link-text" data-i18n="nav.ui_components">UI Components</span>
+                    <span class="nav-link-text" data-i18n="nav.ui_ventas">Ventas</span>
                 </a>
                 <ul>
                     <li>
-                        <a href="ui_alerts.html" title="Alerts" data-filter-tags="ui components alerts">
-                            <span class="nav-link-text" data-i18n="nav.ui_components_alerts">Alerts</span>
+                        <a href="ui_alerts.html" title="Alerts" data-filter-tags="ui ventas alerts">
+                            <span class="nav-link-text" data-i18n="nav.ui_ventas_alerts">Pagar servicio</span>
                         </a>
                     </li>
                     <li>
-                        <a href="ui_accordion.html" title="Accordions" data-filter-tags="ui components accordions">
-                            <span class="nav-link-text" data-i18n="nav.ui_components_accordions">Accordions</span>
+                        <a href="ui_accordion.html" title="Accordions" data-filter-tags="ui ventas accordions">
+                            <span class="nav-link-text" data-i18n="nav.ui_ventas_accordions">Dashboard</span>
                         </a>
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="#" title="Utilities" data-filter-tags="utilities">
-                    <i class="fal fa-bolt"></i>
-                    <span class="nav-link-text" data-i18n="nav.utilities">Utilities</span>
-                </a>
-                <ul>
-                    <li>
-                        <a href="utilities_borders.html" title="Borders" data-filter-tags="utilities borders">
-                            <span class="nav-link-text" data-i18n="nav.utilities_borders">Borders</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="utilities_clearfix.html" title="Clearfix" data-filter-tags="utilities clearfix">
-                            <span class="nav-link-text" data-i18n="nav.utilities_clearfix">Clearfix</span>
-                        </a>
-                    </li>
-                    
-                    
-                </ul>
-            </li>
-            
-           
             <li class="nav-title">Administración</li>
             <li>
-                <a href="#" title="Plugins" data-filter-tags="plugins">
-                    <i class="fal fa-shield-alt"></i>
-                    <span class="nav-link-text" data-i18n="nav.plugins">Core Plugins</span>
+                <a href="#" title="Clientes" data-filter-tags="clientes">
+                    <i class="fal fa-users"></i>
+                    <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
                 </a>
                 <ul>
                     <li>
-                        <a href="plugin_faq.html" title="Plugins FAQ" data-filter-tags="plugins plugins faq">
-                            <span class="nav-link-text" data-i18n="nav.plugins_plugins_faq">Plugins FAQ</span>
+                        <a href="plugin_faq.html" title="Clientes" data-filter-tags="clientes ">
+                            <span class="nav-link-text" data-i18n="nav.clientes">Internet</span>
                         </a>
                     </li>
                     <li>
-                        <a href="plugin_waves.html" title="Waves" data-filter-tags="plugins waves">
-                            <span class="nav-link-text" data-i18n="nav.plugins_waves">Waves</span>
+                        <a href="plugin_waves.html" title="Recargas" data-filter-tags="clientes recargas">
+                            <span class="nav-link-text" data-i18n="nav.clientes_recargas">Recargas</span>
                             <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
                         </a>
                     </li>
-                  
                 </ul>
             </li>
             <li>
-                <a href="#" title="Datatables" data-filter-tags="datatables datagrid">
+                <a href="#" title="Servicios" data-filter-tags="servicios service">
                     <i class="fal fa-table"></i>
-                    <span class="nav-link-text" data-i18n="nav.datatables">Datatables</span>
-                    <span class="dl-ref bg-primary-500 hidden-nav-function-minify hidden-nav-function-top">235 KB</span>
+                    <span class="nav-link-text" data-i18n="nav.servicios">Servicios</span>
                 </a>
                 <ul>
                     <li>
-                        <a href="datatables_basic.html" title="Basic" data-filter-tags="datatables datagrid basic">
-                            <span class="nav-link-text" data-i18n="nav.datatables_basic">Basic</span>
+                        <a href="servicios_basic.html" title="Internet" data-filter-tags="servicios service internet">
+                            <span class="nav-link-text" data-i18n="nav.servicios_internet">Internet</span>
                         </a>
                     </li>
                     <li>
-                        <a href="datatables_autofill.html" title="Autofill" data-filter-tags="datatables datagrid autofill">
-                            <span class="nav-link-text" data-i18n="nav.datatables_autofill">Autofill</span>
+                        <a href="servicios_basic.html" title="Basic" data-filter-tags="servicios service recarga">
+                            <span class="nav-link-text" data-i18n="nav.servicios_recarga">Recargas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="servicios_autofill.html" title="Sky" data-filter-tags="servicios service sky">
+                            <span class="nav-link-text" data-i18n="nav.servicios_sky">Sky</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="servicios_autofill.html" title="Dish" data-filter-tags="servicios service dish">
+                            <span class="nav-link-text" data-i18n="nav.servicios_dish">Dish</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="nav-title">Configuración</li>
             <li>
-                    <a href="#" title="Datatables" data-filter-tags="configuracion conf">
-                        <i class="fal fa-cog"></i>
-                        <span class="nav-link-text" data-i18n="nav.configuracion">Configuración</span>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="configuracion_basic.html" title="Basic" data-filter-tags="configuracion conf basic">
-                                <span class="nav-link-text" data-i18n="nav.configuracion_basic">Basic</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="configuracion_autofill.html" title="Autofill" data-filter-tags="configuracion conf autofill">
-                                <span class="nav-link-text" data-i18n="nav.configuracion_autofill">Autofill</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                <a href="#" title="Configuracion" data-filter-tags="configuracion conf">
+                    <i class="fal fa-key"></i>
+                    <span class="nav-link-text" data-i18n="nav.configuracion">Roles-Permisos</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="configuracion_basic.html" title="Roles" data-filter-tags="configuracion roles">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracion_autofill.html" title="Permisos" data-filter-tags="configuracion permisos">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_permisos">Permisos</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li>
+                <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
+                    <i class="fal fa-print"></i>
+                    <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="configuracion_basic.html" title="Comisiones" data-filter-tags="configuracion comisiones">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Comisiones</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracion_basic.html" title="Estados" data-filter-tags="configuracion estados">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_estados">Estados</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracion_basic.html" title="Impresoras" data-filter-tags="configuracion impresoras">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_impresoras">Impresoras</span>
+                        </a>
+                    </li>
+                </ul>
+                
+            </li>
         </ul>
         <div class="filter-message js-filter-message bg-success-600"></div>
     </nav>
