@@ -2,10 +2,10 @@
 
 @section('content')
 <ol class="breadcrumb page-breadcrumb">
-    <li class="breadcrumb-item"><a href="javascript:void(0);">SmartAdmin</a></li>
-    <li class="breadcrumb-item">category_1</li>
-    <li class="breadcrumb-item">category_2</li>
-    <li class="breadcrumb-item active">Page Titile</li>
+    <li class="breadcrumb-item"><a href="{{route('dashboard')}}" >DPlus</a></li>
+    <li class="breadcrumb-item">Administracion</li>
+    <li class="breadcrumb-item">Clientes</li>
+    <li class="breadcrumb-item active">Lista</li>
     <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
 </ol>
     
@@ -514,10 +514,7 @@
 @push('scriptsJs') 
     <script src="{{ asset('smartadmin/js/datagrid/datatables/datatables.bundle.js') }}" ></script>  
     <script>
-        /* demo scripts for change table color */
-        /* change background */
-
-
+     
         $(document).ready(function()
         {
             $('#dt-basic-example').dataTable(
