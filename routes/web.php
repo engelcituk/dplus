@@ -14,5 +14,7 @@ Route::group([
     'middleware'=>'auth'],//midleware para controlar el acceso
 function(){
     Route::get('/', 'AdminController@index')->name('dashboard'); 
+    Route::get('ventas', 'VentasController@index')->name('admin.ventas.index'); 
+
 
 });

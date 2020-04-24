@@ -2,7 +2,7 @@
         <!-- we need this logo when user switches to nav-function-top -->
         <div class="page-logo">
             <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
-                <img src="smartadmin/img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo">
+                <img src="{{ asset('smartadmin/img/logo.png')}}" alt="SmartAdmin WebApp" aria-roledescription="logo">
                 <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
                 <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
                 <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
@@ -267,7 +267,7 @@
                                     <li class="unread">
                                         <a href="#" class="d-flex align-items-center">
                                             <span class="status mr-2">
-                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('smartadmin/img/demo/avatars/avatar-c.png')"></span>
+                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('{{ asset('smartadmin/img/demo/avatars/avatar-c.png')}}')"></span>
                                             </span>
                                             <span class="d-flex flex-column flex-1 ml-1">
                                                 <span class="name">Melissa Ayre <span class="badge badge-primary fw-n position-absolute pos-top pos-right mt-1">INBOX</span></span>
@@ -280,7 +280,7 @@
                                     <li class="unread">
                                         <a href="#" class="d-flex align-items-center">
                                             <span class="status mr-2">
-                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('smartadmin/img/demo/avatars/avatar-a.png')"></span>
+                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('{{ asset('smartadmin/img/demo/avatars/avatar-a.png')}}')"></span>
                                             </span>
                                             <span class="d-flex flex-column flex-1 ml-1">
                                                 <span class="name">Adison Lee</span>
@@ -292,7 +292,7 @@
                                     <li>
                                         <a href="#" class="d-flex align-items-center">
                                             <span class="status status-success mr-2">
-                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('smartadmin/img/demo/avatars/avatar-b.png')"></span>
+                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('{{ asset('smartadmin/img/demo/avatars/avatar-b.png')}}')"></span>
                                             </span>
                                             <span class="d-flex flex-column flex-1 ml-1">
                                                 <span class="name">Oliver Kopyuv</span>
@@ -304,7 +304,7 @@
                                     <li>
                                         <a href="#" class="d-flex align-items-center">
                                             <span class="status status-warning mr-2">
-                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('smartadmin/img/demo/avatars/avatar-e.png')"></span>
+                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('{{ asset('smartadmin/img/demo/avatars/avatar-e.png')}}')"></span>
                                             </span>
                                             <span class="d-flex flex-column flex-1 ml-1">
                                                 <span class="name">Dr. John Cook PhD</span>
@@ -316,8 +316,8 @@
                                     <li>
                                         <a href="#" class="d-flex align-items-center">
                                             <span class="status status-success mr-2">
-                                                <!-- <img src="smartadmin/img/demo/avatars/avatar-m.png" data-src="smartadmin/img/demo/avatars/avatar-h.png" class="profile-image rounded-circle" alt="Sarah McBrook" /> -->
-                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('smartadmin/img/demo/avatars/avatar-h.png')"></span>
+                                                <!-- <img src="{{ asset('smartadmin/img/demo/avatars/avatar-m.png')}}" data-src="smartadmin/img/demo/avatars/avatar-h.png" class="profile-image rounded-circle" alt="Sarah McBrook" /> -->
+                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('{{ asset('smartadmin/img/demo/avatars/avatar-h.png')}}')"></span>
                                             </span>
                                             <span class="d-flex flex-column flex-1 ml-1">
                                                 <span class="name">Sarah McBrook</span>
@@ -329,7 +329,7 @@
                                     <li>
                                         <a href="#" class="d-flex align-items-center">
                                             <span class="status status-success mr-2">
-                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('smartadmin/img/demo/avatars/avatar-m.png')"></span>
+                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('{{ asset('smartadmin/img/demo/avatars/avatar-m.png')}}')"></span>
                                             </span>
                                             <span class="d-flex flex-column flex-1 ml-1">
                                                 <span class="name">Anothony Bezyeth</span>
@@ -341,7 +341,7 @@
                                     <li>
                                         <a href="#" class="d-flex align-items-center">
                                             <span class="status status-danger mr-2">
-                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('smartadmin/img/demo/avatars/avatar-j.png')"></span>
+                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('{{ asset('smartadmin/img/demo/avatars/avatar-j.png')}}')"></span>
                                             </span>
                                             <span class="d-flex flex-column flex-1 ml-1">
                                                 <span class="name">Lisa Hatchensen</span>
@@ -386,7 +386,7 @@
                                     </li>
                                     <li>
                                         <div class="d-flex align-items-center show-child-on-hover">
-                                            <!--<img src="smartadmin/img/demo/avatars/avatar-m.png" data-src="smartadmin/img/demo/avatars/avatar-k.png" class="profile-image rounded-circle" alt="k" />-->
+                                            <!--<img src="{{ asset('smartadmin/img/demo/avatars/avatar-m.png')}}" data-src="smartadmin/img/demo/avatars/avatar-k.png" class="profile-image rounded-circle" alt="k" />-->
                                             <div class="d-flex flex-column flex-1">
                                                 <span class="name">
                                                     Troy Norman'<span class="fw-300">s new connections</span>
@@ -409,7 +409,7 @@
                                     </li>
                                     <li>
                                         <div class="d-flex align-items-center show-child-on-hover">
-                                            <!--<img src="smartadmin/img/demo/avatars/avatar-m.png" data-src="smartadmin/img/demo/avatars/avatar-e.png" class="profile-image-sm rounded-circle align-self-start mt-1" alt="k" />-->
+                                            <!--<img src="{{ asset('smartadmin/img/demo/avatars/avatar-m.png')}}" data-src="smartadmin/img/demo/avatars/avatar-e.png" class="profile-image-sm rounded-circle align-self-start mt-1" alt="k" />-->
                                             <div class="d-flex flex-column flex-1">
                                                 <span class="name">Dr John Cook <span class="fw-300">sent a <span class="text-danger">new signal</span></span></span>
                                                 <span class="msg-a fs-sm mt-2">Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</span>
@@ -447,7 +447,7 @@
                                     </li>
                                     <li>
                                         <div class="d-flex align-items-center show-child-on-hover">
-                                            <!--<img src="smartadmin/img/demo/avatars/avatar-m.png" data-src="smartadmin/img/demo/avatars/avatar-h.png" class="profile-image rounded-circle align-self-start mt-1" alt="k" />-->
+                                            <!--<img src="{{ asset('smartadmin/img/demo/avatars/avatar-m.png')}}" data-src="smartadmin/img/demo/avatars/avatar-h.png" class="profile-image rounded-circle align-self-start mt-1" alt="k" />-->
                                             <div class="d-flex flex-column flex-1">
                                                 <div class="name mb-2">
                                                     Lisa Lamar<span class="fw-300"> updated project</span>
@@ -585,7 +585,7 @@
             <!-- app user menu -->
             <div>
                 <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2">
-                    <img src="smartadmin/img/demo/avatars/avatar-admin.png" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+                    <img src="{{ asset('smartadmin/img/demo/avatars/avatar-admin.png')}}" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
                     <!-- you can also add username next to the avatar with the codes below:
                     <span class="ml-1 mr-1 text-truncate text-truncate-header hidden-xs-down">Me</span>
                     <i class="ni ni-chevron-down hidden-xs-down"></i> -->
@@ -594,7 +594,7 @@
                     <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
                         <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                             <span class="mr-2">
-                                <img src="smartadmin/img/demo/avatars/avatar-admin.png" class="rounded-circle profile-image" alt="Dr. Codex Lantern">
+                                <img src="{{ asset('smartadmin/img/demo/avatars/avatar-admin.png')}}" class="rounded-circle profile-image" alt="Dr. Codex Lantern">
                             </span>
                             <div class="info-card-text">
                                 <div class="fs-lg text-truncate text-truncate-lg">{{ Auth::user()->name }} </div>

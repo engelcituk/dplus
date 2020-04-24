@@ -1,7 +1,7 @@
 <aside class="page-sidebar">
     <div class="page-logo">
         <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
-            <img src="smartadmin/img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo">
+            <img src="{{ asset('smartadmin/img/logo.png')}}" alt="SmartAdmin WebApp" aria-roledescription="logo">
             <span class="page-logo-text mr-1">DPlus App</span>
             <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
             <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="info-card">
-            <img src="smartadmin/img/demo/avatars/avatar-admin.png" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+            <img src="{{ asset('smartadmin/img/demo/avatars/avatar-admin.png')}}" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
             <div class="info-card-text">
                 <a href="#" class="d-flex align-items-center text-white">
                     <span class="text-truncate text-truncate-sm d-inline-block">
@@ -27,7 +27,7 @@
                 </a>
                 <span class="d-inline-block text-truncate text-truncate-sm">Señor, Q.Roo</span>
             </div>
-            <img src="smartadmin/img/card-backgrounds/cover-2-lg.png" class="cover" alt="cover">
+            <img src="{{ asset('smartadmin/img/card-backgrounds/cover-2-lg.png')}}" class="cover" alt="cover">
             <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
                 <i class="fal fa-angle-down"></i>
             </a>
@@ -36,26 +36,26 @@
             
             
             <li class="nav-title">Principales</li>
-            <li>
+            <li class=" {{setCollapseShow(['admin.ventas.index','dashboard'])}} ">
                 <a href="#" title="UI Ventas" data-filter-tags="ui ventas">
                     <i class="fal fa-window"></i>
                     <span class="nav-link-text" data-i18n="nav.ui_ventas">Ventas</span>
                 </a>
                 <ul>
-                    <li>
-                        <a href="ui_alerts.html" title="Alerts" data-filter-tags="ui ventas alerts">
+                    <li class="{{ setActiveRoute('admin.ventas.index') }}">
+                        <a href="{{route('admin.ventas.index')}}" title="Alerts" data-filter-tags="ui ventas alerts">
                             <span class="nav-link-text" data-i18n="nav.ui_ventas_alerts">Pagar servicio</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="ui_accordion.html" title="Accordions" data-filter-tags="ui ventas accordions">
+                    <li class="{{ setActiveRoute('dashboard') }}">
+                        <a href="{{route('dashboard')}}"  title="Accordions" data-filter-tags="ui ventas accordions">
                             <span class="nav-link-text" data-i18n="nav.ui_ventas_accordions">Dashboard</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="nav-title">Administración</li>
-            <li>
+            <li >
                 <a href="#" title="Clientes" data-filter-tags="clientes">
                     <i class="fal fa-users"></i>
                     <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
