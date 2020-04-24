@@ -55,21 +55,21 @@
                 </ul>
             </li>
             <li class="nav-title">Administración</li>
-            <li >
+            <li class=" {{setCollapseShow(['admin.clientes.index','admin.clientes.create'])}} ">
                 <a href="#" title="Clientes" data-filter-tags="clientes">
                     <i class="fal fa-users"></i>
                     <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
                 </a>
                 <ul>
-                    <li>
-                        <a href="plugin_faq.html" title="Clientes" data-filter-tags="clientes ">
-                            <span class="nav-link-text" data-i18n="nav.clientes">Internet</span>
+                    <li class="{{ setActiveRoute('admin.clientes.index') }}">
+                        <a href="{{route('admin.clientes.index')}}" title="Clientes" data-filter-tags="clientes ">
+                            <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
+                            <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="plugin_waves.html" title="Recargas" data-filter-tags="clientes recargas">
-                            <span class="nav-link-text" data-i18n="nav.clientes_recargas">Recargas</span>
-                            <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
+                    <li class="{{ setActiveRoute('admin.clientes.create') }}">
+                        <a href="{{route('admin.clientes.create')}}"title="Recargas" data-filter-tags="clientes nuevo">
+                            <span class="nav-link-text" data-i18n="nav.clientes_nuevo">Nuevo</span>
                         </a>
                     </li>
                 </ul>

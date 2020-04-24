@@ -22,6 +22,7 @@
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/favicon/apple-touch-icon.png')}}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon/favicon-32x32.png')}}">
         <link rel="mask-icon" href="{{ asset('img/favicon/safari-pinned-tab.svg')}}" color="#5bbad5">
+        @stack('stylesCss')
         <!--<link rel="stylesheet" media="screen, print" href="css/your_styles.css">-->
     </head>
     <body class="mod-bg-1 ">
@@ -189,9 +190,13 @@
             <a href="#" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Scroll Top">
                 <i class="fal fa-arrow-up"></i>
             </a>
-            <a href="page_login-alt.html" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Logout">
+            
+            <a href="{{ route('logout') }}" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Cerrar sesión"
+                onclick="event.preventDefault(); document.getElementById('logout-form-quick-menu').submit();"            
+            >
                 <i class="fal fa-sign-out"></i>
             </a>
+           
             <a href="#" class="menu-item btn" data-action="app-fullscreen" data-toggle="tooltip" data-placement="left" title="Full Screen">
                 <i class="fal fa-expand"></i>
             </a>
@@ -202,6 +207,9 @@
                 <i class="fal fa-microphone"></i>
             </a>
         </nav>
+        <form id="logout-form-quick-menu" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
         <!-- END Quick Menu -->
         <!-- BEGIN Messenger -->
         <div class="modal fade js-modal-messenger modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true">
@@ -741,6 +749,6 @@
        
         <script src="{{ asset('smartadmin/js/vendors.bundle.js') }}"></script>
         <script src="{{ asset('smartadmin/js/app.bundle.js') }}" ></script>
-        
+        @stack('scriptsJs')        
     </body>
 </html>

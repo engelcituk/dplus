@@ -633,14 +633,14 @@
                     </div> --}}
                     <div class="dropdown-divider m-0"></div>
                     <a class="dropdown-item fw-500 pt-3 pb-3" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                                  document.getElementById('logout-form').submit();">
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                    >
                         <span data-i18n="drpdwn.page-logout">Logout</span>
                         <span class="float-right fw-n">&commat;codexlantern</span>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
-                        </form>
+                    </form>
                 </div>
             </div>
         </div>
