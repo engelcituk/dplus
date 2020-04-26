@@ -68,7 +68,7 @@
                         </a>
                     </li>
                     <li class="{{ setActiveRoute('admin.clientes.create') }}">
-                        <a href="{{route('admin.clientes.create')}}"title="Recargas" data-filter-tags="clientes nuevo">
+                        <a href="{{route('admin.clientes.create')}}" title="Recargas" data-filter-tags="clientes nuevo">
                             <span class="nav-link-text" data-i18n="nav.clientes_nuevo">Nuevo</span>
                         </a>
                     </li>
@@ -122,12 +122,17 @@
                 </ul>
             </li>
             
-            <li>
+            <li class=" {{setCollapseShow(['admin.categorias.index'])}} ">
                 <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
                     <i class="fal fa-print"></i>
                     <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
                 </a>
                 <ul>
+                    <li class="{{ setActiveRoute(['admin.categorias.index','admin.categorias.create']) }}">
+                        <a href="{{route('admin.categorias.index')}}"  title="Comisiones" data-filter-tags="configuracion categorias">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Categorias</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="configuracion_basic.html" title="Comisiones" data-filter-tags="configuracion comisiones">
                             <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Comisiones</span>

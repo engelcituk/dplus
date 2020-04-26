@@ -4,82 +4,71 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Category;
 
 class CategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
-        //
+        $categorias = Category::all();
+
+        return view('admin.categorias.index', compact('categorias'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.categorias.create');
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
-        //
+        //Validar el formulario
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+        
+        $categoria = Category::create($data);
+        
+        return redirect()->route('admin.categorias.edit', compact('categoria'))->withFlash('La categoría ha sido creado');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+   
+    public function show(Category $categoria)
     {
-        //
+        return view('admin.categorias.show', compact('categoria'));        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+  
+    public function edit(Category $categoria)
     {
-        //
+        return view('admin.categorias.edit', compact('categoria'));
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+  
+    public function update(Request $request, Category $categoria)
     {
-        //
+        $data = $request->validate([
+            'name'=>'required'
+        ]);
+
+        $categoria->update($data);
+
+        return back()->withFlash('Categoría actualizada');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    
+    public function destroy($idCaegoria)
     {
-        //
+        $categoria = Category::find($idCaegoria); //busco al usuario a borrar
+
+       // $this->authorize('delete',$categoria); // autorizo el delete, usando el policy
+
+        $categoria->delete();
+
+        return response()->json(['mensaje'=>'Cliente eliminado']);
     }
 }

@@ -5,9 +5,9 @@
 
     @include('admin.shared.flash-messages') {{-- incluyo el bloque para mensajes flash --}}  
     <ol class="breadcrumb page-breadcrumb">
-        <li class="breadcrumb-item"><a href="{{route('admin.clientes.index')}}" > <i class="fal fa-arrow-left"></i> Clientes</a></li>
-        <li class="breadcrumb-item">Administracion</li>
-        <li class="breadcrumb-item">Clientes</li>
+        <li class="breadcrumb-item"><a href="{{route('admin.categorias.index')}}" > <i class="fal fa-arrow-left"></i> Categorías</a></li>
+        <li class="breadcrumb-item">Configuración</li>
+        <li class="breadcrumb-item">Categorías</li>
         <li class="breadcrumb-item active">Crear</li>
         <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
     </ol> 
@@ -18,14 +18,14 @@
         <div id="panel-2" class="panel">
             <div class="panel-hdr">
                 <h2>
-                    Datos del <span class="fw-300"><i>cliente</i></span>
+                    Datos de la <span class="fw-300"><i>categoría</i></span>
                 </h2> 
 
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
                 @include('admin.shared.error-messages') {{-- incluyo el bloque para mensajes flash --}}  
-                    <form action="{{route('admin.clientes.store')}}" method="POST">
+                    <form action="{{route('admin.categorias.store')}}" method="POST">
                         @csrf 
                         <div class="form-group">
                             <label class="form-label" for="addon-wrapping-left">Nombre completo del cliente</label>
@@ -36,7 +36,7 @@
                             <input type="text" class="form-control" placeholder="Nombre completo" aria-label="Nombre completo" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name')}}">
                             </div>
                         </div>
-                        <button class="mt-3 btn btn-primary btn-block"> Crear cliente</button>
+                        <button class="mt-3 btn btn-primary btn-block"> Crear Categoría</button>
 
                     </form>
                 </div>
