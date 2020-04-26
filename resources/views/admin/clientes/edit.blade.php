@@ -1,8 +1,6 @@
 @extends('admin.layout')
 
 @section('content')
-
-
     @include('admin.shared.flash-messages') {{-- incluyo el bloque para mensajes flash --}}  
     <ol class="breadcrumb page-breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('admin.clientes.index')}}" > <i class="fal fa-arrow-left"></i> Clientes</a></li>

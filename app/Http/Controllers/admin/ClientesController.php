@@ -50,23 +50,12 @@ class ClientesController extends Controller
         return redirect()->route('admin.clientes.edit', compact('cliente'))->withFlash('El usuario ha sido creado');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Cliente $cliente)
     {
-        //
+        return view('admin.clientes.show', compact('cliente'));
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Cliente $cliente)
     {
         return view('admin.clientes.edit', compact('cliente'));
