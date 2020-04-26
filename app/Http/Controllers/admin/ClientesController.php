@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Cliente;
 
 class ClientesController extends Controller
 {
@@ -14,7 +15,9 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        return view('admin.clientes.index');
+        $clientes = Cliente::all();
+
+        return view('admin.clientes.index', compact('clientes'));
         
     }
 
@@ -37,7 +40,14 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validar el formulario
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+        
+        $cliente = Cliente::create($data);
+        
+        return redirect()->route('admin.clientes.edit', compact('cliente'))->withFlash('El usuario ha sido creado');
     }
 
     /**
@@ -57,9 +67,10 @@ class ClientesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cliente $cliente)
     {
-        //
+        return view('admin.clientes.edit', compact('cliente'));
+        
     }
 
     /**
@@ -69,19 +80,26 @@ class ClientesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cliente $cliente)
     {
-        //
+        $data = $request->validate([
+            'name'=>'required'
+        ]);
+
+        $cliente->update($data);
+
+        return back()->withFlash('Cliente actualizado');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+   
+    public function destroy($idCliente) //solo el admin hace esto
     {
-        //
+        $cliente = Cliente::find($idCliente); //busco al usuario a borrar
+
+       // $this->authorize('delete',$cliente); // autorizo el delete, usando el policy
+
+        $cliente->delete();
+
+        return response()->json(['mensaje'=>'Cliente eliminado']);
     }
 }
