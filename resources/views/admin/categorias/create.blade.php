@@ -28,7 +28,7 @@
                     <form action="{{route('admin.categorias.store')}}" method="POST">
                         @csrf 
                         <div class="form-group">
-                            <label class="form-label" for="addon-wrapping-left">Nombre completo del cliente</label>
+                            <label class="form-label" for="addon-wrapping-left">Nombre completo de la categoría</label>
                             <div class="input-group flex-nowrap">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
