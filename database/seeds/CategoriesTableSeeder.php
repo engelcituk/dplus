@@ -14,24 +14,24 @@ class CategoriesTableSeeder extends Seeder
     {
         Category::truncate();// limpio la tabla
 
-        $cliente = new Category;
-        $cliente->name="Sky/VeTV";
-        $cliente->save();
+        $categoria = new Category;
+        $categoria->name="Sky/VeTV";
+        $categoria->save();
 
-        $cliente = new Category;
-        $cliente->name="Recargas";
-        $cliente->save();
+        $categoria = new Category;
+        $categoria->name="Recargas";
+        $categoria->save();
 
-        $cliente = new Category;
-        $cliente->name="Internet";
-        $cliente->save();
+        $categoria = new Category;
+        $categoria->name="Internet";
+        $categoria->save();
 
-        $cliente = new Category;
-        $cliente->name="Crédito";
-        $cliente->save();
+        $categoria = new Category;
+        $categoria->name="Crédito";
+        $categoria->save();
 
-        $cliente = new Category;
-        $cliente->name="Abarrotes";
-        $cliente->save();
+        $categoria = new Category;
+        $categoria->name="Abarrotes";
+        $categoria->save();
     }
 }

@@ -17,6 +17,7 @@ class CreateServiciosTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('category_id')->unsigned();
+            $table->string('description')->nullable();
             $table->decimal('price');
             $table->decimal('commission');
             $table->decimal('final_price');

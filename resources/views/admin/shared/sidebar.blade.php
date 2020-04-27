@@ -55,7 +55,7 @@
                 </ul>
             </li>
             <li class="nav-title">Administración</li>
-            <li class=" {{setCollapseShow(['admin.clientes.index','admin.clientes.create'])}} ">
+            <li class=" {{setCollapseShow(['admin.clientes.index','admin.clientes.create'])}}" >
                 <a href="#" title="Clientes" data-filter-tags="clientes">
                     <i class="fal fa-users"></i>
                     <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
@@ -74,30 +74,20 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li class=" {{setCollapseShow(['admin.servicios.index','admin.servicios.create'])}}">
                 <a href="#" title="Servicios" data-filter-tags="servicios service">
                     <i class="fal fa-table"></i>
                     <span class="nav-link-text" data-i18n="nav.servicios">Servicios</span>
                 </a>
                 <ul>
-                    <li>
-                        <a href="servicios_basic.html" title="Internet" data-filter-tags="servicios service internet">
-                            <span class="nav-link-text" data-i18n="nav.servicios_internet">Internet</span>
+                    <li class="{{ setActiveRoute('admin.servicios.index') }}">
+                        <a href="{{route('admin.servicios.index')}}" title="Servicios" data-filter-tags="servicios service internet">
+                            <span class="nav-link-text" data-i18n="nav.servicios_internet">Servicios</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="servicios_basic.html" title="Basic" data-filter-tags="servicios service recarga">
-                            <span class="nav-link-text" data-i18n="nav.servicios_recarga">Recargas</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="servicios_autofill.html" title="Sky" data-filter-tags="servicios service sky">
-                            <span class="nav-link-text" data-i18n="nav.servicios_sky">Sky</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="servicios_autofill.html" title="Dish" data-filter-tags="servicios service dish">
-                            <span class="nav-link-text" data-i18n="nav.servicios_dish">Dish</span>
+                    <li class="{{ setActiveRoute('admin.servicios.create') }}">
+                        <a href="{{route('admin.servicios.create')}}"  title="Basic" data-filter-tags="servicios service recarga">
+                            <span class="nav-link-text" data-i18n="nav.servicios_recarga">Nuevo</span>
                         </a>
                     </li>
                 </ul>
