@@ -28,7 +28,20 @@ class ServiciosController extends Controller
   
     public function store(Request $request)
     {
-        //
+         //Validar el formulario
+         $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => 'required',
+            'category_id'=>'required',
+            'price' => 'required',
+            'commission' => 'required',
+            'final_price' => 'required'
+            
+        ]);
+        
+        $servicio = Servicio::create($data);
+        
+        return redirect()->route('admin.servicios.edit', compact('servicio'))->withFlash('El servicio ha sido creado');
     }
 
    
@@ -38,15 +51,30 @@ class ServiciosController extends Controller
     }
 
   
-    public function edit($id)
+    public function edit(Servicio $servicio)
     {
-        //
+        $categorias = Category::all();
+
+        return view('admin.servicios.edit', compact('categorias','servicio'));
+        
     }
 
    
-    public function update(Request $request, $id)
+    public function update(Request $request, Servicio $servicio)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => 'required',
+            'category_id'=>'required',
+            'price' => 'required',
+            'commission' => 'required',
+            'final_price' => 'required'
+            
+        ]);
+
+        $servicio->update($data);
+
+        return back()->withFlash('Servicio actualizado');
     }
 
  

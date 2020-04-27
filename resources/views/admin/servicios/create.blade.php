@@ -21,6 +21,7 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
+                @include('admin.shared.error-messages') {{-- incluyo el bloque para mensajes flash --}}  
                     <form action="{{route('admin.servicios.store')}}" method="POST">
                     @csrf
                         <div class="row">
@@ -46,7 +47,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="descripción">Descripción</label>
-                                    <textarea class="form-control" name="description" id="descripción" rows="3"></textarea>
+                                    <textarea class="form-control" name="description" id="descripción" rows="3">{{ old('description')}}</textarea>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -56,7 +57,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
                                         </div>
-                                    <input type="number" step="0.01" class="form-control" placeholder="Precio" aria-label="Precio" aria-describedby="addon-wrapping-left" name="price" value="{{ old('name')}}">
+                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio" aria-label="Precio" aria-describedby="addon-wrapping-left" id="precio" name="price" value="{{ old('price')}}" onchange="calculoPrecioFinal()">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -65,7 +66,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
                                         </div>
-                                    <input type="number" step="0.01" class="form-control" placeholder="Comision" aria-label="Comision" aria-describedby="addon-wrapping-left" name="commission" value="{{ old('commission')}}">
+                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Comision"  aria-label="Comision" aria-describedby="addon-wrapping-left" id="comision" name="commission" value="{{ old('commission')}}" onchange="calculoPrecioFinal()">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -74,7 +75,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
                                         </div>
-                                    <input type="number" step="0.01" class="form-control" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" name="final_price" value="{{ old('final_price')}}" readonly>
+                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" id="precioFinal" name="final_price" value="{{ old('final_price')}}" readonly>
                                     </div>
                                 </div>
                                 <button class="mt-3 btn btn-primary btn-block"> Crear servicio</button>
@@ -87,4 +88,11 @@
     </div>   
 </div>
 @endsection
+@push('stylesCss')
+    <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/notifications/sweetalert2/sweetalert2.bundle.css') }}">
+@endpush
 
+@push('scriptsJs')  
+    <script src="{{ asset('smartadmin/js/notifications/sweetalert2/sweetalert2.bundle.js') }}" ></script>   
+    @include('admin.servicios.js.create') {{-- include con un file blade porque un archivo js no me permitía --}}
+@endpush
