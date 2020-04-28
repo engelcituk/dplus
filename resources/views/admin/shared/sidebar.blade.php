@@ -123,14 +123,9 @@
                             <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Categorias</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="configuracion_basic.html" title="Comisiones" data-filter-tags="configuracion comisiones">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Comisiones</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="configuracion_basic.html" title="Estados" data-filter-tags="configuracion estados">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_estados">Estados</span>
+                    <li class="{{ setActiveRoute(['admin.periododias.index','admin.periododias.create']) }}">
+                        <a href="{{route('admin.periododias.index')}}"  title="Comisiones" data-filter-tags="configuracion periododias">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Periodo de días</span>
                         </a>
                     </li>
                     <li>

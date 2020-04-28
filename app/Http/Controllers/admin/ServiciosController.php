@@ -45,9 +45,12 @@ class ServiciosController extends Controller
     }
 
    
-    public function show($id)
+    public function show(Servicio $servicio)
     {
-        //
+        $categorias = Category::all();
+
+        return view('admin.servicios.show', compact('categorias','servicio'));
+        
     }
 
   
