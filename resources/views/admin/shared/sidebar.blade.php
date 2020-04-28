@@ -55,39 +55,29 @@
                 </ul>
             </li>
             <li class="nav-title">Administración</li>
-            <li class=" {{setCollapseShow(['admin.clientes.index','admin.clientes.create'])}}" >
+            <li class=" {{setCollapseShow(['admin.clientes.*'])}}" >
                 <a href="#" title="Clientes" data-filter-tags="clientes">
                     <i class="fal fa-users"></i>
                     <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
                 </a>
                 <ul>
-                    <li class="{{ setActiveRoute('admin.clientes.index') }}">
+                    <li class="{{ setActiveRoute('admin.clientes.*') }}">
                         <a href="{{route('admin.clientes.index')}}" title="Clientes" data-filter-tags="clientes ">
                             <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
                             <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
                         </a>
                     </li>
-                    <li class="{{ setActiveRoute('admin.clientes.create') }}">
-                        <a href="{{route('admin.clientes.create')}}" title="Recargas" data-filter-tags="clientes nuevo">
-                            <span class="nav-link-text" data-i18n="nav.clientes_nuevo">Nuevo</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
-            <li class=" {{setCollapseShow(['admin.servicios.index','admin.servicios.create'])}}">
+            <li class=" {{setCollapseShow(['admin.servicios.*'])}}">
                 <a href="#" title="Servicios" data-filter-tags="servicios service">
                     <i class="fal fa-table"></i>
                     <span class="nav-link-text" data-i18n="nav.servicios">Servicios</span>
                 </a>
                 <ul>
-                    <li class="{{ setActiveRoute('admin.servicios.index') }}">
+                    <li class="{{ setActiveRoute('admin.servicios.*') }}">
                         <a href="{{route('admin.servicios.index')}}" title="Servicios" data-filter-tags="servicios service internet">
                             <span class="nav-link-text" data-i18n="nav.servicios_internet">Servicios</span>
-                        </a>
-                    </li>
-                    <li class="{{ setActiveRoute('admin.servicios.create') }}">
-                        <a href="{{route('admin.servicios.create')}}"  title="Basic" data-filter-tags="servicios service recarga">
-                            <span class="nav-link-text" data-i18n="nav.servicios_recarga">Nuevo</span>
                         </a>
                     </li>
                 </ul>
@@ -112,18 +102,18 @@
                 </ul>
             </li>
             
-            <li class=" {{setCollapseShow(['admin.categorias.index'])}} ">
+            <li class=" {{setCollapseShow(['admin.categorias.*','admin.periododias.*'])}} ">
                 <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
                     <i class="fal fa-print"></i>
                     <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
                 </a>
                 <ul>
-                    <li class="{{ setActiveRoute(['admin.categorias.index','admin.categorias.create']) }}">
+                    <li class="{{ setActiveRoute(['admin.categorias.*']) }}">
                         <a href="{{route('admin.categorias.index')}}"  title="Comisiones" data-filter-tags="configuracion categorias">
                             <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Categorias</span>
                         </a>
                     </li>
-                    <li class="{{ setActiveRoute(['admin.periododias.index','admin.periododias.create']) }}">
+                    <li class="{{ setActiveRoute(['admin.periododias.*']) }}">
                         <a href="{{route('admin.periododias.index')}}"  title="Comisiones" data-filter-tags="configuracion periododias">
                             <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Periodo de días</span>
                         </a>
