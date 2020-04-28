@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Servicio;
 use App\Category;
+use App\DaysPeriod;
 
 class ServiciosController extends Controller
 {
@@ -21,7 +22,9 @@ class ServiciosController extends Controller
     {
         $categorias = Category::all();
 
-        return view('admin.servicios.create', compact('categorias'));
+        $periodos = DaysPeriod::all();
+
+        return view('admin.servicios.create', compact('categorias','periodos'));
         
     }
 
@@ -33,6 +36,7 @@ class ServiciosController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => 'required',
             'category_id'=>'required',
+            'days_periods_id'=>'required',
             'price' => 'required',
             'commission' => 'required',
             'final_price' => 'required'
@@ -58,7 +62,9 @@ class ServiciosController extends Controller
     {
         $categorias = Category::all();
 
-        return view('admin.servicios.edit', compact('categorias','servicio'));
+        $periodos = DaysPeriod::all();
+
+        return view('admin.servicios.edit', compact('categorias','periodos','servicio'));
         
     }
 
@@ -69,6 +75,7 @@ class ServiciosController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => 'required',
             'category_id'=>'required',
+            'days_periods_id'=>'required',
             'price' => 'required',
             'commission' => 'required',
             'final_price' => 'required'

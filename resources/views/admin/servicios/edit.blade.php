@@ -39,7 +39,6 @@
                                     <label class="form-label" for="selectCategoria">Selecciona categoría</label>
                                     <select class="form-control" name="category_id">
                                         @forelse ($categorias as $categoria)
-                                            
                                             <option value="{{$categoria->id}}"
                                                     {{ old('category_id',$servicio->category_id ) == $categoria->id ? 'selected': '' }}> {{$categoria->name}} </option>
                                         @empty
@@ -47,6 +46,18 @@
                                         @endforelse
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="selectPeriodo">Selecciona periodo de días</label>
+                                    <select class="form-control" name="days_periods_id">
+                                        @forelse ($periodos as $numDia)
+                                            <option value="{{$numDia->id}}"
+                                                    {{ old('days_periods_id',$servicio->days_periods_id ) == $numDia->id ? 'selected': '' }}> {{$numDia->days_number}} </option>
+                                        @empty
+                                            <option value="">Sin datos</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="form-label" for="descripcion">Descripción</label>
                                     <textarea class="form-control" name="description" id="descripcion" rows="3">{{ old('description', $servicio->description)}}</textarea>

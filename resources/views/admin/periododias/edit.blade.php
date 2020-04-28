@@ -29,8 +29,8 @@
                             <label class="form-label" for="addon-wrapping-left">Número del periodo de días</label>
                             <div class="input-group flex-nowrap">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
-                                </div>
+                                    <span class="input-group-text"><i class="fal fa-sort-numeric-up fs-xl"></i></span>
+                                </div> 
                             <input type="text" class="form-control" placeholder="Número" aria-label="Número" aria-describedby="addon-wrapping-left" name="days_number" value="{{ old('days_number', $periododia->days_number)}}">
                             </div>
                         </div>

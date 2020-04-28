@@ -17,6 +17,7 @@ class ServiciosTableSeeder extends Seeder
         $servicio = new Servicio;
         $servicio->name="Sky/VeTV";
         $servicio->category_id=rand(1,5);
+        $servicio->days_periods_id=rand(1,3);
         $servicio->description="VeTV el más básico";
         $servicio->price=135;
         $servicio->commission=16;
@@ -26,6 +27,7 @@ class ServiciosTableSeeder extends Seeder
         $servicio = new Servicio;
         $servicio->name="Sky/VeTV";
         $servicio->category_id=rand(1,5);
+        $servicio->days_periods_id=rand(1,3);
         $servicio->description="VeTV básico nivel 2";
         $servicio->price=185;
         $servicio->commission=16;
@@ -35,6 +37,7 @@ class ServiciosTableSeeder extends Seeder
         $servicio = new Servicio;
         $servicio->name="Sky/VeTV";
         $servicio->category_id=rand(1,5);
+        $servicio->days_periods_id=rand(1,3);
         $servicio->description="VeTV plus";
         $servicio->price=235;
         $servicio->commission=16;
@@ -44,6 +47,7 @@ class ServiciosTableSeeder extends Seeder
         $servicio = new Servicio;
         $servicio->name="Internet";
         $servicio->category_id=rand(1,5);
+        $servicio->days_periods_id=rand(1,3);
         $servicio->description="Internet de 2 megas";
         $servicio->price=250;
         $servicio->commission=0;
@@ -53,6 +57,7 @@ class ServiciosTableSeeder extends Seeder
         $servicio = new Servicio;
         $servicio->name="Internet";
         $servicio->category_id=rand(1,5);
+        $servicio->days_periods_id=rand(1,3);
         $servicio->description="Internet de 3 megas";
         $servicio->price=300;
         $servicio->commission=0;

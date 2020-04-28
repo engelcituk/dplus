@@ -31,7 +31,7 @@
                             <label class="form-label" for="addon-wrapping-left">Cantidad de días del periodo</label>
                             <div class="input-group flex-nowrap">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
+                                    <span class="input-group-text"><i class="fal fa-sort-numeric-up fs-xl"></i></span>
                                 </div>
                             <input type="number" class="form-control validarEntero" placeholder="Cantidad de días del periodo" aria-label="Cantidad de días del periodo" aria-describedby="addon-wrapping-left" name="days_number" value="{{ old('days_number')}}">
                             </div>

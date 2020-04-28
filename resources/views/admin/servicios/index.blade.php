@@ -28,6 +28,7 @@
                                 <th>id</th>
                                 <th>Nombre</th>
                                 <th>Categoría</th>
+                                <th>Recurrencia</th>
                                 <th>Precio</th>
                                 <th>Comisión</th>
                                 <th>Precio final</th>
@@ -40,6 +41,7 @@
                                     <td>{{$servicio->id}}</td>
                                     <td>{{$servicio->name}}</td>
                                     <td>{{$servicio->category->name}}</td>
+                                    <td>{{$servicio->periodo->days_number}} días</td>                                    
                                     <td>{{$servicio->price}}</td>
                                     <td>{{$servicio->commission}}</td>
                                     <td>{{$servicio->final_price}}</td>
