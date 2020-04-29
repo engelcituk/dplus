@@ -51,7 +51,7 @@
                                     <select class="form-control" name="days_periods_id">
                                         @forelse ($periodos as $numDia)
                                             <option value="{{$numDia->id}}"
-                                                    {{ old('days_periods_id',$servicio->days_periods_id ) == $numDia->id ? 'selected': '' }}> {{$numDia->days_number}} </option>
+                                                    {{ old('days_periods_id',$servicio->days_periods_id ) == $numDia->id ? 'selected': '' }}> {{$numDia->days_number}} Días</option>
                                         @empty
                                             <option value="">Sin datos</option>
                                         @endforelse
@@ -80,6 +80,15 @@
                                             <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
                                         </div>
                                     <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Comision"  aria-label="Comision" aria-describedby="addon-wrapping-left" id="comision" name="commission" value="{{ old('commission', $servicio->commission)}}" onchange="calculoPrecioFinal()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="addon-wrapping-left">Seguro</label>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
+                                        </div>
+                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Comision"  aria-label="Comision" aria-describedby="addon-wrapping-left" id="seguro" name="assurance" value="{{ old('assurance', $servicio->assurance)}}" onchange="calculoPrecioFinal()">
                                     </div>
                                 </div>
                                 <div class="form-group">

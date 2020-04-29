@@ -31,6 +31,7 @@
                                 <th>Recurrencia</th>
                                 <th>Precio</th>
                                 <th>Comisión</th>
+                                <th>Seguro</th>
                                 <th>Precio final</th>
                                 <th>Acciones</th>
                             </tr>
@@ -44,6 +45,7 @@
                                     <td>{{$servicio->periodo->days_number}} días</td>                                    
                                     <td>{{$servicio->price}}</td>
                                     <td>{{$servicio->commission}}</td>
+                                    <td>{{$servicio->assurance}}</td>
                                     <td>{{$servicio->final_price}}</td>
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{route('admin.servicios.show', $servicio)}}"><i class="fal fa-eye"></i> </a> 

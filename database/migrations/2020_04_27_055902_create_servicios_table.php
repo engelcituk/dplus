@@ -21,6 +21,7 @@ class CreateServiciosTable extends Migration
             $table->string('description')->nullable();
             $table->decimal('price');
             $table->decimal('commission');
+            $table->decimal('assurance');
             $table->decimal('final_price');
 
             $table->timestamps();

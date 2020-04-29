@@ -39,6 +39,7 @@ class ServiciosController extends Controller
             'days_periods_id'=>'required',
             'price' => 'required',
             'commission' => 'required',
+            'assurance' => 'required',
             'final_price' => 'required'
             
         ]);
@@ -75,9 +76,10 @@ class ServiciosController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'description' => 'required',
             'category_id'=>'required',
-            'days_periods_id'=>'required',
+            'days_periods_id'=>'required', 
             'price' => 'required',
             'commission' => 'required',
+            'assurance' => 'required',
             'final_price' => 'required'
             
         ]);

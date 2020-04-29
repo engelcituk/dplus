@@ -19,6 +19,14 @@ class CategoriesTableSeeder extends Seeder
         $categoria->save();
 
         $categoria = new Category;
+        $categoria->name="Dish";
+        $categoria->save();
+
+        $categoria = new Category;
+        $categoria->name="StarTV";
+        $categoria->save();
+
+        $categoria = new Category;
         $categoria->name="Recargas";
         $categoria->save();
 
