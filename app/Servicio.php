@@ -18,4 +18,10 @@ class Servicio extends Model
     {
         return $this->belongsTo(DaysPeriod::class,'days_periods_id'); // indico explicitamente la columna de la relacion days_periods_id tabla de servicios
     }
+
+    //un servicio tiene muchos clientes_servicios 
+    public function serviciosCliente(){
+
+        return $this->hasMany(ClienteServicio::class);
+    }
 }
