@@ -56,7 +56,16 @@ class ClientesController extends Controller
     {
         $tvServicios = Television::all();
 
-        return view('admin.clientes.edit', compact('cliente','tvServicios'));
+        //$referencia = $cliente->televisions()->where('cliente_id', $cliente->id)->first()->pivot->referencia;
+        $clienteTV = $cliente->televisions()->where('cliente_id', $cliente->id)->first();
+
+        if ($clienteTV) {
+            $referencia = $cliente->televisions()->where('cliente_id', $cliente->id)->first()->pivot->referencia;
+        } else {
+            $referencia = "";
+        }
+        
+        return view('admin.clientes.edit', compact('cliente','tvServicios','referencia'));
         
     }
 
@@ -68,7 +77,8 @@ class ClientesController extends Controller
         ]);
 
         $cliente->update($data);
-        $cliente->televisions()->sync($request->get('televisions'));
+        $cliente->televisions()->detach();
+        $cliente->televisions()->attach($request->get('televisions'),['referencia'=>$request->get('referencia')]);
 
 
         return back()->withFlash('Cliente actualizado');

@@ -22,4 +22,4 @@ function(){
 
     //Route::post('clientesky/{cliente}', 'ClientesServiciosController@skyStore')->name('admin.clientes.skystore'); 
     //Route::put('clienteskyedit/{cliente}', 'ClientesServiciosController@skyUpdate')->name('admin.clientes.skyedit'); 
-});
+}); 

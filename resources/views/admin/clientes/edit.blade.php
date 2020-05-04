@@ -38,7 +38,7 @@
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label class="form-label" for="selectPeriodo">Selecciona servicio de TV</label>
-                                    <select class="form-control" name="televisions[]">
+                                    <select class="form-control" name="televisions[]" required>
                                         <option value="">Selecciona</option>
                                         @forelse ($tvServicios as $stv)
                                             <option {{collect(old('televisions',$cliente->televisions->pluck('id')))->contains($stv->id) ? 'selected': '' }} value="{{$stv->id}}"> {{$stv->name}} </option>
@@ -46,6 +46,15 @@
                                             <option value="">Sin datos</option>
                                         @endforelse
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="addon-wrapping-left">Rerencia del cliente</label>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
+                                        </div>
+                                    <input type="text" class="form-control" placeholder="referencia" aria-label="referencia" aria-describedby="addon-wrapping-left" name="referencia" value="{{$referencia}}">
+                                    </div>
                                 </div>
                                 
                             </div>
