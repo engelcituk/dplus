@@ -8,8 +8,9 @@ class Cliente extends Model
 {
     protected $fillable = ['name'];
 
-    public function skys(){ 
+    // un cliente pertenece a muchas televisiones
+    public function televisions(){
 
-        return $this->belongsToMany(Servicio::class);
+        return $this->belongsToMany(Television::class)->withPivot('referencia'); 
     }
 }

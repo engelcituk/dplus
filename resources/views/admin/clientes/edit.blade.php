@@ -15,7 +15,7 @@
         <div class="panel">
             <div class="panel-hdr">
                 <h2>
-                    Datos del <span class="fw-300"><i>servicio y precio</i></span>
+                    Datos del <span class="fw-300"><i>cliente y sus servicios</i></span>
                 </h2> 
             </div>
             <div class="panel-container show">
@@ -37,24 +37,19 @@
                             </div>
                             <div class="col-xl-6">
                                 <div class="form-group">
-                                    <label class="form-label" for="selectPeriodo">Selecciona servicio sky</label>
-                                    <select class="form-control" name="servicio_id">
-                                        <option value="">Selecciona servicio sky</option>
-                                        @forelse ($servicios as $servicio)
-                                            @if($servicio->category_id == 1 )
-                                                <option value="{{$servicio->id}}"
-                                                    {{ old('servicio_id') == $servicio->id ? 'selected' : ''}}
-                                                >{{$servicio->name}}</option>
-                                                {{-- <option {{collect(old('tags',$post->tags->pluck('id')))->contains($tag->id) ? 'selected': '' }} value="{{$tag->id}}"> {{$tag->name}} </option> --}}
-                                                <option {{collect(old('servicio_id',$servicio->clientes->pluck('id')))->contains($servicio->id) ? 'selected': '' }} value="{{$servicio->id}}"> {{$servicio->name}} </option>
-                                            @endif 
+                                    <label class="form-label" for="selectPeriodo">Selecciona servicio de TV</label>
+                                    <select class="form-control" name="televisions[]">
+                                        <option value="">Selecciona</option>
+                                        @forelse ($tvServicios as $stv)
+                                            <option {{collect(old('televisions',$cliente->televisions->pluck('id')))->contains($stv->id) ? 'selected': '' }} value="{{$stv->id}}"> {{$stv->name}} </option>
                                         @empty
                                             <option value="">Sin datos</option>
                                         @endforelse
                                     </select>
                                 </div>
-                                <button class="mt-3 btn btn-primary btn-block"> Actualizar servicio</button>
+                                
                             </div>
+                            <button class="mt-3 btn btn-primary btn-block"> Actualizar Cliente</button>
                         </div>        
                     </form>
                 </div>                
