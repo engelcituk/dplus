@@ -14,10 +14,7 @@
 function calculoPrecioFinal(){
     
     let precio = document.getElementById("precio").value;
-    let comision = document.getElementById("comision").value;
     let seguro = document.getElementById("seguro").value;
-
-
     
     if( precio=='' || precio==0){
         Swal.fire({
@@ -28,7 +25,7 @@ function calculoPrecioFinal(){
         }); 
         document.getElementById("precio").focus();
     }
-    document.getElementById("precioFinal").value = parseFloat(precio) + parseFloat(comision) + parseFloat(seguro);
+    document.getElementById("precioFinal").value = parseFloat(precio) + parseFloat(seguro);
  
 }
 </script>

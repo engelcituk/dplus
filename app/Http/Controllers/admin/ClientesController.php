@@ -65,9 +65,9 @@ class ClientesController extends Controller
         ->join('clientes','clientes_servicios.cliente_id','clientes.id')
         ->get(); */
 
-        $registroServicio = ClienteServicio::where('cliente_id', $idCliente)->get(); // id 1 corresponde a la cliente_id registroServicio
+       // $registroServicio = ClienteServicio::where('cliente_id', $idCliente)->get(); // id 1 corresponde a la cliente_id registroServicio
 
-        return view('admin.clientes.edit', compact('cliente', 'servicios','registroServicio'));
+        return view('admin.clientes.edit', compact('cliente', 'servicios'));
         
     }
 

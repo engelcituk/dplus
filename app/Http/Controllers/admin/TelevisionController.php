@@ -4,95 +4,82 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Servicio;
-use App\Category;
+use App\Television;
 use App\DaysPeriod;
 
-class ServiciosController extends Controller
+class TelevisionController extends Controller
 {
-  
+    
     public function index()
     {
-        $servicios = Servicio::all();
+        $serviciosTV = Television::all();
 
-        return view('admin.servicios.index', compact('servicios'));
-    }
-
-    public function create()
-    {
-        $categorias = Category::all();
-
-        $periodos = DaysPeriod::all();
-
-        return view('admin.servicios.create', compact('categorias','periodos'));
-        
+        return view('admin.television.index', compact('serviciosTV'));
     }
 
   
+    public function create()
+    {
+        $periodos = DaysPeriod::all();
+
+        return view('admin.television.create', compact('periodos'));
+    }
+
+    
     public function store(Request $request)
     {
          //Validar el formulario
          $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => 'required',
-            'category_id'=>'required',
             'days_periods_id'=>'required',
+            'description' =>     'required',
             'price' => 'required',
             'commission' => 'required',
-            'assurance' => 'required',
             'final_price' => 'required'
             
         ]);
         
-        $servicio = Servicio::create($data);
+        $television = Television::create($data);
         
-        return redirect()->route('admin.servicios.edit', compact('servicio'))->withFlash('El servicio ha sido creado');
-    }
-
-   
-    public function show(Servicio $servicio)
-    {
-        $categorias = Category::all();
-
-        return view('admin.servicios.show', compact('categorias','servicio'));
-        
+        return redirect()->route('admin.television.edit', compact('television'))->withFlash('El servicio ha sido creado');
     }
 
   
-    public function edit(Servicio $servicio)
+    public function show(Television $television)
     {
-        $categorias = Category::all();
-
-        $periodos = DaysPeriod::all();
-
-        return view('admin.servicios.edit', compact('categorias','periodos','servicio'));
-        
+    
+        return view('admin.television.show', compact('television'));
     }
 
-   
-    public function update(Request $request, Servicio $servicio)
+  
+    public function edit(Television $television)
+    {
+        $periodos = DaysPeriod::all();
+
+        return view('admin.television.edit', compact('periodos','television'));
+    }
+
+ 
+    public function update(Request $request, Television $television)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => 'required',
-            'category_id'=>'required',
             'days_periods_id'=>'required', 
             'price' => 'required',
             'commission' => 'required',
-            'assurance' => 'required',
             'final_price' => 'required'
             
         ]);
 
-        $servicio->update($data);
+        $television->update($data);
 
         return back()->withFlash('Servicio actualizado');
     }
 
- 
     public function destroy($idServicio) //solo el admin hace esto
     {
-        $servicio = Servicio::find($idServicio); //busco al usuario a borrar
+        $servicio = Television::find($idServicio); //busco al usuario a borrar
 
        // $this->authorize('delete',$servicio); // autorizo el delete, usando el policy
 

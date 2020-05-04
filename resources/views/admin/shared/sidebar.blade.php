@@ -69,17 +69,23 @@
                     </li>
                 </ul>
             </li>
-            <li class=" {{setCollapseShow(['admin.servicios.*'])}}">
+            <li class=" {{setCollapseShow(['admin.television.*','admin.internet.*'])}}">
                 <a href="#" title="Servicios" data-filter-tags="servicios service">
                     <i class="fal fa-table"></i>
                     <span class="nav-link-text" data-i18n="nav.servicios">Servicios</span>
                 </a>
                 <ul>
-                    <li class="{{ setActiveRoute('admin.servicios.*') }}">
-                        <a href="{{route('admin.servicios.index')}}" title="Servicios" data-filter-tags="servicios service internet">
-                            <span class="nav-link-text" data-i18n="nav.servicios_internet">Servicios</span>
+                    <li class="{{ setActiveRoute('admin.television.*') }}">
+                        <a href="{{route('admin.television.index')}}" title="Television" data-filter-tags="television service tv">
+                            <span class="nav-link-text" data-i18n="nav.television_tv">Television</span>
                         </a>
                     </li>
+                    <li class="{{ setActiveRoute('admin.internet.*') }}">
+                        <a href="{{route('admin.internet.index')}}" title="Internet" data-filter-tags="internet service int">
+                            <span class="nav-link-text" data-i18n="nav.internet_int">Internet</span>
+                        </a>
+                    </li>
+                   
                 </ul>
             </li>
             <li class="nav-title">Configuración</li>
@@ -102,17 +108,13 @@
                 </ul>
             </li>
             
-            <li class=" {{setCollapseShow(['admin.categorias.*','admin.periododias.*'])}} ">
+            <li class=" {{setCollapseShow(['admin.periododias.*'])}} ">
                 <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
                     <i class="fal fa-print"></i>
                     <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
                 </a>
                 <ul>
-                    <li class="{{ setActiveRoute(['admin.categorias.*']) }}">
-                        <a href="{{route('admin.categorias.index')}}"  title="Comisiones" data-filter-tags="configuracion categorias">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Categorias</span>
-                        </a>
-                    </li>
+                    
                     <li class="{{ setActiveRoute(['admin.periododias.*']) }}">
                         <a href="{{route('admin.periododias.index')}}"  title="Comisiones" data-filter-tags="configuracion periododias">
                             <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Periodo de días</span>

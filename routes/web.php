@@ -15,10 +15,11 @@ Route::group([
 function(){
     Route::get('/', 'AdminController@index')->name('dashboard'); 
     Route::get('ventas', 'VentasController@index')->name('admin.ventas.index'); 
-    Route::resource('categorias', 'CategoriesController',['as'=>'admin']); //as es para agregar el prefijo admin al nombre de las rutas
-    Route::resource('periododias', 'PeriodosDiasController',['as'=>'admin']); 
+    Route::resource('periododias', 'PeriodosDiasController',['as'=>'admin']);//as es para agregar el prefijo admin al nombre de las rutas 
     Route::resource('clientes', 'ClientesController',['as'=>'admin']); 
-    Route::resource('servicios', 'ServiciosController',['as'=>'admin']); 
-    Route::post('clientesky/{cliente}', 'ClientesServiciosController@skyStore')->name('admin.clientes.skystore'); 
-    Route::put('clienteskyedit/{cliente}', 'ClientesServiciosController@skyUpdate')->name('admin.clientes.skyedit'); 
+    Route::resource('television', 'TelevisionController',['as'=>'admin']); 
+    Route::resource('internet', 'InternetsController',['as'=>'admin']); 
+
+    //Route::post('clientesky/{cliente}', 'ClientesServiciosController@skyStore')->name('admin.clientes.skystore'); 
+    //Route::put('clienteskyedit/{cliente}', 'ClientesServiciosController@skyUpdate')->name('admin.clientes.skyedit'); 
 });

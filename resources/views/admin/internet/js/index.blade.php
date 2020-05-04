@@ -1,7 +1,7 @@
 <script>
 
 $(document).ready(function(){
-    $('#tablaServicios').dataTable({
+    $('#tablaInternet').dataTable({
         responsive: true,
         language: {
         "decimal": "",
@@ -19,7 +19,7 @@ $(document).ready(function(){
     },
     });
 });
-function borrarServicio(idServicio){
+function borrarServicioInternet(idServicio){
     var csrf_token = $('meta[name="csrf-token"]').attr('content');     
     Swal.fire({
       title: '¿Seguro de borrar este servicio?',
@@ -32,7 +32,7 @@ function borrarServicio(idServicio){
     }).then((result) => {
       if (result.value) {
         $.ajax({
-              url: "{{ url('admin/servicios') }}" + '/' + idServicio,
+              url: "{{ url('admin/internet') }}" + '/' + idServicio,
               type: "DELETE",
               data: {
                   '_method': 'DELETE',

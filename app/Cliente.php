@@ -8,9 +8,8 @@ class Cliente extends Model
 {
     protected $fillable = ['name'];
 
-     //un cliente tiene muchos servicios 
-     public function clienteServicios(){
+    public function skys(){ 
 
-        return $this->hasMany(ClienteServicio::class,'cliente_id');
+        return $this->belongsToMany(Servicio::class);
     }
 }

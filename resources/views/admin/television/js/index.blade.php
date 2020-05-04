@@ -1,7 +1,7 @@
 <script>
 
 $(document).ready(function(){
-    $('#tablaCategorias').dataTable({
+    $('#tablaServiciosTV').dataTable({
         responsive: true,
         language: {
         "decimal": "",
@@ -19,10 +19,10 @@ $(document).ready(function(){
     },
     });
 });
-function borrarCategoria(idCategoria){
+function borrarServicioTV(idServicio){
     var csrf_token = $('meta[name="csrf-token"]').attr('content');     
     Swal.fire({
-      title: '¿Seguro de borrar esta categoría?',
+      title: '¿Seguro de borrar este servicio?',
       text: "¡No podrás revertir esto!",
       type: 'warning',
       showCancelButton: true,
@@ -32,11 +32,11 @@ function borrarCategoria(idCategoria){
     }).then((result) => {
       if (result.value) {
         $.ajax({
-              url: "{{ url('admin/categorias') }}" + '/' + idCategoria,
+              url: "{{ url('admin/television') }}" + '/' + idServicio,
               type: "DELETE",
               data: {
                   '_method': 'DELETE',
-                  'id': idCategoria,
+                  'id': idServicio,
                   '_token': csrf_token
               },
               success: function(respuesta) {
