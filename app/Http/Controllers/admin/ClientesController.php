@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Cliente;
 use App\Television;
+use App\Internet;
 
 class ClientesController extends Controller
 {
@@ -55,17 +56,16 @@ class ClientesController extends Controller
     public function edit(Cliente $cliente)
     {
         $tvServicios = Television::all();
+        $wifiServicios = Internet::all();
 
-        //$referencia = $cliente->televisions()->where('cliente_id', $cliente->id)->first()->pivot->referencia;
-        $clienteTV = $cliente->televisions()->where('cliente_id', $cliente->id)->first();
-
-        if ($clienteTV) {
-            $referencia = $cliente->televisions()->where('cliente_id', $cliente->id)->first()->pivot->referencia;
-        } else {
-            $referencia = "";
-        }
+        $clienteTelevision = $cliente->televisions()->where('cliente_id', $cliente->id)->first(); // verfico si hay cliente tv
+        $clienteInternet = $cliente->internets()->where('cliente_id', $cliente->id)->first(); // verfico si hay cliente wifi
         
-        return view('admin.clientes.edit', compact('cliente','tvServicios','referencia'));
+        $clienteTV = $clienteTelevision ? $cliente->televisions()->where('cliente_id', $cliente->id)->first() :  null;
+        $clienteWifi = $clienteInternet ? $cliente->internets()->where('cliente_id', $cliente->id)->first() :  null;
+
+       
+        return view('admin.clientes.edit', compact('cliente','clienteTV','clienteWifi','tvServicios','wifiServicios'));
         
     }
 
@@ -77,9 +77,21 @@ class ClientesController extends Controller
         ]);
 
         $cliente->update($data);
+        // detach y attach de servicios de TV
         $cliente->televisions()->detach();
         $cliente->televisions()->attach($request->get('televisions'),['referencia'=>$request->get('referencia')]);
 
+        // detach y attach de servicios de wifi
+        $cliente->internets()->detach();
+        $cliente->internets()->attach(
+            $request->get('internets'), 
+            [
+                'antenna_ip' => $request->get('antenna_ip'),
+                'client_ip' =>$request->get('client_ip'),
+                'antenna_password' => $request->get('antenna_password'),
+                'router_password' => $request->get('router_password')
+            ]
+        );
 
         return back()->withFlash('Cliente actualizado');
     }

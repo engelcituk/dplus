@@ -15,7 +15,7 @@ class Television extends Model
         return $this->belongsTo(DaysPeriod::class,'days_periods_id'); // indico explicitamente la columna de la relacion days_periods_id tabla de servicios
     }
 
-    // un cliente pertenece a muchos posts
+    // un tv pertenece a muchos clientes
     public function clientes(){
 
         return $this->belongsToMany(Cliente::class);
