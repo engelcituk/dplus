@@ -89,12 +89,17 @@
                 </ul>
             </li>
             <li class="nav-title">Configuración</li>
-            <li>
+            <li class="{{setCollapseShow(['admin.users.*'])}}"">
                 <a href="#" title="Configuracion" data-filter-tags="configuracion conf">
                     <i class="fal fa-key"></i>
-                    <span class="nav-link-text" data-i18n="nav.configuracion">Roles-Permisos</span>
+                    <span class="nav-link-text" data-i18n="nav.configuracion">Usuarios</span>
                 </a>
                 <ul>
+                    <li class="{{ setActiveRoute(['admin.users.*']) }}">
+                        <a href="{{route('admin.users.index')}}" title="Usuarios" data-filter-tags="configuracion users">
+                            <span class="nav-link-text" data-i18n="nav.configuracion_users">Usuarios</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="configuracion_basic.html" title="Roles" data-filter-tags="configuracion roles">
                             <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
@@ -108,7 +113,7 @@
                 </ul>
             </li>
             
-            <li class=" {{setCollapseShow(['admin.periododias.*'])}} ">
+            <li class="{{setCollapseShow(['admin.periododias.*'])}}">
                 <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
                     <i class="fal fa-print"></i>
                     <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>

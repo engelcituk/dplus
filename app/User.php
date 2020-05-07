@@ -37,4 +37,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // con esto el password se encripta de manera automatica sin usar el bcryt al crear un user
+    public function setPasswordAttribute($password){
+
+        $this->attributes['password'] = bcrypt($password);
+
+    }
 }
