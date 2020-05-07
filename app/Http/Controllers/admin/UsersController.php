@@ -30,8 +30,9 @@ class UsersController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         ]);
-        // genero una contraseña
-        $data['password'] = 'micontraseña';
+        // genero una contraseña aleatoria
+        $data['password'] = str_random(8);
+
         $user = User::create($data);
 
         return redirect()->route('admin.users.edit', compact('user'))->withFlash('El usuario ha sido creado');
