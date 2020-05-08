@@ -51,16 +51,15 @@ class UsersController extends Controller
  
     public function edit(User $user)
     {
-        return $roles = Role::all();
-        return view('admin.users.edit', compact('user'));
+         $roles = Role::pluck('name','id');
+
+        return view('admin.users.edit', compact('user','roles'));
         
     }
 
    
     public function update(UpdateUserRequest $request, User $user)
     {
-        
-
         $user->update($request->validated()); //la logica de validacion está en el formRequest UpdateUserRequest 
 
         return back()->withFlash('Usuario actualizado');
