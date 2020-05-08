@@ -52,7 +52,9 @@ class UsersController extends Controller
  
     public function edit(User $user)
     {
-         $roles = Role::pluck('name','id');
+         //$roles = Role::pluck('name','id');
+         $roles = Role::with('permissions')->get();
+         
          $permissions = Permission::pluck('name','id');
 
         return view('admin.users.edit', compact('user','roles','permissions'));
