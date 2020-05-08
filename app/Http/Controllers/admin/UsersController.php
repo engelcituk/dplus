@@ -5,7 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
-
+use App\Http\Requests\UpdateUserRequest;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -28,7 +29,7 @@ class UsersController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
         ]);
         // genero una contraseña aleatoria
         $data['password'] = str_random(8);
@@ -50,19 +51,17 @@ class UsersController extends Controller
  
     public function edit(User $user)
     {
+        return $roles = Role::all();
         return view('admin.users.edit', compact('user'));
         
     }
 
    
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        ]);
+        
 
-        $user->update($data);
+        $user->update($request->validated()); //la logica de validacion está en el formRequest UpdateUserRequest 
 
         return back()->withFlash('Usuario actualizado');
     }
