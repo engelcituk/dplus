@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 class UsersTableSeeder extends Seeder
 {
@@ -18,6 +20,12 @@ class UsersTableSeeder extends Seeder
 
         $adminRole = Role::create(['name'=>'Admin']);
         $sellerRole = Role::create(['name'=>'Seller ']);
+
+        //permisos
+        Permission::create(['name'=>'View users']);
+        Permission::create(['name'=>'Create users']);
+        Permission::create(['name'=>'Update users']);
+        Permission::create(['name'=>'Delete users']);
 
         
         $admin = new User;

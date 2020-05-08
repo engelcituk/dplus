@@ -71,15 +71,31 @@
                                         <label class="form-label" for="password_confirmation">Roles del usuario</label>
                                         @foreach ($roles as $id => $name)
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="{{$id}}" 
+                                            <input type="checkbox" class="custom-control-input" id="role{{$id}}" 
                                                 value="{{$name}}"
                                                 {{$user->roles->contains($id) ? 'checked':''}}
                                                 name="roles[]"
                                             >
-                                            <label class="custom-control-label" for="{{$id}}">{{$name}}</label>
+                                            <label class="custom-control-label" for="role{{$id}}">{{$name}}</label>
                                         </div>
                                         @endforeach
                                         <button class="mt-3 btn btn-primary btn-block"> Actualizar Roles del usuario</button> 
+                                    </form>
+
+                                    <form action="{{route('admin.users.permissions.update',$user)}}" method="POST">  
+                                        @csrf  {{ method_field('PUT') }} 
+                                        <label class="form-label" for="password_confirmation">Permisos del usuario</label>
+                                        @foreach ($permissions as $id => $name)
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
+                                                value="{{$name}}"
+                                                {{$user->permissions->contains($id) ? 'checked':''}}
+                                                name="permissions[]"
+                                            >
+                                            <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
+                                        </div>
+                                        @endforeach
+                                        <button class="mt-3 btn btn-primary btn-block"> Actualizar permisos del usuario</button> 
                                     </form>
                                 </div>
                             </div>
