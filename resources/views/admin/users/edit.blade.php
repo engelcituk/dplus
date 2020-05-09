@@ -67,44 +67,67 @@
                                 </div>
                                 <div class="col-xl-6">
 
-                                    <form action="{{route('admin.users.roles.update',$user)}}" method="POST">  
-                                        @csrf  {{ method_field('PUT') }} 
-                                        <label class="form-label" for="password_confirmation">Roles del usuario</label>
+                                    @role('Admin')
+                                        <form action="{{route('admin.users.roles.update',$user)}}" method="POST">  
+                                            @csrf  {{ method_field('PUT') }} 
+                                            <label class="form-label" for="roles">Roles del usuario</label>
+    
+                                            @foreach ($roles as $role)
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="role{{$role->id}}" 
+                                                        value="{{$role->name}}"
+                                                        {{$user->roles->contains($role->id) ? 'checked':''}}
+                                                        name="roles[]"
+                                                    >
+                                                    <label class="custom-control-label" for="role{{$role->id}}">{{$role->name}}</label>
+                                                    <br>
+                                                    <small class="text-muted">{{$role->permissions->pluck('name')->implode(', ')}}</small>
+                                                </div>
+                                            @endforeach
+    
+                                            <button class="mt-3 btn btn-primary btn-block"> Actualizar Roles del usuario</button> 
+                                        </form>
+                                    @else
+                                        <label class="form-label" for="roles">Roles del usuario</label>
+                                        <ul class="list-group">
+                                            @forelse ($user->roles as $role)
+                                                <li class="list-group-item">{{$role->name}}</li>
+                                            @empty
+                                                <li class="list-group-item">No tiene roles</li> 
+                                            @endforelse
+                                        </ul>
+                                    @endrole
 
-                                        @foreach ($roles as $role)
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="role{{$role->id}}" 
-                                                value="{{$role->name}}"
-                                                {{$user->roles->contains($role->id) ? 'checked':''}}
-                                                name="roles[]"
-                                            >
-                                            <label class="custom-control-label" for="role{{$role->id}}">{{$role->name}}</label>
+                                    @role('Admin')
+                                        <form action="{{route('admin.users.permissions.update',$user)}}" method="POST">  
+                                            @csrf  {{ method_field('PUT') }} 
+                                            <label class="form-label" for="permisos">Permisos del usuario</label>
+    
+                                            @foreach ($permissions as $id => $name)
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
+                                                    value="{{$name}}"
+                                                    {{$user->permissions->contains($id) ? 'checked':''}}
+                                                    name="permissions[]"
+                                                >
+                                                <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
+                                            </div>
                                             <br>
-                                            <small class="text-muted">{{$role->permissions->pluck('name')->implode(', ')}}</small>
-                                        </div>
-                                        @endforeach
-
-                                        <button class="mt-3 btn btn-primary btn-block"> Actualizar Roles del usuario</button> 
-                                    </form>
-
-                                    <form action="{{route('admin.users.permissions.update',$user)}}" method="POST">  
-                                        @csrf  {{ method_field('PUT') }} 
-                                        <label class="form-label" for="password_confirmation">Permisos del usuario</label>
-
-                                        @foreach ($permissions as $id => $name)
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
-                                                value="{{$name}}"
-                                                {{$user->permissions->contains($id) ? 'checked':''}}
-                                                name="permissions[]"
-                                            >
-                                            <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
-                                        </div>
-                                        <br>
-                                        @endforeach
-
-                                        <button class="mt-3 btn btn-primary btn-block"> Actualizar permisos del usuario</button> 
-                                    </form>
+                                            @endforeach
+    
+                                            <button class="mt-3 btn btn-primary btn-block"> Actualizar permisos del usuario</button> 
+                                        </form>
+                                    @else
+                                        <label class="form-label" for="permisos">Permisos del usuario</label>
+                                        <ul class="list-group">
+                                            @forelse ($user->permissions as $permission)
+                                                <li class="list-group-item">{{$permission->name}}</li>
+                                            @empty
+                                            <li class="list-group-item">Sin ningún permiso del usuario</li>                                            
+                                            @endforelse
+                                        </ul>
+                                    @endrole
+                                    
                                 </div>
                             </div>
                     </div>
