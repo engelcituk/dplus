@@ -14,7 +14,7 @@ class UsersController extends Controller
    
     public function index()
     {
-        $users = User::all();
+        $users = User::allowed()->get();
 
         return view('admin.users.index', compact('users'));
     }
@@ -22,12 +22,18 @@ class UsersController extends Controller
   
     public function create()
     {
+        $user = new User;
+
+        $this->authorize('create',$user); // autorizo el create, usando el policy create
+
         return view('admin.users.create');
         
     }
 
     public function store(Request $request)
     {
+       $this->authorize('create', new User); // autorizo el store, usando el policy create
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users']
@@ -45,6 +51,8 @@ class UsersController extends Controller
    
     public function show(User $user)
     {
+       $this->authorize('view',$user); // autorizo el show, usando el policy view
+
         return view('admin.users.show', compact('user'));
         
     }
@@ -52,6 +60,8 @@ class UsersController extends Controller
  
     public function edit(User $user)
     {
+       $this->authorize('update',$user); // autorizo el update, usando el policy
+
          //$roles = Role::pluck('name','id');
          $roles = Role::with('permissions')->get();
          
@@ -64,6 +74,8 @@ class UsersController extends Controller
    
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update',$user); // autorizo el update, usando el policy
+
         $user->update($request->validated()); //la logica de validacion está en el formRequest UpdateUserRequest 
 
         return back()->withFlash('Usuario actualizado');
@@ -73,7 +85,7 @@ class UsersController extends Controller
     {
         $usuario = User::find($idUsuario); //busco al usuario a borrar
 
-       // $this->authorize('delete',$usuario); // autorizo el delete, usando el policy
+        $this->authorize('delete',$usuario); // autorizo el delete, usando el policy
 
         $usuario->delete();
 
