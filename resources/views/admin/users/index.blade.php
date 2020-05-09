@@ -28,6 +28,7 @@
                                 <th>id</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
+                                <th>Roles</th>
                                 <th>Acciones</th>
                                 
                             </tr>
@@ -36,9 +37,9 @@
                             @forelse ($users as $usuario)
                                 <tr>
                                 <td>{{$usuario->id}}</td>
-
                                 <td>{{$usuario->name}}</td>
                                 <td>{{$usuario->email}}</td>
+                                <td>{{$usuario->getRoleNames()->implode(', ')}}</td>
                                 <td>
                                     <a class="btn btn-info btn-sm" href="{{route('admin.users.show', $usuario)}}"><i class="fal fa-eye"></i> </a> 
                                     <a class="btn btn-primary btn-sm" href="{{route('admin.users.edit', $usuario)}}"><i class="fal fa-edit"></i> </a>
