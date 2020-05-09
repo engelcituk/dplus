@@ -89,7 +89,7 @@
                 </ul>
             </li>
             <li class="nav-title">Configuración</li>
-            <li class="{{setCollapseShow(['admin.users.*'])}}"">
+            <li class="{{setCollapseShow(['admin.users.*','admin.roles.*','admin.permissions.*'])}}">
                 <a href="#" title="Configuracion" data-filter-tags="configuracion conf">
                     <i class="fal fa-key"></i>
                     <span class="nav-link-text" data-i18n="nav.configuracion">Usuarios</span>
@@ -100,13 +100,13 @@
                             <span class="nav-link-text" data-i18n="nav.configuracion_users">Usuarios</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="configuracion_basic.html" title="Roles" data-filter-tags="configuracion roles">
+                    <li class="{{ setActiveRoute(['admin.roles.*']) }}">
+                        <a href="{{route('admin.roles.index')}} ctitle="Roles" data-filter-tags="configuracion roles">
                             <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="configuracion_autofill.html" title="Permisos" data-filter-tags="configuracion permisos">
+                    <li class="{{ setActiveRoute(['admin.permissions.*']) }}">
+                        <a  title="Permisos" data-filter-tags="configuracion permisos">
                             <span class="nav-link-text" data-i18n="nav.configuracion_permisos">Permisos</span>
                         </a>
                     </li>

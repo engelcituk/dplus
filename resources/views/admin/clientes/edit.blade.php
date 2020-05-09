@@ -39,21 +39,20 @@
                                 <div class="form-group">
                                     <label class="form-label" for="selectPeriodo">Selecciona servicio de TV</label>
                                     <div class="input-group flex-nowrap">
-
-                                    <div class="input-group-prepend">
+                                        <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-tv fs-xl"></i></span>
                                         </div>
-                                    <select class="form-control" name="televisions">
-                                        <option value="">Selecciona</option>
-                                        @forelse ($tvServicios as $stv)
-                                            {{-- <option {{collect(old('televisions',$cliente->televisions->pluck('id')))->contains($stv->id) ? 'selected': '' }} value="{{$stv->id}}"> {{$stv->name}} </option> --}}
-                                            <option value="{{$stv->id}}"
-                                                {{ old('televisions', $clienteTV ? $clienteTV->pivot->television_id : '') == $stv->id ? 'selected': '' }}> {{$stv->name}} </option>
-                                        @empty
-                                            <option value="">Sin datos</option>
-                                        @endforelse
-                                    </select>
-                                </div>
+                                        <select class="form-control" name="televisions">
+                                            <option value="">Selecciona</option>
+                                            @forelse ($tvServicios as $stv)
+                                                {{-- <option {{collect(old('televisions',$cliente->televisions->pluck('id')))->contains($stv->id) ? 'selected': '' }} value="{{$stv->id}}"> {{$stv->name}} </option> --}}
+                                                <option value="{{$stv->id}}"
+                                                    {{ old('televisions', $clienteTV ? $clienteTV->pivot->television_id : '') == $stv->id ? 'selected': '' }}> {{$stv->name}} </option>
+                                            @empty
+                                                <option value="">Sin datos</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="addon-wrapping-left">Rerencia del cliente</label>
