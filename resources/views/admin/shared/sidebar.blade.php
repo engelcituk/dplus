@@ -95,21 +95,35 @@
                     <span class="nav-link-text" data-i18n="nav.configuracion">Usuarios</span>
                 </a>
                 <ul>
-                    <li class="{{ setActiveRoute(['admin.users.*']) }}">
-                        <a href="{{route('admin.users.index')}}" title="Usuarios" data-filter-tags="configuracion users">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_users">Usuarios</span>
-                        </a>
-                    </li>
-                    <li class="{{ setActiveRoute(['admin.roles.*']) }}">
-                        <a href="{{route('admin.roles.index')}}" title="Roles" data-filter-tags="configuracion roles">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
-                        </a>
-                    </li>
-                    <li class="{{ setActiveRoute(['admin.permissions.*']) }}">
-                        <a  href="{{route('admin.permissions.index')}}" title="Permisos" data-filter-tags="configuracion permisos">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_permisos">Permisos</span>
-                        </a>
-                    </li> 
+                    @can('view', new App\User)
+                        <li class="{{ setActiveRoute(['admin.users.*']) }}">
+                            <a href="{{route('admin.users.index')}}" title="Usuarios" data-filter-tags="configuracion users">
+                                <span class="nav-link-text" data-i18n="nav.configuracion_users">Usuarios</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="{{ setActiveRoute(['admin.users.*']) }}">
+                            <a href="{{route('admin.users.show',auth()->user())}}" title="Usuarios" data-filter-tags="configuracion perfil">
+                                <span class="nav-link-text" data-i18n="nav.configuracion_perfil">Perfil</span>
+                            </a>
+                        </li>
+                    @endcan
+                    
+                    @can('view', new \Spatie\Permission\Models\Role)
+                        <li class="{{ setActiveRoute(['admin.roles.*']) }}">
+                            <a href="{{route('admin.roles.index')}}" title="Roles" data-filter-tags="configuracion roles">
+                                <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('view', new \Spatie\Permission\Models\Permission)
+                        <li class="{{ setActiveRoute(['admin.permissions.*']) }}">
+                            <a  href="{{route('admin.permissions.index')}}" title="Permisos" data-filter-tags="configuracion permisos">
+                                <span class="nav-link-text" data-i18n="nav.configuracion_permisos">Permisos</span>
+                            </a>
+                        </li> 
+                    @endcan
+                    
                 </ul>
             </li>
             

@@ -38,8 +38,9 @@
                                     <td>{{$permission->display_name}}</td>
                                     
                                     <td>
-                                        <a class="btn btn-primary btn-sm" href="{{route('admin.permissions.edit', $permission)}}"><i class="fal fa-edit"></i> </a>
-                                                                                              
+                                        @can('update', $permission)
+                                            <a class="btn btn-primary btn-sm" href="{{route('admin.permissions.edit', $permission)}}"><i class="fal fa-edit"></i> </a>
+                                        @endcan                                                   
                                     </td> 
                                 </tr>
                                 @empty

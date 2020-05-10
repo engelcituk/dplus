@@ -12,7 +12,9 @@
     
 <div class="row">
     <div class="col-xl-12">
-        <a href="{{route('admin.roles.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar rol</a> 
+        @can('create', $roles->first())
+            <a href="{{route('admin.roles.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar rol</a>   
+        @endcan
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -40,11 +42,17 @@
                                     <td>{{$role->display_name}}</td>
                                     <td>{{$role->permissions->pluck('display_name')->implode(', ')}}</td>
                                     <td>
-                                        <a class="btn btn-primary btn-sm" href="{{route('admin.roles.edit', $role)}}"><i class="fal fa-edit"></i> </a>
-                                        @if ($role->id !== 1)
-                                            <button class="btn btn-danger btn-sm" onclick="borrarRol({{$role->id}})"><i class="fal fa-trash"></i>
+                                        @can('update', $role)
+                                            <a class="btn btn-primary btn-sm" href="{{route('admin.roles.edit', $role)}}"><i class="fal fa-edit"></i> </a>
+                                        @endcan
+
+                                        @can('delete', $role)
+                                            @if ($role->id !== 1)
+                                                <button class="btn btn-danger btn-sm" onclick="borrarRol({{$role->id}})"><i class="fal fa-trash"></i>
                                             </button>  
-                                        @endif
+                                            @endif
+                                        @endcan
+                                        
                                                        
                                     </td> 
                                 </tr>

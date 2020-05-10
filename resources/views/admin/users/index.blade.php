@@ -12,7 +12,9 @@
     
 <div class="row">
     <div class="col-xl-12">
-        <a href="{{route('admin.users.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar usuario</a> 
+        @can('create', $users->first())
+            <a href="{{route('admin.users.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar usuario</a>    
+        @endcan
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -41,12 +43,19 @@
                                 <td>{{$usuario->email}}</td>
                                 <td>{{$usuario->getRoleNames()->implode(', ')}}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{route('admin.users.show', $usuario)}}"><i class="fal fa-eye"></i> </a> 
-                                    <a class="btn btn-primary btn-sm" href="{{route('admin.users.edit', $usuario)}}"><i class="fal fa-edit"></i> </a>
-                                    @if (Auth::user()->id != $usuario->id)
-                                        <button class="btn btn-danger btn-sm" onclick="borrarUsuario({{$usuario->id}})"><i class="fal fa-trash"></i>
+                                    @can('view', $usuario)
+                                        <a class="btn btn-info btn-sm" href="{{route('admin.users.show', $usuario)}}"><i class="fal fa-eye"></i> </a>                                         
+                                    @endcan
+                                    @can('update', $usuario)
+                                        <a class="btn btn-primary btn-sm" href="{{route('admin.users.edit', $usuario)}}"><i class="fal fa-edit"></i> </a> 
+                                    @endcan
+                                    @can('delete', $usuario)
+                                        @if (Auth::user()->id != $usuario->id)
+                                            <button class="btn btn-danger btn-sm" onclick="borrarUsuario({{$usuario->id}})"><i class="fal fa-trash"></i>
                                         </button>   
-                                    @endif
+                                        @endif
+                                    @endcan
+                                    
                                 </td> 
                                 </tr>
                                 @empty

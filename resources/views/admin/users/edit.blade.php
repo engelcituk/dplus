@@ -79,9 +79,9 @@
                                                         {{$user->roles->contains($role->id) ? 'checked':''}}
                                                         name="roles[]"
                                                     >
-                                                    <label class="custom-control-label" for="role{{$role->id}}">{{$role->name}}</label>
+                                                    <label class="custom-control-label" for="role{{$role->id}}">{{$role->display_name}}</label>
                                                     <br>
-                                                    <small class="text-muted">{{$role->permissions->pluck('name')->implode(', ')}}</small>
+                                                    <small class="text-muted">{{$role->permissions->pluck('display_name')->implode(', ')}}</small>
                                                 </div>
                                             @endforeach
     
@@ -91,7 +91,7 @@
                                         <label class="form-label" for="roles">Roles del usuario</label>
                                         <ul class="list-group">
                                             @forelse ($user->roles as $role)
-                                                <li class="list-group-item">{{$role->name}}</li>
+                                                <li class="list-group-item">{{$role->display_name}}</li>
                                             @empty
                                                 <li class="list-group-item">No tiene roles</li> 
                                             @endforelse
@@ -121,7 +121,7 @@
                                         <label class="form-label" for="permisos">Permisos del usuario</label>
                                         <ul class="list-group">
                                             @forelse ($user->permissions as $permission)
-                                                <li class="list-group-item">{{$permission->name}}</li>
+                                                <li class="list-group-item">{{$permission->display_name}}</li>
                                             @empty
                                             <li class="list-group-item">Sin ningún permiso del usuario</li>                                            
                                             @endforelse
