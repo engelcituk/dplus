@@ -26,15 +26,24 @@
                     <form action="{{route('admin.roles.update',$role)}}" method="POST">
                         @csrf  {{ method_field('PUT') }}
                         <div class="form-group">
-                            <label class="form-label" for="addon-wrapping-left">Nombre completo del rol</label>
+                            <label class="form-label" for="addon-wrapping-left">Identificador:</label>
                             <div class="input-group flex-nowrap">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
                                 </div>
-                            <input type="text" class="form-control" placeholder="Nombre completo del rol" aria-label="Nombre completo del rol" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name',$role->name)}}">
+                            <input type="text" class="form-control" placeholder="Nombre completo del rol" aria-label="Nombre completo del rol" aria-describedby="addon-wrapping-left" value="{{$role->name}}" disabled>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="form-label" for="addon-wrapping-left">Nombre del rol</label>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
+                                </div>
+                            <input type="text" class="form-control" placeholder="Nombre del rol" aria-label="Nombre  del rol" aria-describedby="addon-wrapping-left" name="display_name" value="{{ old('display_name',$role->display_name)}}">
+                            </div>
+                        </div>
+                        {{-- <div class="form-group">
                             <label class="form-label" for="selectPeriodo">Selecciona guard</label>
                             <div class="input-group flex-nowrap">
                                 <div class="input-group-prepend">
@@ -50,7 +59,7 @@
                                     @endforelse
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                         @foreach ($permissions as $id => $name)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 

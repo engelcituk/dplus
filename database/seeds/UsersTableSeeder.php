@@ -18,16 +18,16 @@ class UsersTableSeeder extends Seeder
         Role::truncate();
         User::truncate();
 
-        $adminRole = Role::create(['name'=>'Admin']);
-        $sellerRole = Role::create(['name'=>'Seller ']);
+        $adminRole = Role::create(['name'=>'Admin', 'display_name'=>'Administrador']);
+        $sellerRole = Role::create(['name'=>'Seller','display_name'=>'Vendedor']);
 
         //permisos
-        Permission::create(['name'=>'View users']);
-        Permission::create(['name'=>'Create users']);
-        Permission::create(['name'=>'Update users']);
-        Permission::create(['name'=>'Delete users']);
+        Permission::create(['name'=>'View users','display_name'=>'Ver usuarios']);
+        Permission::create(['name'=>'Create users','display_name'=>'Crear usuarios']);
+        Permission::create(['name'=>'Update users','display_name'=>'Actualizar usuarios']);
+        Permission::create(['name'=>'Delete users','display_name'=>'Borrar usuarios']);
 
-        Permission::create(['name'=>'Update roles']);
+        Permission::create(['name'=>'Update roles','display_name'=>'Actualizar roles']);
 
         
         $admin = new User;

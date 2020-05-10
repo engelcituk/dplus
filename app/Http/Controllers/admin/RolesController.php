@@ -29,8 +29,9 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|unique:roles', 
-            'guard_name' => 'required'
+            'name' => 'required|unique:roles',
+            'display_name' => 'required', 
+            //'guard_name' => 'required'
         ]);
         
 
@@ -41,7 +42,7 @@ class RolesController extends Controller
            $role->givePermissionTo($request->permissions);
        }
 
-       return redirect()->route('admin.roles.index')->withFlash('El rol fue creado correctamente');
+       return redirect()->route('admin.roles.edit',compact('role'))->withFlash('El rol fue creado correctamente');
     }
 
     public function show($id)
@@ -61,8 +62,9 @@ class RolesController extends Controller
     public function update(Request $request, Role $role)
     {
         $data = $request->validate([
-            'name' => 'required|unique:roles,name,' .$role->id, 
-            'guard_name' => 'required'
+            //'name' => 'required|unique:roles,name,' .$role->id,
+            'display_name' => 'required', 
+            //'guard_name' => 'required'
         ]);
 
         $role->update($data);
