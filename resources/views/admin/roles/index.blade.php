@@ -42,8 +42,11 @@
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{route('admin.roles.show', $role)}}"><i class="fal fa-eye"></i> </a> 
                                         <a class="btn btn-primary btn-sm" href="{{route('admin.roles.edit', $role)}}"><i class="fal fa-edit"></i> </a>
-                                        <button class="btn btn-danger btn-sm" onclick="borrarServicioInternet({{$role->id}})"><i class="fal fa-trash"></i>
+                                        
+                                        <button class="btn btn-danger btn-sm" onclick="borrarRol({{$role->id}})"><i class="fal fa-trash"></i>
                                         </button>
+                                        
+                                        
                                     </td> 
                                 </tr>
                                 @empty

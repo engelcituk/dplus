@@ -29,17 +29,6 @@ class RolesController extends Controller
  
     public function store(SaveRolesRequest $request)
     {
-        /* $data = $request->validate([
-            'name' => 'required|unique:roles',
-            'display_name' => 'required'
-        ],[
-            'name.required' => 'El identificador es obligatorio',
-            'name.unique' => 'Este identificador ya ha sido registrado',
-            'display_name.required' => 'El nombre del rol es obligatorio'
-
-        ]); */
-        
-
        $role = Role::create($request->validated());
 
        if($request->has('permissions')){
@@ -62,12 +51,7 @@ class RolesController extends Controller
 
     public function update(SaveRolesRequest $request, Role $role)
     {
-       /*  $data = $request->validate(['display_name' => 'required'],
-        [
-            'display_name.required' => 'El campo nombre es obligatorio'
-        ]
-        ); */
-
+       
         $role->update($request->validated());
 
         $role->permissions()->detach();
@@ -82,8 +66,27 @@ class RolesController extends Controller
     }
 
  
-    public function destroy($id)
+    public function destroy($idRol)
     {
-        //
+        $role = Role::find($idRol); //busco el role a borrar
+        
+        if($role->id === 1){
+            return response()->json(
+                [
+                'ok' => false,
+                'mensaje'=>'No se puede eliminar este rol'
+                ]
+            );
+        }
+
+       // $this->authorize('delete',$role); // autorizo el delete, usando el policy
+        $role->delete();
+
+         return response()->json(
+            [
+            'ok' => true,
+            'mensaje'=>'Rol eliminado'
+            ]
+        );
     }
 }

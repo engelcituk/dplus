@@ -40,14 +40,21 @@ function borrarUsuario(idUser){
                   '_token': csrf_token
               },
               success: function(respuesta) {
-                  // tablaAlergenos.ajax.reload();
-                  Swal.fire(
-                    'Borrado!',
-                    '¡Su dato ha sido borrado!'+respuesta,
+                  var ok= respuesta.ok;
+                  if(ok){
+                    Swal.fire(
+                    'OK!',
+                    respuesta.mensaje,
                     'success'
                   )
-                  
-                 location.reload();
+                  location.reload();
+                  }else {
+                    Swal.fire(
+                    ':(',
+                    respuesta.mensaje,
+                    'error'
+                  )
+                } 
               },
               error: function(respuesta) {
                   swal({

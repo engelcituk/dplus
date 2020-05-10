@@ -20,22 +20,19 @@ class UserPolicy
         return $authUser->id === $user->id || $user->hasPermissionTo('View users');
     }
 
-  
     public function create(User $user)
     {
         return $user->hasPermissionTo('Create users');
     }
-
 
     public function update(User $authUser, User $user)
     {
         return $authUser->id === $user->id || $user->hasPermissionTo('Update users');
         
     }
-
-  
     public function delete(User $authUser, User $user)
     {
         return $authUser->id === $user->id || $user->hasPermissionTo('Delete users');        
     }
+    
 }

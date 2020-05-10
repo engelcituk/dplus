@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Role;
@@ -74,6 +75,7 @@ class UsersController extends Controller
    
     public function update(UpdateUserRequest $request, User $user)
     {
+        
         $this->authorize('update',$user); // autorizo el update, usando el policy
 
         $user->update($request->validated()); //la logica de validacion está en el formRequest UpdateUserRequest 
@@ -83,12 +85,24 @@ class UsersController extends Controller
 
     public function destroy($idUsuario) //solo el admin hace esto
     {
-        $usuario = User::find($idUsuario); //busco al usuario a borrar
-
-        $this->authorize('delete',$usuario); // autorizo el delete, usando el policy
-
-        $usuario->delete();
-
-        return response()->json(['mensaje'=>'Usuario eliminado']);
+        
+        $authUser = Auth::user(); // get current logged in user
+        $user = User::find($idUsuario); //busco al usuario a borrar
+        
+        if($authUser->can('delete',$user)){
+            $user->delete();
+            $ok= true;
+            $mensaje='Usuario eliminado';
+        }else{
+            $ok= false;
+            $mensaje='No se puede eliminar al usuario';
+        }
+        
+         return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje
+            ]
+        );
     }
 }

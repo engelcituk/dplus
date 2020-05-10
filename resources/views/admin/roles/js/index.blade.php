@@ -40,23 +40,31 @@ function borrarRol(idRol){
                   '_token': csrf_token
               },
               success: function(respuesta) {
-                  // tablaAlergenos.ajax.reload();
-                  Swal.fire(
-                    'Borrado!',
-                    '¡Su dato ha sido borrado!'+respuesta,
-                    'success'
-                  )
-                  
-                 location.reload();
-              },
-              error: function(respuesta) {
-                  swal({
-                      title: 'Oops...',
-                      text: '¡Algo salió mal!'+respuesta,
-                      type: 'error',
-                      timer: '1500'
-                  })
-              }
+                    // tablaAlergenos.ajax.reload();
+                    var ok= respuesta.ok;
+                    if(ok){
+                      Swal.fire(
+                      'OK!',
+                      respuesta.mensaje,
+                      'success'
+                    )
+                   location.reload();
+                    }else {
+                      Swal.fire(
+                      ':(',
+                      respuesta.mensaje,
+                      'error'
+                    )
+                  } 
+                },
+                error: function(respuesta) {
+                    swal({
+                        title: 'Oops...',
+                        text: '¡Algo salió mal!'+respuesta.mensaje,
+                        type: 'error',
+                        timer: '1500'
+                    })
+                }
           });
       }
     })

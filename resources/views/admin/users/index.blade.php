@@ -43,8 +43,10 @@
                                 <td>
                                     <a class="btn btn-info btn-sm" href="{{route('admin.users.show', $usuario)}}"><i class="fal fa-eye"></i> </a> 
                                     <a class="btn btn-primary btn-sm" href="{{route('admin.users.edit', $usuario)}}"><i class="fal fa-edit"></i> </a>
-                                    <button class="btn btn-danger btn-sm" onclick="borrarUsuario({{$usuario->id}})"><i class="fal fa-trash"></i>
-                                    </button>
+                                    @if (Auth::user()->id != $usuario->id)
+                                        <button class="btn btn-danger btn-sm" onclick="borrarUsuario({{$usuario->id}})"><i class="fal fa-trash"></i>
+                                        </button>   
+                                    @endif
                                 </td> 
                                 </tr>
                                 @empty
