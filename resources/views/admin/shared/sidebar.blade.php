@@ -105,11 +105,11 @@
                             <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
                         </a>
                     </li>
-                    {{-- <li class="{{ setActiveRoute(['admin.permissions.*']) }}">
-                        <a  title="Permisos" data-filter-tags="configuracion permisos">
+                    <li class="{{ setActiveRoute(['admin.permissions.*']) }}">
+                        <a  href="{{route('admin.permissions.index')}}" title="Permisos" data-filter-tags="configuracion permisos">
                             <span class="nav-link-text" data-i18n="nav.configuracion_permisos">Permisos</span>
                         </a>
-                    </li> --}}
+                    </li> 
                 </ul>
             </li>
             

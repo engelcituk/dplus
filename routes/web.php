@@ -18,6 +18,7 @@ function(){
     Route::resource('periododias', 'PeriodosDiasController',['as'=>'admin']);//as es para agregar el prefijo admin al nombre de las rutas 
     Route::resource('users', 'UsersController',['as'=>'admin']);  
     Route::resource('roles', 'RolesController',['except'=>'show','as'=>'admin']); //except para omitir la ruta show 
+    Route::resource('permissions', 'PermissionsController',['only'=>['index','edit','update'],'as'=>'admin']); //only para aceptar ciertos metodos
     
     Route::middleware('role:Admin')
         ->put('users/{user}/roles','UsersRolesController@update')
