@@ -14,7 +14,7 @@ class RolesController extends Controller
     
     public function index()
     {
-       $this->authorize('view', new role);
+       $this->authorize('view', new Role);
 
         $roles = Role::all();
 
@@ -24,7 +24,7 @@ class RolesController extends Controller
    
     public function create()
     {
-       $this->authorize('create', $role = new role);
+       $this->authorize('create', $role = new Role);
 
         $permissions = Permission::pluck('name','id');
         
@@ -34,7 +34,7 @@ class RolesController extends Controller
  
     public function store(SaveRolesRequest $request)
     {
-       $this->authorize('create',new role);
+       $this->authorize('create',new Role);
 
        $role = Role::create($request->validated());
 
