@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Http\Requests\SaveRolesRequest;
 
 class RolesController extends Controller 
 {
@@ -26,16 +27,20 @@ class RolesController extends Controller
     }
 
  
-    public function store(Request $request)
+    public function store(SaveRolesRequest $request)
     {
-        $data = $request->validate([
+        /* $data = $request->validate([
             'name' => 'required|unique:roles',
-            'display_name' => 'required', 
-            //'guard_name' => 'required'
-        ]);
+            'display_name' => 'required'
+        ],[
+            'name.required' => 'El identificador es obligatorio',
+            'name.unique' => 'Este identificador ya ha sido registrado',
+            'display_name.required' => 'El nombre del rol es obligatorio'
+
+        ]); */
         
 
-       $role = Role::create($data);
+       $role = Role::create($request->validated());
 
        if($request->has('permissions')){
 
@@ -45,10 +50,6 @@ class RolesController extends Controller
        return redirect()->route('admin.roles.edit',compact('role'))->withFlash('El rol fue creado correctamente');
     }
 
-    public function show($id)
-    {
-        //
-    }
 
     public function edit(Role $role)
     {
@@ -59,15 +60,15 @@ class RolesController extends Controller
     }
 
 
-    public function update(Request $request, Role $role)
+    public function update(SaveRolesRequest $request, Role $role)
     {
-        $data = $request->validate([
-            //'name' => 'required|unique:roles,name,' .$role->id,
-            'display_name' => 'required', 
-            //'guard_name' => 'required'
-        ]);
+       /*  $data = $request->validate(['display_name' => 'required'],
+        [
+            'display_name.required' => 'El campo nombre es obligatorio'
+        ]
+        ); */
 
-        $role->update($data);
+        $role->update($request->validated());
 
         $role->permissions()->detach();
         
