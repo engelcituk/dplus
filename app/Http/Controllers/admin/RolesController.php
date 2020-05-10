@@ -29,7 +29,7 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required', 
+            'name' => 'required|unique:roles', 
             'guard_name' => 'required'
         ]);
         
@@ -49,15 +49,33 @@ class RolesController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //
+        $permissions = Permission::pluck('name','id');
+        
+        return view('admin.roles.edit', compact('permissions','role'));        
+        
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:roles,name,' .$role->id, 
+            'guard_name' => 'required'
+        ]);
+
+        $role->update($data);
+
+        $role->permissions()->detach();
+        
+        if($request->has('permissions')){
+
+            $role->givePermissionTo($request->permissions);
+        } 
+ 
+       return redirect()->route('admin.roles.edit', $role)->withFlash('El rol fue actualizado correctamente');
+    
     }
 
  

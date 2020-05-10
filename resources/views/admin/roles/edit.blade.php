@@ -1,101 +1,79 @@
 @extends('admin.layout')
 
 @section('content')
+    @include('admin.shared.flash-messages') {{-- incluyo el bloque para mensajes flash --}}  
+    <ol class="breadcrumb page-breadcrumb">
+        <li class="breadcrumb-item"><a href="{{route('admin.roles.index')}}" > <i class="fal fa-arrow-left"></i> Roles</a></li>
+        <li class="breadcrumb-item">Configuración</li>
+        <li class="breadcrumb-item">Roles</li>
+        <li class="breadcrumb-item active">Editar</li>
+        <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
+    </ol> 
 
-@include('admin.shared.flash-messages') {{-- incluyo el bloque para mensajes flash --}}  
-<ol class="breadcrumb page-breadcrumb">
-    <li class="breadcrumb-item"><a href="{{route('admin.internet.index')}}" > <i class="fal fa-arrow-left"></i> Servicios</a></li>
-    <li class="breadcrumb-item">Configuración</li>
-    <li class="breadcrumb-item">Servicio</li>
-    <li class="breadcrumb-item">Internet</li>
-    <li class="breadcrumb-item active">Editar</li>
-    <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
-</ol> 
-
-<div class="row"> 
-    <div class="col-xl-12 ">
-        <div class="panel">
+<div class="row">    
+    <div class="col-xl-6 ">
+            
+        <div id="panel-2" class="panel">
             <div class="panel-hdr">
                 <h2>
-                    Datos del <span class="fw-300"><i>servicio de internet y precio</i></span>
+                    Datos del <span class="fw-300"><i>rol</i></span>
                 </h2> 
+
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
                 @include('admin.shared.error-messages') {{-- incluyo el bloque para mensajes flash --}}  
-                    <form action="{{route('admin.internet.update',$internet)}}" method="POST">
+                    <form action="{{route('admin.roles.update',$role)}}" method="POST">
                         @csrf  {{ method_field('PUT') }}
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="addon-wrapping-left">Nombre  del servicio</label>
-                                    <div class="input-group flex-nowrap">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
-                                        </div>
-                                    <input type="text" class="form-control" placeholder="Nombre completo" aria-label="Nombre completo" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name', $internet->name)}}">
-                                    </div>
+                        <div class="form-group">
+                            <label class="form-label" for="addon-wrapping-left">Nombre completo del rol</label>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="selectPeriodo">Selecciona periodo de días</label>
-                                    <select class="form-control" name="days_periods_id">
-                                        @forelse ($periodos as $numDia)
-                                            <option value="{{$numDia->id}}"
-                                                    {{ old('days_periods_id',$internet->days_periods_id ) == $numDia->id ? 'selected': '' }}> {{$numDia->days_number}} Días</option>
-                                        @empty
-                                            <option value="">Sin datos</option>
-                                        @endforelse
-                                    </select>
+                            <input type="text" class="form-control" placeholder="Nombre completo del rol" aria-label="Nombre completo del rol" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name',$role->name)}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="selectPeriodo">Selecciona guard</label>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
                                 </div>
+                                <select class="form-control" name="guard_name">
+                                    @forelse ( config('auth.guards') as $guardName => $guard)
+                                        <option value="{{$guardName}}"
+                                        {{ old('guard_name', $role->guard_name) === $guardName ? 'selected' : ''}}
+                                        >{{$guardName}}</option>
+                                    @empty
+                                        <option value="">Sin datos</option>
+                                    @endforelse
+                                </select>
+                            </div>
+                        </div>
+                        @foreach ($permissions as $id => $name)
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
+                                    value="{{$name}}"
 
-                                <div class="form-group">
-                                    <label class="form-label" for="descripcion">Descripción</label>
-                                    <textarea class="form-control" name="description" id="descripcion" rows="3">{{ old('description', $internet->description)}}</textarea>
-                                </div>
+                                    {{ $role->permissions->contains($id) || collect(old('permissions'))->contains($name) ? 'checked':''}} 
+                                    name="permissions[]"
+                                >
+                                <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
                             </div>
-                            <div class="col-xl-6">
-                                <div class="form-group">
-                                    <label class="form-label" for="addon-wrapping-left">Precio</label>
-                                    <div class="input-group flex-nowrap">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
-                                        </div>
-                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio" aria-label="Precio" aria-describedby="addon-wrapping-left" id="precio" name="price" value="{{ old('price', $internet->price)}}" onchange="calculoPrecioFinal()">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="addon-wrapping-left">Seguro</label>
-                                    <div class="input-group flex-nowrap">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
-                                        </div>
-                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Comision"  aria-label="Comision" aria-describedby="addon-wrapping-left" id="seguro" name="assurance" value="{{ old('assurance', $internet->assurance)}}" onchange="calculoPrecioFinal()">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="addon-wrapping-left">Precio Final</label>
-                                    <div class="input-group flex-nowrap">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
-                                        </div>
-                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" id="precioFinal" name="final_price" value="{{ old('final_price', $internet->final_price)}}" readonly>
-                                    </div>
-                                </div>
-                                <button class="mt-3 btn btn-primary btn-block"> Actualizar servicio</button>
-                            </div>
-                        </div>        
+                            <br>
+                        @endforeach
+
+                        <button class="mt-3 btn btn-primary btn-block"> Actualizar rol</button>
+
                     </form>
-                </div>                
+                </div>
             </div>
         </div>
-    </div>   
+    </div>
+    <div class="col-xl-6">
+          
+    </div>    
 </div>
 @endsection
-@push('stylesCss')
-    <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/notifications/sweetalert2/sweetalert2.bundle.css') }}">
-@endpush
 
-@push('scriptsJs')  
-    <script src="{{ asset('smartadmin/js/notifications/sweetalert2/sweetalert2.bundle.js') }}" ></script>   
-    @include('admin.internet.js.create') {{-- include con un file blade porque un archivo js no me permitía --}}
-@endpush
