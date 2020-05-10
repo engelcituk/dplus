@@ -88,7 +88,7 @@ class UsersController extends Controller
         
         $authUser = Auth::user(); // get current logged in user
         $user = User::find($idUsuario); //busco al usuario a borrar
-        
+
         if($authUser->can('delete',$user)){
             $user->delete();
             $ok= true;

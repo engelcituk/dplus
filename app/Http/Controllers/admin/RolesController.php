@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\SaveRolesRequest;
@@ -13,6 +14,8 @@ class RolesController extends Controller
     
     public function index()
     {
+       $this->authorize('view', new role);
+
         $roles = Role::all();
 
         return view('admin.roles.index', compact('roles'));
@@ -21,14 +24,18 @@ class RolesController extends Controller
    
     public function create()
     {
+       $this->authorize('create', $role = new role);
+
         $permissions = Permission::pluck('name','id');
-        $role = new Role;
+        
         return view('admin.roles.create', compact('permissions','role'));        
     }
 
  
     public function store(SaveRolesRequest $request)
     {
+       $this->authorize('create',new role);
+
        $role = Role::create($request->validated());
 
        if($request->has('permissions')){
@@ -42,6 +49,8 @@ class RolesController extends Controller
 
     public function edit(Role $role)
     {
+        $this->authorize('update',$role);
+
         $permissions = Permission::pluck('name','id');
         
         return view('admin.roles.edit', compact('permissions','role'));        
@@ -51,7 +60,8 @@ class RolesController extends Controller
 
     public function update(SaveRolesRequest $request, Role $role)
     {
-       
+       $this->authorize('update',$role);
+
         $role->update($request->validated());
 
         $role->permissions()->detach();
@@ -68,24 +78,22 @@ class RolesController extends Controller
  
     public function destroy($idRol)
     {
+        $authUser = Auth::user(); // get current logged in user
         $role = Role::find($idRol); //busco el role a borrar
         
-        if($role->id === 1){
-            return response()->json(
-                [
-                'ok' => false,
-                'mensaje'=>'No se puede eliminar este rol'
-                ]
-            );
+        if($authUser->can('delete',$role)){ //si user autenticado puede borrar role
+            $role->delete();
+            $ok= true;
+            $mensaje='Rol eliminado';
+        }else{
+            $ok= false;
+            $mensaje='No se puede eliminar el rol';
         }
 
-       // $this->authorize('delete',$role); // autorizo el delete, usando el policy
-        $role->delete();
-
-         return response()->json(
+        return response()->json(
             [
-            'ok' => true,
-            'mensaje'=>'Rol eliminado'
+            'ok' => $ok,
+            'mensaje' => $mensaje
             ]
         );
     }

@@ -40,17 +40,18 @@
                                     <td>{{$role->display_name}}</td>
                                     <td>{{$role->permissions->pluck('display_name')->implode(', ')}}</td>
                                     <td>
-                                        <a class="btn btn-info btn-sm" href="{{route('admin.roles.show', $role)}}"><i class="fal fa-eye"></i> </a> 
                                         <a class="btn btn-primary btn-sm" href="{{route('admin.roles.edit', $role)}}"><i class="fal fa-edit"></i> </a>
-                                        
-                                        <button class="btn btn-danger btn-sm" onclick="borrarRol({{$role->id}})"><i class="fal fa-trash"></i>
-                                        </button>
-                                        
-                                        
+                                        @if ($role->id !== 1)
+                                            <button class="btn btn-danger btn-sm" onclick="borrarRol({{$role->id}})"><i class="fal fa-trash"></i>
+                                            </button>  
+                                        @endif
+                                                       
                                     </td> 
                                 </tr>
                                 @empty
                                 <tr>
+                                    <td>:(</td>
+                                    <td>:(</td>
                                     <td>:(</td>
                                     <td>:(</td>
                                     <td>:(</td>

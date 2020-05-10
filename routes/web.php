@@ -17,7 +17,7 @@ function(){
     Route::get('ventas', 'VentasController@index')->name('admin.ventas.index'); 
     Route::resource('periododias', 'PeriodosDiasController',['as'=>'admin']);//as es para agregar el prefijo admin al nombre de las rutas 
     Route::resource('users', 'UsersController',['as'=>'admin']);  
-    Route::resource('roles', 'RolesController',['as'=>'admin']);  
+    Route::resource('roles', 'RolesController',['except'=>'show','as'=>'admin']); //except para omitir la ruta show 
     
     Route::middleware('role:Admin')
         ->put('users/{user}/roles','UsersRolesController@update')
