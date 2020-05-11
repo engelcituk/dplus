@@ -4,82 +4,80 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Printer;
 
 class PrintersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function index()
     {
-        //
+        $printers = Printer::all();
+
+        return view('admin.printers.index', compact('printers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function create()
     {
-        //
+        return view('admin.printers.create');        
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(Request $request)
     {
-        //
+        //Validar el formulario
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:20'],
+            'ip' => ['required']
+
+        ]);
+        $printer = Printer::create($data);
+        
+        return redirect()->route('admin.printers.edit', compact('printer'))->withFlash('La impresora de tickets ha sido creado');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+ 
+    public function show(Printer $printer)
     {
-        //
+        return view('admin.printers.show', compact('printer'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    
+    public function edit(Printer $printer)
     {
-        //
+        return view('admin.printers.edit', compact('printer'));
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    
+    public function update(Request $request, Printer $printer)
     {
-        //
+        $data = $request->validate([
+            'name'=>'required',
+            'ip' => 'required'
+        ]);
+
+        $printer->update($data);
+
+        return back()->withFlash('Impresora de tickets actualizada');
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+   
+    public function destroy($idImpresora) //solo el admin hace esto
     {
-        //
+        $printer = Printer::find($idImpresora); //busco al usuario a borrar
+
+       // $this->authorize('delete',$printer); // autorizo el delete, usando el policy
+
+        $printer->delete();
+
+        return response()->json(
+            [
+            'ok' => true,
+            'mensaje' => 'La impresora ha sido borrado'
+            ]
+        );
     }
 }

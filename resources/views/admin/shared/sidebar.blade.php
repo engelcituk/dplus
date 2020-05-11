@@ -127,7 +127,7 @@
                 </ul>
             </li>
             
-            <li class="{{setCollapseShow(['admin.periododias.*'])}}">
+            <li class="{{setCollapseShow(['admin.periododias.*','admin.printers.*'])}}">
                 <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
                     <i class="fal fa-print"></i>
                     <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
@@ -139,8 +139,8 @@
                             <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Periodo de días</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="configuracion_basic.html" title="Impresoras" data-filter-tags="configuracion impresoras">
+                    <li class="{{ setActiveRoute(['admin.printers.*']) }}">
+                        <a href="{{route('admin.printers.index')}}"  title="Impresoras" data-filter-tags="configuracion impresoras">
                             <span class="nav-link-text" data-i18n="nav.configuracion_impresoras">Impresoras</span>
                         </a>
                     </li>

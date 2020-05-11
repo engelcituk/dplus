@@ -44,7 +44,7 @@ class ClientesController extends Controller
         ]);
         $cliente = Cliente::create($data);
         
-        return redirect()->route('admin.clientes.edit', compact('cliente'))->withFlash('El usuario ha sido creado');
+        return redirect()->route('admin.clientes.edit', compact('cliente'))->withFlash('El cliente ha sido creado');
     }
 
     public function show(Cliente $cliente)
