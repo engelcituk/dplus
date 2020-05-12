@@ -26,13 +26,24 @@ class PrintersController extends Controller
   
     public function store(Request $request)
     {
+        
         //Validar el formulario
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:20'],
-            'ip' => ['required']
-
+            'name'=>'required',
+            'shared_name' => 'required|unique:printers',
+            'ip' => 'required|unique:printers',
+            'use_mode' => 'required'
         ]);
-        $printer = Printer::create($data);
+
+        //ocupé este método porque con el create daba errores con los checkboxes
+        $printer = new Printer;
+        $printer->name = $request->name;
+        $printer->shared_name =  $request->shared_name;
+        $printer->ip = $request->ip;
+        $printer->available = $request->available ? true : false;
+        $printer->default =  $request->default ? true : false;
+        $printer->use_mode =  $request->use_mode;
+        $printer->save();
         
         return redirect()->route('admin.printers.edit', compact('printer'))->withFlash('La impresora de tickets ha sido creado');
     }
@@ -50,12 +61,18 @@ class PrintersController extends Controller
         
     }
 
-    
     public function update(Request $request, Printer $printer)
     {
+        
+        $printer->available = $request->available ? true : false;
+        $printer->default = $request->default? true : false;
+
         $data = $request->validate([
             'name'=>'required',
-            'ip' => 'required'
+            'shared_name' => 'required|unique:printers,shared_name,'.$printer->id,
+            'ip' => 'required|unique:printers,ip,'.$printer->id,
+            'use_mode' => 'required',
+
         ]);
 
         $printer->update($data);
@@ -63,7 +80,6 @@ class PrintersController extends Controller
         return back()->withFlash('Impresora de tickets actualizada');
 
     }
-
    
     public function destroy($idImpresora) //solo el admin hace esto
     {

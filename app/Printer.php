@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Printer extends Model
 {
     protected $fillable = [
-        'name', 'ip'
+        'name','shared_name','ip','available','default', 'use_mode'
     ];
     public $timestamps = false; // para descartar las fechas en la tabla created_at y updated_at
     

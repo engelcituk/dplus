@@ -28,23 +28,70 @@
                     <form action="{{route('admin.printers.store')}}" method="POST">
                         @csrf 
                         <div class="form-group">
-                            <label class="form-label" for="addon-wrapping-left">Nombre completo de la impresora de tickets</label>
-                            <div class="input-group flex-nowrap">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fal fa-print fs-xl"></i></span>
+                                <label class="form-label" for="addon-wrapping-left">Nombre de la impresora de tickets</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-wifi fs-xl"></i></span>
+                                    </div>
+                                <input type="text" class="form-control" placeholder="Nombre completo" aria-label="Nombre completo" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name')}}">
                                 </div>
-                            <input type="text" class="form-control" placeholder="Nombre completo" aria-label="Nombre completo" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name')}}">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="addon-wrapping-left">Ip de la impresora de tickets</label>
-                            <div class="input-group flex-nowrap">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fal fa-print fs-xl"></i></span>
+                            <div class="form-group">
+                                <label class="form-label" for="addon-wrapping-left">Nombre de la impresora compartida</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-wifi fs-xl"></i></span>
+                                    </div>
+                                <input type="text" class="form-control" placeholder="nombre del compartido"  aria-label="dirección ip" aria-describedby="addon-wrapping-left" name="shared_name" value="{{ old('shared_name')}}">
                                 </div>
-                            <input type="text" class="form-control" placeholder="" data-inputmask="'alias': 'ip'"  aria-label="dirección ip" aria-describedby="addon-wrapping-left" name="ip" value="{{ old('ip')}}">
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label class="form-label" for="addon-wrapping-left">Ip de la impresora de tickets</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-wifi fs-xl"></i></span>
+                                    </div>
+                                <input type="text" class="form-control" placeholder="" data-inputmask="'alias': 'ip'"  aria-label="dirección ip" aria-describedby="addon-wrapping-left" name="ip" value="{{ old('ip')}}">
+                                </div>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="addon-wrapping-left">Estado de la impresora</label>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="disponible1" 
+                                            value="1"
+                                            {{ old('available') ? 'checked':''}} 
+                                            name="available"
+                                        >
+                                        <label class="custom-control-label" for="disponible1">Disponible</label>
+                                    </div>
+                                </div> 
+                                <div class="col-md-6">
+                                    <label class="form-label" for="addon-wrapping-left">¿Es la impresora predeterminada?</label>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="predeterminada1" 
+                                            value="1"
+                                            {{ old('default') ? 'checked':''}} 
+                                            name="default"
+                                        >
+                                        <label class="custom-control-label" for="predeterminada1">Sí</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-label" for="selectPeriodo">Selecciona modo de uso de la impresora ticket</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-wifi fs-xl"></i></span>
+                                    </div>
+                                    <select class="form-control" name="use_mode" required>
+                                        <option value="compartido" {{old('use_mode') == 'compartido' ? 'selected': '' }}>Por impresora compartida</option>
+                                        <option value="ip" {{old('use_mode') == 'ip' ? 'selected': '' }}>Por ip</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
                         <button class="mt-3 btn btn-primary btn-block">Crear impresora de tickets</button>
 
                     </form>

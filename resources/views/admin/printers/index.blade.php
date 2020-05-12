@@ -27,8 +27,14 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nombre</th>
+                                <th>Nombre compartido</th>
                                 <th>Ip</th>
+                                <th>Disponible</th>
+                                <th>Predeterminada</th>
+                                <th>Modo de uso</th>
                                 <th>Acciones</th>
+                                <th>Probar</th>
+
                                 
                             </tr>
                         </thead>
@@ -37,13 +43,23 @@
                                 <tr>
                                     <td>{{$printer->id}}</td>
                                     <td>{{$printer->name}}</td>
+                                    <td>{{$printer->shared_name}}</td>
                                     <td>{{$printer->ip}}</td>
+                                    <td>{!! setSiNo($printer->available) !!}</td>
+                                    <td>{!! setSiNo($printer->default) !!}</td>
+                                    <td>Por {{$printer->use_mode}}</td>
+
                                     <td>
                                         <a class="btn btn-info btn-sm" href="{{route('admin.printers.show', $printer)}}"><i class="fal fa-eye"></i> </a> 
                                         <a class="btn btn-primary btn-sm" href="{{route('admin.printers.edit', $printer)}}"><i class="fal fa-edit"></i> </a>
                                         <button class="btn btn-danger btn-sm" onclick="borrarPrinter({{$printer->id}})"><i class="fal fa-trash"></i>
                                         </button>
-                                    </td> 
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="probarPrinter({{$printer}})"><i class="fal fa-print"></i>
+                                        </button>
+                                    </td>
+
                                 </tr>
                                 @empty
                                 <tr>

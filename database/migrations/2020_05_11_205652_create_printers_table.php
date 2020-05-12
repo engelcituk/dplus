@@ -16,7 +16,12 @@ class CreatePrintersTable extends Migration
         Schema::create('printers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('ip');
+            $table->string('shared_name')->unique();
+            $table->string('ip')->unique();
+            $table->boolean('available');
+            $table->boolean('default');
+            $table->string('use_mode');
+
         });
     }
 
