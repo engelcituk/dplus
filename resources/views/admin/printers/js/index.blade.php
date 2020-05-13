@@ -89,7 +89,7 @@ function borrarPrinter(idPrinter){
 
   function testImpresionPorCompartido(nombreCompartido){
     
-    let csrf_token = $('meta[name="csrf-token"]').attr('content');    
+    var csrf_token = $('meta[name="csrf-token"]').attr('content');    
         $.ajax({
             url: "{{ url('admin/prints/shared') }}",
             type: "POST",
