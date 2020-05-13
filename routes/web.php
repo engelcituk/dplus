@@ -34,6 +34,5 @@ function(){
     Route::resource('printers', 'PrintersController',['as'=>'admin']);  
 
 
-    //Route::post('clientesky/{cliente}', 'ClientesServiciosController@skyStore')->name('admin.clientes.skystore'); 
-    //Route::put('clienteskyedit/{cliente}', 'ClientesServiciosController@skyUpdate')->name('admin.clientes.skyedit'); 
+    Route::post('prints/shared', 'PrintsController@sharedPrinterTest')->name('admin.prints.compartido');  
 }); 

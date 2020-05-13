@@ -71,4 +71,42 @@ function borrarPrinter(idPrinter){
       }
     })
   }
+  
+  function probarPrinter(impresora) {
+
+    if(impresora.use_mode === 'ip'){
+      let ip = impresora.ip;
+      testImpresionPorCompartido(ip);
+    }
+
+    if(impresora.use_mode === 'compartido'){
+      let nombreCompartido = impresora.shared_name;
+      //console.log('se usará controlador por impresora compartida',nombreCompartido);
+      testImpresionPorCompartido(nombreCompartido);
+
+    }
+  }
+
+  function testImpresionPorCompartido(nombreCompartido){
+    
+    let csrf_token = $('meta[name="csrf-token"]').attr('content');    
+        $.ajax({
+            url: "{{ url('admin/prints/shared') }}",
+            type: "POST",
+            data: {
+                '_method': 'POST',                           
+                '_token': csrf_token,
+                'nombreCompartido': nombreCompartido
+            },
+            success: function(respuesta) {             
+                               
+                console.log(respuesta); 
+                                                    
+            },
+            error: function(respuesta) { 
+                console.log(respuesta); 
+            }
+        })
+
+  }
 </script>
