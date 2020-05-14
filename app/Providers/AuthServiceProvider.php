@@ -16,7 +16,14 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Model' => 'App\Policies\ModelPolicy',
         'App\User' => 'App\Policies\UserPolicy',
         'Spatie\Permission\Models\Role' => 'App\Policies\RolePolicy',
-        'Spatie\Permission\Models\Permission' => 'App\Policies\PermissionPolicy'
+        'Spatie\Permission\Models\Permission' => 'App\Policies\PermissionPolicy',
+        'App\Cliente' => 'App\Policies\ClientePolicy',
+        'App\Internet' => 'App\Policies\InternetPolicy',
+        'App\DaysPeriod' => 'App\Policies\DaysPeriodPolicy',
+        'App\Printer' => 'App\Policies\PrinterPolicy',
+        'App\Television' => 'App\Policies\TelevisionPolicy',
+
+
     ];
 
     /**
