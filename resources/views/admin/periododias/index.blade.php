@@ -12,7 +12,9 @@
     
 <div class="row">
     <div class="col-xl-12">
-        <a href="{{route('admin.periododias.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar periodo</a> 
+        @can('create', $periodoDias->first())
+            <a href="{{route('admin.periododias.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar periodo</a>
+        @endcan         
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -39,10 +41,16 @@
                                     <td>{{$pd->days_number}}</td>
                                     <td>{{$pd->description}}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{route('admin.periododias.show', $pd)}}"><i class="fal fa-eye"></i> </a> 
-                                    <a class="btn btn-primary btn-sm" href="{{route('admin.periododias.edit', $pd)}}"><i class="fal fa-edit"></i> </a>
-                                    <button class="btn btn-danger btn-sm" onclick="borrarPeriodoDia({{$pd->id}})"><i class="fal fa-trash"></i>
+                                    @can('view', $pd)
+                                        <a class="btn btn-info btn-sm" href="{{route('admin.periododias.show', $pd)}}"><i class="fal fa-eye"></i> </a> 
+                                    @endcan
+                                    @can('update', $pd)
+                                        <a class="btn btn-primary btn-sm" href="{{route('admin.periododias.edit', $pd)}}"><i class="fal fa-edit"></i> </a>
+                                    @endcan
+                                    @can('delete', $pd)
+                                        <button class="btn btn-danger btn-sm" onclick="borrarPeriodoDia({{$pd->id}})"><i class="fal fa-trash"></i>
                                     </button>
+                                    @endcan                                    
                                 </td> 
                                 </tr>
                                 @empty

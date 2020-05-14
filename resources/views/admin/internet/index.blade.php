@@ -13,7 +13,10 @@
     
 <div class="row">
     <div class="col-xl-12">
-        <a href="{{route('admin.internet.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar servicio internet</a> 
+        @can('create', $serviciosInternet->first())
+            <a href="{{route('admin.internet.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar servicio internet</a> 
+        @endcan
+        
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -45,10 +48,17 @@
                                     <td>{{$internet->assurance}}</td>
                                     <td>{{$internet->final_price}}</td>
                                     <td>
-                                        <a class="btn btn-info btn-sm" href="{{route('admin.internet.show', $internet)}}"><i class="fal fa-eye"></i> </a> 
-                                        <a class="btn btn-primary btn-sm" href="{{route('admin.internet.edit', $internet)}}"><i class="fal fa-edit"></i> </a>
-                                        <button class="btn btn-danger btn-sm" onclick="borrarServicioInternet({{$internet->id}})"><i class="fal fa-trash"></i>
+                                        @can('view', $internet)
+                                            <a class="btn btn-info btn-sm" href="{{route('admin.internet.show', $internet)}}"><i class="fal fa-eye"></i> </a> 
+                                        @endcan                                        
+                                        @can('update', $internet)
+                                            <a class="btn btn-primary btn-sm" href="{{route('admin.internet.edit', $internet)}}"><i class="fal fa-edit"></i> </a>
+                                        @endcan
+                                        @can('delete', Model::class)
+                                            <button class="btn btn-danger btn-sm" onclick="borrarServicioInternet({{$internet->id}})"><i class="fal fa-trash"></i>
                                         </button>
+                                        @endcan
+                                       
                                     </td> 
                                 </tr>
                                 @empty

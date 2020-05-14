@@ -102,18 +102,21 @@
                                         <form action="{{route('admin.users.permissions.update',$user)}}" method="POST">  
                                             @csrf  {{ method_field('PUT') }} 
                                             <label class="form-label" for="permisos">Permisos del usuario</label>
-    
-                                            @foreach ($permissions as $id => $name)
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
-                                                    value="{{$name}}"
-                                                    {{$user->permissions->contains($id) ? 'checked':''}}
-                                                    name="permissions[]"
-                                                >
-                                                <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
+                                            <div class="row">
+                                                @foreach ($permissions as $id => $name)
+                                                    <div class="col-md-3">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
+                                                                value="{{$name}}"
+                                                                {{$user->permissions->contains($id) ? 'checked':''}}
+                                                                name="permissions[]"
+                                                            >
+                                                            <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
-                                            <br>
-                                            @endforeach
+                                                                                       
     
                                             <button class="mt-3 btn btn-primary btn-block"> Actualizar permisos del usuario</button> 
                                         </form>

@@ -27,6 +27,31 @@ class UsersTableSeeder extends Seeder
         Permission::create(['name'=>'Update users','display_name'=>'Actualizar usuarios']);
         Permission::create(['name'=>'Delete users','display_name'=>'Borrar usuarios']);
 
+        Permission::create(['name'=>'View clients','display_name'=>'Ver clientes']);
+        Permission::create(['name'=>'Create clients','display_name'=>'Crear clientes']);
+        Permission::create(['name'=>'Update clients','display_name'=>'Actualizar clientes']);
+        Permission::create(['name'=>'Delete clients','display_name'=>'Borrar clientes']);
+
+        Permission::create(['name'=>'View tv service','display_name'=>'Ver servicios TV']);
+        Permission::create(['name'=>'Create tv service','display_name'=>'Crear servicios TV']);
+        Permission::create(['name'=>'Update tv service','display_name'=>'Actualizar servicios TV']);
+        Permission::create(['name'=>'Delete tv service','display_name'=>'Borrar servicios TV']);
+
+        Permission::create(['name'=>'View internet service','display_name'=>'Ver servicios internet']);
+        Permission::create(['name'=>'Create internet service','display_name'=>'Crear servicios internet']);
+        Permission::create(['name'=>'Update internet service','display_name'=>'Actualizar servicios internet']);
+        Permission::create(['name'=>'Delete internet service','display_name'=>'Borrar servicios internet']);
+        
+        Permission::create(['name'=>'View days period','display_name'=>'Ver perodio dias']);
+        Permission::create(['name'=>'Create days period','display_name'=>'Crear perodio dias']);
+        Permission::create(['name'=>'Update days period','display_name'=>'Actualizar perodio dias']);
+        Permission::create(['name'=>'Delete days period','display_name'=>'Borrar perodio dias']);
+        
+        Permission::create(['name'=>'View pos printer','display_name'=>'Ver impresoras termicas']);
+        Permission::create(['name'=>'Create pos printer','display_name'=>'Crear impresoras termicas']);
+        Permission::create(['name'=>'Update pos printer','display_name'=>'Actualizar impresoras termicas']);
+        Permission::create(['name'=>'Delete pos printer','display_name'=>'Borrar impresoras termicas']);
+
         Permission::create(['name'=>'View roles','display_name'=>'Ver roles']);
         Permission::create(['name'=>'Create roles','display_name'=>'Crear roles']);
         Permission::create(['name'=>'Delete roles','display_name'=>'Borrar roles']);

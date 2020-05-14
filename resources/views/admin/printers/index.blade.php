@@ -12,7 +12,10 @@
     
 <div class="row">
     <div class="col-xl-12">
-        <a href="{{route('admin.printers.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar impresora</a> 
+        @can('create', $printers->first())
+            <a href="{{route('admin.printers.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar impresora</a> 
+        @endcan
+        
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -50,14 +53,22 @@
                                     <td>Por {{$printer->use_mode}}</td>
 
                                     <td>
-                                        <a class="btn btn-info btn-sm" href="{{route('admin.printers.show', $printer)}}"><i class="fal fa-eye"></i> </a> 
-                                        <a class="btn btn-primary btn-sm" href="{{route('admin.printers.edit', $printer)}}"><i class="fal fa-edit"></i> </a>
-                                        <button class="btn btn-danger btn-sm" onclick="borrarPrinter({{$printer->id}})"><i class="fal fa-trash"></i>
-                                        </button>
+                                        @can('view', $printer)
+                                            <a class="btn btn-info btn-sm" href="{{route('admin.printers.show', $printer)}}"><i class="fal fa-eye"></i> </a> 
+                                        @endcan
+                                        @can('update', $printer)
+                                            <a class="btn btn-primary btn-sm" href="{{route('admin.printers.edit', $printer)}}"><i class="fal fa-edit"></i> </a>
+                                        @endcan
+                                        @can('delete', $printer)
+                                            <button class="btn btn-danger btn-sm" onclick="borrarPrinter({{$printer->id}})"><i class="fal fa-trash"></i>
+                                            </button>
+                                        @endcan                                        
                                     </td>
                                     <td>
-                                        <button class="btn btn-success btn-sm" onclick="probarPrinter({{$printer}})"><i class="fal fa-print"></i>
+                                        @can('view', $printer)
+                                            <button class="btn btn-success btn-sm" onclick="probarPrinter({{$printer}})"><i class="fal fa-print"></i>
                                         </button>
+                                        @endcan
                                     </td>
 
                                 </tr>

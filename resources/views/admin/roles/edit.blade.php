@@ -43,38 +43,23 @@
                             <input type="text" class="form-control" placeholder="Nombre del rol" aria-label="Nombre  del rol" aria-describedby="addon-wrapping-left" name="display_name" value="{{ old('display_name',$role->display_name)}}">
                             </div>
                         </div>
-                        {{-- <div class="form-group">
-                            <label class="form-label" for="selectPeriodo">Selecciona guard</label>
-                            <div class="input-group flex-nowrap">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
+                     
+                        <div class="row">
+                            @foreach ($permissions as $id => $name)
+                                <div class="col-md-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
+                                            value="{{$name}}"
+        
+                                            {{ $role->permissions->contains($id) || collect(old('permissions'))->contains($name) ? 'checked':''}} 
+                                            name="permissions[]"
+                                        >
+                                        <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
+                                    </div>
                                 </div>
-                                <select class="form-control" name="guard_name">
-                                    @forelse ( config('auth.guards') as $guardName => $guard)
-                                        <option value="{{$guardName}}"
-                                        {{ old('guard_name', $role->guard_name) === $guardName ? 'selected' : ''}}
-                                        >{{$guardName}}</option>
-                                    @empty
-                                        <option value="">Sin datos</option>
-                                    @endforelse
-                                </select>
+                            @endforeach
                             </div>
-                        </div> --}}
-                        @foreach ($permissions as $id => $name)
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="permiso{{$id}}" 
-                                    value="{{$name}}"
-
-                                    {{ $role->permissions->contains($id) || collect(old('permissions'))->contains($name) ? 'checked':''}} 
-                                    name="permissions[]"
-                                >
-                                <label class="custom-control-label" for="permiso{{$id}}">{{$name}}</label>
-                            </div>
-                            <br>
-                        @endforeach
-
                         <button class="mt-3 btn btn-primary btn-block"> Actualizar rol</button>
-
                     </form>
                 </div>
             </div>

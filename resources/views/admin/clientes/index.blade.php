@@ -12,7 +12,10 @@
     
 <div class="row">
     <div class="col-xl-12">
-        <a href="{{route('admin.clientes.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar cliente</a> 
+        @can('create', $clientes->first())
+            <a href="{{route('admin.clientes.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar cliente</a>
+        @endcan
+         
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -38,10 +41,19 @@
 
                                 <td>{{$cliente->name}}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{route('admin.clientes.show', $cliente)}}"><i class="fal fa-eye"></i> </a> 
-                                    <a class="btn btn-primary btn-sm" href="{{route('admin.clientes.edit', $cliente)}}"><i class="fal fa-edit"></i> </a>
-                                    <button class="btn btn-danger btn-sm" onclick="borrarCliente({{$cliente->id}})"><i class="fal fa-trash"></i>
+                                    @can('view', $cliente)
+                                        <a class="btn btn-info btn-sm" href="{{route('admin.clientes.show', $cliente)}}"><i class="fal fa-eye"></i> </a>
+                                    @endcan
+                                     
+                                    @can('update', $cliente)
+                                        <a class="btn btn-primary btn-sm" href="{{route('admin.clientes.edit', $cliente)}}"><i class="fal fa-edit"></i> </a>
+                                    @endcan
+                                    
+                                    @can('delete', $cliente)
+                                        <button class="btn btn-danger btn-sm" onclick="borrarCliente({{$cliente->id}})"><i class="fal fa-trash"></i>
                                     </button>
+                                    @endcan
+                                    
                                 </td> 
                                 </tr>
                                 @empty

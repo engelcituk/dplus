@@ -13,7 +13,9 @@
     
 <div class="row">
     <div class="col-xl-12">
-        <a href="{{route('admin.television.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar servicio TV</a> 
+        @can('create', $serviciosTV->first())
+            <a href="{{route('admin.television.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar servicio TV</a> 
+        @endcan        
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -45,16 +47,26 @@
                                     <td>{{$servicioTV->commission}}</td>
                                     <td>{{$servicioTV->final_price}}</td>
                                     <td>
-                                        <a class="btn btn-info btn-sm" href="{{route('admin.television.show', $servicioTV)}}"><i class="fal fa-eye"></i> </a> 
-                                        <a class="btn btn-primary btn-sm" href="{{route('admin.television.edit', $servicioTV)}}"><i class="fal fa-edit"></i> </a>
-                                        <button class="btn btn-danger btn-sm" onclick="borrarServicioTV({{$servicioTV->id}})"><i class="fal fa-trash"></i>
+                                        @can('view', $servicioTV)
+                                            <a class="btn btn-info btn-sm" href="{{route('admin.television.show', $servicioTV)}}"><i class="fal fa-eye"></i> </a> 
+                                        @endcan
+                                        @can('update', $servicioTV)
+                                            <a class="btn btn-primary btn-sm" href="{{route('admin.television.edit', $servicioTV)}}"><i class="fal fa-edit"></i> </a>
+                                        @endcan
+                                        @can('delete', $servicioTV)
+                                            <button class="btn btn-danger btn-sm" onclick="borrarServicioTV({{$servicioTV->id}})"><i class="fal fa-trash"></i>
+                                        @endcan
                                         </button>
                                     </td> 
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td>Sin servicio registrado</td>
-                                    <td>Sin servicio registrado</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
                                     <td>:(</td>
 
                                 </tr>

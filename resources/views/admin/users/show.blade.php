@@ -3,7 +3,7 @@
 @section('content')
     @include('admin.shared.flash-messages') {{-- incluyo el bloque para mensajes flash --}}  
     <ol class="breadcrumb page-breadcrumb">
-        <li class="breadcrumb-item"><a href="{{route('admin.clientes.index')}}" > <i class="fal fa-arrow-left"></i> Usuarios</a></li>
+        <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}" > <i class="fal fa-arrow-left"></i> Usuarios</a></li>
         <li class="breadcrumb-item">Administracion</li>
         <li class="breadcrumb-item">Usuario</li>
         <li class="breadcrumb-item active">Info</li>

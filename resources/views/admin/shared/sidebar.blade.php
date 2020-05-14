@@ -55,98 +55,114 @@
                 </ul>
             </li>
             <li class="nav-title">Administración</li>
-            <li class=" {{setCollapseShow(['admin.clientes.*'])}}" >
-                <a href="#" title="Clientes" data-filter-tags="clientes">
-                    <i class="fal fa-users"></i>
-                    <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
-                </a>
-                <ul>
-                    <li class="{{ setActiveRoute('admin.clientes.*') }}">
-                        <a href="{{route('admin.clientes.index')}}" title="Clientes" data-filter-tags="clientes ">
-                            <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
-                            <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class=" {{setCollapseShow(['admin.television.*','admin.internet.*'])}}">
-                <a href="#" title="Servicios" data-filter-tags="servicios service">
-                    <i class="fal fa-table"></i>
-                    <span class="nav-link-text" data-i18n="nav.servicios">Servicios</span>
-                </a>
-                <ul>
-                    <li class="{{ setActiveRoute('admin.television.*') }}">
-                        <a href="{{route('admin.television.index')}}" title="Television" data-filter-tags="television service tv">
-                            <span class="nav-link-text" data-i18n="nav.television_tv">Television</span>
-                        </a>
-                    </li>
-                    <li class="{{ setActiveRoute('admin.internet.*') }}">
-                        <a href="{{route('admin.internet.index')}}" title="Internet" data-filter-tags="internet service int">
-                            <span class="nav-link-text" data-i18n="nav.internet_int">Internet</span>
-                        </a>
-                    </li>
-                   
-                </ul>
-            </li>
-            <li class="nav-title">Configuración</li>
-            <li class="{{setCollapseShow(['admin.users.*','admin.roles.*','admin.permissions.*'])}}">
-                <a href="#" title="Configuracion" data-filter-tags="configuracion conf">
-                    <i class="fal fa-key"></i>
-                    <span class="nav-link-text" data-i18n="nav.configuracion">Usuarios</span>
-                </a>
-                <ul>
-                    @can('view', new App\User)
-                        <li class="{{ setActiveRoute(['admin.users.*']) }}">
-                            <a href="{{route('admin.users.index')}}" title="Usuarios" data-filter-tags="configuracion users">
-                                <span class="nav-link-text" data-i18n="nav.configuracion_users">Usuarios</span>
+            @can('view', [new App\Cliente])
+                <li class=" {{setCollapseShow(['admin.clientes.*'])}}" >
+                    <a href="#" title="Clientes" data-filter-tags="clientes">
+                        <i class="fal fa-users"></i>
+                        <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
+                    </a>
+                    <ul>
+                        @can('view', new App\Cliente)
+                        <li class="{{ setActiveRoute('admin.clientes.*') }}">
+                            <a href="{{route('admin.clientes.index')}}" title="Clientes" data-filter-tags="clientes ">
+                                <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
+                                <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
                             </a>
                         </li>
-                    @else
-                        <li class="{{ setActiveRoute(['admin.users.*']) }}">
-                            <a href="{{route('admin.users.show',auth()->user())}}" title="Usuarios" data-filter-tags="configuracion perfil">
-                                <span class="nav-link-text" data-i18n="nav.configuracion_perfil">Perfil</span>
-                            </a>
-                        </li>
-                    @endcan
-                    
-                    @can('view', new \Spatie\Permission\Models\Role)
-                        <li class="{{ setActiveRoute(['admin.roles.*']) }}">
-                            <a href="{{route('admin.roles.index')}}" title="Roles" data-filter-tags="configuracion roles">
-                                <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('view', new \Spatie\Permission\Models\Permission)
-                        <li class="{{ setActiveRoute(['admin.permissions.*']) }}">
-                            <a  href="{{route('admin.permissions.index')}}" title="Permisos" data-filter-tags="configuracion permisos">
-                                <span class="nav-link-text" data-i18n="nav.configuracion_permisos">Permisos</span>
-                            </a>
-                        </li> 
-                    @endcan
-                    
-                </ul>
-            </li>
+                        @endcan                    
+                    </ul>
+                </li>
+            @endcan            
+            @can('view', [new App\Television, new App\Internet])
+                <li class=" {{setCollapseShow(['admin.television.*','admin.internet.*'])}}">
+                    <a href="#" title="Servicios" data-filter-tags="servicios service">
+                        <i class="fal fa-table"></i>
+                        <span class="nav-link-text" data-i18n="nav.servicios">Servicios</span>
+                    </a>
+                    <ul>
+                        @can('view', new App\Television)
+                            <li class="{{ setActiveRoute('admin.television.*') }}">
+                                <a href="{{route('admin.television.index')}}" title="Television" data-filter-tags="television service tv">
+                                    <span class="nav-link-text" data-i18n="nav.television_tv">Television</span>
+                                </a>
+                            </li> 
+                        @endcan                   
+                        @can('view', new App\Internet)
+                            <li class="{{ setActiveRoute('admin.internet.*') }}">
+                                <a href="{{route('admin.internet.index')}}" title="Internet" data-filter-tags="internet service int">
+                                    <span class="nav-link-text" data-i18n="nav.internet_int">Internet</span>
+                                </a>
+                            </li>
+                        @endcan                
+                    </ul>
+                </li>
+            @endcan
             
-            <li class="{{setCollapseShow(['admin.periododias.*','admin.printers.*'])}}">
-                <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
-                    <i class="fal fa-print"></i>
-                    <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
-                </a>
-                <ul>
-                    
-                    <li class="{{ setActiveRoute(['admin.periododias.*']) }}">
-                        <a href="{{route('admin.periododias.index')}}"  title="Comisiones" data-filter-tags="configuracion periododias">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Periodo de días</span>
-                        </a>
-                    </li>
-                    <li class="{{ setActiveRoute(['admin.printers.*']) }}">
-                        <a href="{{route('admin.printers.index')}}"  title="Impresoras" data-filter-tags="configuracion impresoras">
-                            <span class="nav-link-text" data-i18n="nav.configuracion_impresoras">Impresoras</span>
-                        </a>
-                    </li>
-                </ul>
-                
-            </li>
+            <li class="nav-title">Configuración</li>
+            @can('view', [new App\User, new \Spatie\Permission\Models\Role, new \Spatie\Permission\Models\Permission])
+                <li class="{{setCollapseShow(['admin.users.*','admin.roles.*','admin.permissions.*'])}}">
+                    <a href="#" title="Configuracion" data-filter-tags="configuracion conf">
+                        <i class="fal fa-key"></i>
+                        <span class="nav-link-text" data-i18n="nav.configuracion">Usuarios</span>
+                    </a>
+                    <ul>
+                        @can('view', new App\User)
+                            <li class="{{ setActiveRoute(['admin.users.*']) }}">
+                                <a href="{{route('admin.users.index')}}" title="Usuarios" data-filter-tags="configuracion users">
+                                    <span class="nav-link-text" data-i18n="nav.configuracion_users">Usuarios</span>
+                                </a>
+                            </li>
+                        @else
+                            <li class="{{ setActiveRoute(['admin.users.*']) }}">
+                                <a href="{{route('admin.users.show',auth()->user())}}" title="Usuarios" data-filter-tags="configuracion perfil">
+                                    <span class="nav-link-text" data-i18n="nav.configuracion_perfil">Perfil</span>
+                                </a>
+                            </li>
+                        @endcan
+                        
+                        @can('view', new \Spatie\Permission\Models\Role)
+                            <li class="{{ setActiveRoute(['admin.roles.*']) }}">
+                                <a href="{{route('admin.roles.index')}}" title="Roles" data-filter-tags="configuracion roles">
+                                    <span class="nav-link-text" data-i18n="nav.configuracion_roles">Roles</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('view', new \Spatie\Permission\Models\Permission)
+                            <li class="{{ setActiveRoute(['admin.permissions.*']) }}">
+                                <a  href="{{route('admin.permissions.index')}}" title="Permisos" data-filter-tags="configuracion permisos">
+                                    <span class="nav-link-text" data-i18n="nav.configuracion_permisos">Permisos</span>
+                                </a>
+                            </li> 
+                        @endcan
+                        
+                    </ul>
+                </li>
+            @endcan
+            
+            @can('view', [new App\DaysPeriod, new App\Printer])
+                <li class="{{setCollapseShow(['admin.periododias.*','admin.printers.*'])}}">
+                    <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
+                        <i class="fal fa-print"></i>
+                        <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
+                    </a>
+                    <ul>
+                        @can('view', new App\DaysPeriod)
+                            <li class="{{ setActiveRoute(['admin.periododias.*']) }}">
+                                <a href="{{route('admin.periododias.index')}}"  title="Comisiones" data-filter-tags="configuracion periododias">
+                                    <span class="nav-link-text" data-i18n="nav.configuracion_comisiones">Periodo de días</span>
+                                </a>
+                            </li>
+                        @endcan                    
+                        @can('view', new App\Printer)
+                            <li class="{{ setActiveRoute(['admin.printers.*']) }}">
+                                <a href="{{route('admin.printers.index')}}"  title="Impresoras" data-filter-tags="configuracion impresoras">
+                                    <span class="nav-link-text" data-i18n="nav.configuracion_impresoras">Impresoras</span>
+                                </a>
+                            </li>                        
+                        @endcan                    
+                    </ul>                
+                </li>
+            @endcan            
         </ul>
         <div class="filter-message js-filter-message bg-success-600"></div>
     </nav>
