@@ -10,13 +10,11 @@ use App\Internet;
 
 class ClientesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
+       $this->authorize('view', new Cliente);
+
         $clientes = Cliente::all();
 
         return view('admin.clientes.index', compact('clientes'));
@@ -26,18 +24,17 @@ class ClientesController extends Controller
   
     public function create()
     {
+       $this->authorize('create', new Cliente);
+
         return view('admin.clientes.create');
         
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
+       $this->authorize('create',new Cliente);// politica de acceso
+
         //Validar el formulario
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255']
@@ -49,12 +46,16 @@ class ClientesController extends Controller
 
     public function show(Cliente $cliente)
     {
+       $this->authorize('view', $cliente);
+
         return view('admin.clientes.show', compact('cliente'));
         
     }
 
     public function edit(Cliente $cliente)
     {
+       $this->authorize('update',$cliente);
+
         $tvServicios = Television::all();
         $wifiServicios = Internet::all();
 
@@ -72,6 +73,8 @@ class ClientesController extends Controller
     
     public function update(Request $request, Cliente $cliente)
     {
+       $this->authorize('update',$cliente); // politica de acceso
+
         $data = $request->validate([
             'name'=>'required'
         ]);
