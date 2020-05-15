@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\DaysPeriod;
 
@@ -11,6 +12,8 @@ class PeriodosDiasController extends Controller
     
     public function index()
     {
+        $this->authorize('view', new DaysPeriod);
+
         $periodoDias = DaysPeriod::all();
 
         return view('admin.periododias.index', compact('periodoDias'));
@@ -18,12 +21,16 @@ class PeriodosDiasController extends Controller
 
     public function create()
     {
+        $this->authorize('create', new DaysPeriod);
+
         return view('admin.periododias.create');
         
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', new DaysPeriod);
+
         //Validar el formulario
         $data = $request->validate([
             'days_number' => 'required',
@@ -38,6 +45,8 @@ class PeriodosDiasController extends Controller
 
     public function show(DaysPeriod $periododia)
     {
+        $this->authorize('view', $periododia);
+
         return view('admin.periododias.show', compact('periododia'));
         
     }
@@ -45,6 +54,8 @@ class PeriodosDiasController extends Controller
    
     public function edit(DaysPeriod $periododia)
     {
+        $this->authorize('update', $periododia);
+
         return view('admin.periododias.edit', compact('periododia'));
         
     }
@@ -52,6 +63,8 @@ class PeriodosDiasController extends Controller
    
     public function update(Request $request, DaysPeriod $periododia)
     {
+        $this->authorize('update', $periododia);
+
         $data = $request->validate([
             'days_number' => 'required',
             'description' => 'required'
@@ -65,13 +78,24 @@ class PeriodosDiasController extends Controller
   
     public function destroy($idPeriodoDia) //solo el admin hace esto
     {
-        $periodoDia = DaysPeriod::find($idPeriodoDia); //busco al usuario a borrar
+        $authUser = Auth::user(); // get current logged in user
+        $periodoDia = DaysPeriod::find($idPeriodoDia); //busco al dato a borrar
 
-       // $this->authorize('delete',$periodoDia); // autorizo el delete, usando el policy
-
-        $periodoDia->delete();
-
-        return response()->json(['mensaje'=>'Periodo de días eliminado']);
+        if($authUser->can('delete',$periodoDia)){ //si user autenticado puede borrar pd
+            $periodoDia->delete();
+            $ok= true;
+            $mensaje='Periodo de días eliminado';
+        }else{
+            $ok= false;
+            $mensaje='No se puede eliminar el periodo de días';
+        }
+        return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje
+            ]
+        );
     }
+   
 
 }

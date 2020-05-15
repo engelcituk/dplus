@@ -33,6 +33,5 @@ function(){
 
     Route::resource('printers', 'PrintersController',['as'=>'admin']);  
 
-
     Route::post('prints/shared', 'PrintsController@sharedPrinterTest')->name('admin.prints.compartido');  
 }); 

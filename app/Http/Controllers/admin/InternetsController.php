@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Internet;
 use App\DaysPeriod;
@@ -12,6 +13,8 @@ class InternetsController extends Controller
    
     public function index()
     {
+       $this->authorize('view', new Internet);
+
         $serviciosInternet = Internet::all();
 
         return view('admin.internet.index', compact('serviciosInternet'));
@@ -20,6 +23,8 @@ class InternetsController extends Controller
     
     public function create()
     {
+       $this->authorize('create', new Internet);
+
         $periodos = DaysPeriod::all();
 
         return view('admin.internet.create', compact('periodos'));
@@ -28,8 +33,10 @@ class InternetsController extends Controller
  
     public function store(Request $request)
     {
-         //Validar el formulario
-         $data = $request->validate([
+        $this->authorize('create',new Internet);// politica de acceso
+
+        //Validar el formulario
+        $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'days_periods_id'=>'required',
             'description' => 'required',
@@ -47,13 +54,16 @@ class InternetsController extends Controller
  
     public function show(Internet $internet)
     {
-    
-        return view('admin.internet.show', compact('internet'));
+       $this->authorize('view', $internet);
+       
+       return view('admin.internet.show', compact('internet'));
     }
 
  
     public function edit(Internet $internet)
     {
+       $this->authorize('update',$internet);
+
         $periodos = DaysPeriod::all();
 
         return view('admin.internet.edit', compact('periodos','internet'));
@@ -62,7 +72,9 @@ class InternetsController extends Controller
   
     public function update(Request $request, Internet $internet)
     {
-        $data = $request->validate([
+       $this->authorize('update',$internet);
+       
+       $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'days_periods_id'=>'required', 
             'description' => 'required',
@@ -74,17 +86,28 @@ class InternetsController extends Controller
 
         $internet->update($data);
 
-        return back()->withFlash('Servicio actualizado');
+        return back()->withFlash('Servicio de internet actualizado');
     }
 
-    public function destroy($idServicio) //solo el admin hace esto
+    public function destroy($idServicio) 
     {
-        $servicio = Internet::find($idServicio); //busco al usuario a borrar
+        $authUser = Auth::user(); // get current logged in user
+        $servicioInternet = Internet::find($idServicio); //busco al usuario a borrar
 
-       // $this->authorize('delete',$servicio); // autorizo el delete, usando el policy
-
-        $servicio->delete();
-
-        return response()->json(['mensaje'=>'Servicio eliminado']);
+        if($authUser->can('delete',$servicioInternet)){ //si user autenticado puede borrar pd
+            $servicioInternet->delete();
+            $ok= true;
+            $mensaje='Servicio de internet eliminado';
+        }else{
+            $ok= false;
+            $mensaje='No se puede eliminar el servicio de internet';
+        }
+        return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje
+            ]
+        );
     }
+
 }

@@ -54,7 +54,7 @@
                                         @can('update', $internet)
                                             <a class="btn btn-primary btn-sm" href="{{route('admin.internet.edit', $internet)}}"><i class="fal fa-edit"></i> </a>
                                         @endcan
-                                        @can('delete', Model::class)
+                                        @can('delete', $internet)
                                             <button class="btn btn-danger btn-sm" onclick="borrarServicioInternet({{$internet->id}})"><i class="fal fa-trash"></i>
                                         </button>
                                         @endcan

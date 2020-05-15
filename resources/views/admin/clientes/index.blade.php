@@ -58,8 +58,9 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td>Sin clients registrados</td>
-                                    <td>Sin clients registrados</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
                                 </tr>
                             @endforelse
                         </tbody>  

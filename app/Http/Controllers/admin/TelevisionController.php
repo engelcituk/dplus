@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Television;
 use App\DaysPeriod;
@@ -12,6 +13,8 @@ class TelevisionController extends Controller
     
     public function index()
     {
+        $this->authorize('view', new Television);
+
         $serviciosTV = Television::all();
 
         return view('admin.television.index', compact('serviciosTV'));
@@ -20,6 +23,8 @@ class TelevisionController extends Controller
   
     public function create()
     {
+        $this->authorize('create', new Television);
+
         $periodos = DaysPeriod::all();
 
         return view('admin.television.create', compact('periodos'));
@@ -28,6 +33,8 @@ class TelevisionController extends Controller
     
     public function store(Request $request)
     {
+        $this->authorize('create', new Television);
+
          //Validar el formulario
          $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -47,13 +54,16 @@ class TelevisionController extends Controller
   
     public function show(Television $television)
     {
-    
+        $this->authorize('view', $television);
+
         return view('admin.television.show', compact('television'));
     }
 
   
     public function edit(Television $television)
     {
+        $this->authorize('update', $television);
+
         $periodos = DaysPeriod::all();
 
         return view('admin.television.edit', compact('periodos','television'));
@@ -62,6 +72,8 @@ class TelevisionController extends Controller
  
     public function update(Request $request, Television $television)
     {
+        $this->authorize('update', $television);
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => 'required',
@@ -77,14 +89,24 @@ class TelevisionController extends Controller
         return back()->withFlash('Servicio actualizado');
     }
 
-    public function destroy($idServicio) //solo el admin hace esto
+    public function destroy($idServicio) 
     {
-        $servicio = Television::find($idServicio); //busco al usuario a borrar
+        $authUser = Auth::user(); // get current logged in user
+        $servicioTV = Television::find($idServicio); //busco al usuario a borrar
 
-       // $this->authorize('delete',$servicio); // autorizo el delete, usando el policy
-
-        $servicio->delete();
-
-        return response()->json(['mensaje'=>'Servicio eliminado']);
+        if($authUser->can('delete',$servicioTV)){ //si user autenticado puede borrar pd
+            $servicioTV->delete();
+            $ok= true;
+            $mensaje='Servicio de tv eliminada eliminada';
+        }else{
+            $ok= false;
+            $mensaje='No se puede eliminar el servicio de tv';
+        }
+        return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje
+            ]
+        );
     }
 }

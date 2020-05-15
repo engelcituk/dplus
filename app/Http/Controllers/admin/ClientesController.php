@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Cliente;
 use App\Television;
@@ -102,12 +103,23 @@ class ClientesController extends Controller
    
     public function destroy($idCliente) //solo el admin hace esto
     {
-        $cliente = Cliente::find($idCliente); //busco al usuario a borrar
+        $authUser = Auth::user(); // get current logged in user
+        $cliente = Cliente::find($idCliente); //busco al cliente a borrar
 
-       // $this->authorize('delete',$cliente); // autorizo el delete, usando el policy
+        if($authUser->can('delete',$cliente)){ //si user autenticado puede borrar al cliente
+            $cliente->delete();
+            $ok= true;
+            $mensaje='Cliente eliminado';
+        }else{
+            $ok= false;
+            $mensaje='No se puede eliminar al cliente';
+        }
 
-        $cliente->delete();
-
-        return response()->json(['mensaje'=>'Cliente eliminado']);
+        return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje
+            ]
+        );
     }
 }

@@ -9,86 +9,36 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class PrinterPolicy
 {
     use HandlesAuthorization;
-
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
+    
+    public function before($user) // funcion que se ejecuta primero
     {
-        //
+        if ($user->hasRole('Admin')) { // si el user es admin le damos acceso a todo
+            return  true;
+        } 
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Printer  $printer
-     * @return mixed
-     */
     public function view(User $user, Printer $printer)
     {
-        //
+        return $user->hasRole('Admin')  || $user->hasPermissionTo('View pos printer');                        
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
+  
     public function create(User $user)
     {
-        //
+        return $user->hasRole('Admin')  || $user->hasPermissionTo('Create pos printer');        
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Printer  $printer
-     * @return mixed
-     */
     public function update(User $user, Printer $printer)
     {
-        //
+        return $user->hasRole('Admin')  || $user->hasPermissionTo('Update pos printer');        
+        
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Printer  $printer
-     * @return mixed
-     */
+  
     public function delete(User $user, Printer $printer)
     {
-        //
+        return $user->hasRole('Admin') || $user->hasPermissionTo('Delete pos printer');                        
+        
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Printer  $printer
-     * @return mixed
-     */
-    public function restore(User $user, Printer $printer)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Printer  $printer
-     * @return mixed
-     */
-    public function forceDelete(User $user, Printer $printer)
-    {
-        //
-    }
 }

@@ -10,85 +10,33 @@ class DaysPeriodPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
+    public function before($user) // funcion que se ejecuta primero
     {
-        //
+        if ($user->hasRole('Admin')) { // si el user es admin le damos acceso a todo
+            return  true;
+        } 
     }
-
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\DaysPeriod  $daysPeriod
-     * @return mixed
-     */
+    
     public function view(User $user, DaysPeriod $daysPeriod)
     {
-        //
+        return $user->hasRole('Admin')  || $user->hasPermissionTo('View days period');                
     }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
     public function create(User $user)
     {
-        //
+        return $user->hasRole('Admin')  || $user->hasPermissionTo('Create days period');        
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\DaysPeriod  $daysPeriod
-     * @return mixed
-     */
+   
     public function update(User $user, DaysPeriod $daysPeriod)
     {
-        //
+        return $user->hasRole('Admin')  || $user->hasPermissionTo('Update days period');        
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\DaysPeriod  $daysPeriod
-     * @return mixed
-     */
+  
     public function delete(User $user, DaysPeriod $daysPeriod)
     {
-        //
+        return $user->hasRole('Admin') || $user->hasPermissionTo('Delete days period');                
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\DaysPeriod  $daysPeriod
-     * @return mixed
-     */
-    public function restore(User $user, DaysPeriod $daysPeriod)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\DaysPeriod  $daysPeriod
-     * @return mixed
-     */
-    public function forceDelete(User $user, DaysPeriod $daysPeriod)
-    {
-        //
-    }
 }
