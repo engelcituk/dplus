@@ -83,7 +83,6 @@ function borrarPrinter(idPrinter){
       let nombreCompartido = impresora.shared_name;
       //console.log('se usará controlador por impresora compartida',nombreCompartido);
       testImpresionPorCompartido(nombreCompartido);
-
     }
   }
 

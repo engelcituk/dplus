@@ -14,7 +14,6 @@ Route::group([
     'middleware'=>'auth'],//midleware para controlar el acceso
 function(){
     Route::get('/', 'AdminController@index')->name('dashboard'); 
-    Route::get('ventas', 'VentasController@index')->name('admin.ventas.index'); 
     Route::resource('periododias', 'PeriodosDiasController',['as'=>'admin']);//as es para agregar el prefijo admin al nombre de las rutas 
     Route::resource('users', 'UsersController',['as'=>'admin']);  
     Route::resource('roles', 'RolesController',['except'=>'show','as'=>'admin']); //except para omitir la ruta show 
@@ -33,5 +32,10 @@ function(){
 
     Route::resource('printers', 'PrintersController',['as'=>'admin']);  
 
-    Route::post('prints/shared', 'PrintsController@sharedPrinterTest')->name('admin.prints.compartido');  
+    Route::post('prints/shared', 'PrintsController@sharedPrinterTest')->name('admin.prints.compartido'); 
+    //area de ventas
+    Route::get('ventas', 'VentasController@index')->name('admin.ventas.index'); 
+    Route::get('ventas/clienteservicios', 'VentasController@getClientesServicios')->name('admin.ventas.clientesservicios'); 
+
+
 }); 
