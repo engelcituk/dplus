@@ -139,13 +139,20 @@
                 </li>
             @endcan
             
-            @can('view', [new App\DaysPeriod, new App\Printer])
-                <li class="{{setCollapseShow(['admin.periododias.*','admin.printers.*'])}}">
+            @can('view', [new App\Category, new App\DaysPeriod, new App\Printer])
+                <li class="{{setCollapseShow(['admin.periododias.*','admin.printers.*','admin.categories.*'])}}">
                     <a href="#" title="Catalogos" data-filter-tags="configuracion comisiones">
                         <i class="fal fa-print"></i>
                         <span class="nav-link-text" data-i18n="nav.configuracion">Catálogos</span>
                     </a>
                     <ul>
+                        @can('view', new App\Category)
+                            <li class="{{ setActiveRoute(['admin.categories.*']) }}">
+                                <a href="{{route('admin.categories.index')}}"  title="categorías" data-filter-tags="configuracion categorias">
+                                    <span class="nav-link-text" data-i18n="nav.configuracion_categorias">Categorías</span>
+                                </a>
+                            </li>                        
+                        @endcan 
                         @can('view', new App\DaysPeriod)
                             <li class="{{ setActiveRoute(['admin.periododias.*']) }}">
                                 <a href="{{route('admin.periododias.index')}}"  title="Comisiones" data-filter-tags="configuracion periododias">
@@ -159,7 +166,8 @@
                                     <span class="nav-link-text" data-i18n="nav.configuracion_impresoras">Impresoras</span>
                                 </a>
                             </li>                        
-                        @endcan                    
+                        @endcan 
+                                     
                     </ul>                
                 </li>
             @endcan            

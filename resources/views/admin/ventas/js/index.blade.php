@@ -11,14 +11,11 @@ function buscarClientes(){
           '_method': 'GET',
           '_token': csrf_token,
           'datosCliente': datosCliente
-
       },
       success: function(respuesta) {
           var ok= respuesta.ok;
           if(ok){
             clientes = respuesta.clientes;
-            console.log(clientes);
-            
             listaClientes = `<ul class="list-group mt-3">`
               for(i = 0; i < clientes.length; i++){
                 listaClientes += `<li class="list-group-item">${clientes[i].name} - ${clientes[i].referencia} </li>`;

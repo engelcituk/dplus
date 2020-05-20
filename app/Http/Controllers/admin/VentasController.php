@@ -18,7 +18,7 @@ class VentasController extends Controller
     public function getClientesServicios(Request $request){
         
         $datosCliente = $request->get('datosCliente');
-        
+    
         $clientes = DB::table('cliente_television')
         ->where(function($query) use ($datosCliente){
             $query->where('clientes.name', 'like', '%'.$datosCliente.'%');
@@ -27,7 +27,6 @@ class VentasController extends Controller
         ->join('clientes', 'clientes.id', '=', 'cliente_television.cliente_id')
         ->select('clientes.id as idCliente','clientes.name','cliente_television.referencia')
         ->get();
-    
 
         return response()->json(
             [

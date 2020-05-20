@@ -21,6 +21,11 @@ class UsersTableSeeder extends Seeder
         $adminRole = Role::create(['name'=>'Admin', 'display_name'=>'Administrador']);
         $sellerRole = Role::create(['name'=>'Seller','display_name'=>'Vendedor']);
 
+        Permission::create(['name'=>'View categories','display_name'=>'Ver categorias']);
+        Permission::create(['name'=>'Create categories','display_name'=>'Crear categorias']);
+        Permission::create(['name'=>'Update categories','display_name'=>'Actualizar categorias']);
+        Permission::create(['name'=>'Delete categories','display_name'=>'Borrar categorias']);
+
         //permisos
         Permission::create(['name'=>'View users','display_name'=>'Ver usuarios']);
         Permission::create(['name'=>'Create users','display_name'=>'Crear usuarios']);

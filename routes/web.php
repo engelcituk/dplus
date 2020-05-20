@@ -14,6 +14,7 @@ Route::group([
     'middleware'=>'auth'],//midleware para controlar el acceso
 function(){
     Route::get('/', 'AdminController@index')->name('dashboard'); 
+    Route::resource('categories', 'CategoriesController',['as'=>'admin']);  
     Route::resource('periododias', 'PeriodosDiasController',['as'=>'admin']);//as es para agregar el prefijo admin al nombre de las rutas 
     Route::resource('users', 'UsersController',['as'=>'admin']);  
     Route::resource('roles', 'RolesController',['except'=>'show','as'=>'admin']); //except para omitir la ruta show 
