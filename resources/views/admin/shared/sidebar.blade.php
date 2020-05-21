@@ -44,7 +44,7 @@
                 <ul>
                     <li class="{{ setActiveRoute('admin.ventas.index') }}">
                         <a href="{{route('admin.ventas.index')}}" title="Alerts" data-filter-tags="ui ventas alerts">
-                            <span class="nav-link-text" data-i18n="nav.ui_ventas_alerts">Pagar servicio</span>
+                            <span class="nav-link-text" data-i18n="nav.ui_ventas_alerts">Ventas</span>
                         </a>
                     </li>
                     <li class="{{ setActiveRoute('dashboard') }}">

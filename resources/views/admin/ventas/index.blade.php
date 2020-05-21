@@ -7,7 +7,7 @@
         <div class="panel">
             <div class="panel-hdr">
                 <h2>
-                    Basic <span class="fw-300"><i>Alerts</i></span>
+                    Dplus <span class="fw-300"><i>ventas</i></span>
                 </h2>
             </div>
             <div class="panel-container show">
@@ -48,15 +48,14 @@
         <div class="panel">
             <div class="panel-hdr">
                 <h2>
-                    Alert <span class="fw-300"><i>Outline</i></span>
+                    Compras <span class="fw-300"><i></i></span>
                 </h2>
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
                     <div class="demo-v-spacing">
-                        <div class="alert border border-primary bg-transparent text-primary" role="alert">
-                            <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
-                        </div>
+                        
+                        <span id="resultado"></span>
                         
                     </div>
                 </div>

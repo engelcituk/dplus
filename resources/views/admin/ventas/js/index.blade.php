@@ -18,7 +18,8 @@ function buscarClientes(){
             clientes = respuesta.clientes;
             listaClientes = `<ul class="list-group mt-3">`
               for(i = 0; i < clientes.length; i++){
-                listaClientes += `<li class="list-group-item">${clientes[i].name} - ${clientes[i].referencia} </li>`;
+                let idCliente = clientes[i].idCliente
+                listaClientes += `<li class="list-group-item">${idCliente}- ${clientes[i].name} - <span id="ref${idCliente}">${clientes[i].referencia}</span> - <button type="button" class="btn btn-primary xs" onclick="copiar(${idCliente})"><i class="fal fa-copy"></i></button></li>`;
               }
             listaClientes += "</ul>";
             $("#listaClientes").html(listaClientes);
@@ -38,6 +39,24 @@ function buscarClientes(){
   }else {
     console.log("campos vacios o caracteres muy limitados");
     $("#listaClientes").html('');
+  }
+}
+
+function copiar(idCliente){
+  var resultado = document.getElementById('resultado');
+  var texto = document.querySelector('#ref'+idCliente);
+  var rango = document.createRange();
+  rango.selectNode(texto);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(rango);
+
+  try {
+    var successful = document.execCommand('copy');
+    var mensaje = successful ? 'Referencia Copiada' : 'No se pudo copiar :c';
+    resultado.innerHTML = mensaje;
+    window.getSelection().removeAllRanges();
+  } catch (e) {
+    resultado.innerHTML = mensaje;
   }
 }
 </script>
