@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Internet extends Model
 {
     protected $fillable = [
-        'name','days_periods_id','description','price','assurance','final_price'
+        'name','category_id','days_periods_id','description','price','assurance','final_price'
     ];
 
     public function periodo() // un servicio de internet pertenece a un periodo de tiempo (tabla days_periods)
@@ -19,5 +19,10 @@ class Internet extends Model
     public function clientes(){
 
         return $this->belongsToMany(Cliente::class);
+    }
+    //un servicio de internet pertenece a una categoria
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

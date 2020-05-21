@@ -31,6 +31,7 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nombre</th>
+                                <th>Categoría</th>
                                 <th>Recurrencia</th>
                                 <th>Precio</th>
                                 <th>Seguro</th>
@@ -43,6 +44,7 @@
                                 <tr>
                                     <td>{{$internet->id}}</td>
                                     <td>{{$internet->name}}</td>
+                                    <td>{{$internet->category->name}}</td>
                                     <td>{{$internet->periodo->days_number}} días</td>                                    
                                     <td>{{$internet->price}}</td>
                                     <td>{{$internet->assurance}}</td>

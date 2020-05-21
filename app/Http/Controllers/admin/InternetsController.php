@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Internet;
 use App\DaysPeriod;
+use App\Category;
 
 class InternetsController extends Controller
 {
@@ -25,9 +26,9 @@ class InternetsController extends Controller
     {
        $this->authorize('create', new Internet);
 
+        $categorias = Category::all();
         $periodos = DaysPeriod::all();
-
-        return view('admin.internet.create', compact('periodos'));
+        return view('admin.internet.create', compact('periodos','categorias'));
     }
 
  
@@ -38,6 +39,7 @@ class InternetsController extends Controller
         //Validar el formulario
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'category_id'=>'required',
             'days_periods_id'=>'required',
             'description' => 'required',
             'price' => 'required',
@@ -64,9 +66,10 @@ class InternetsController extends Controller
     {
        $this->authorize('update',$internet);
 
-        $periodos = DaysPeriod::all();
-
-        return view('admin.internet.edit', compact('periodos','internet'));
+       $categorias = Category::all();
+       $periodos = DaysPeriod::all();
+       
+       return view('admin.internet.edit', compact('periodos','internet','categorias'));
     }
 
   

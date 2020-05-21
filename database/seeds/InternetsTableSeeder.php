@@ -17,6 +17,7 @@ class InternetsTableSeeder extends Seeder
 
         $servicio = new Internet;
         $servicio->name="Internet 1 mb";
+        $servicio->category_id=2;
         $servicio->days_periods_id=3;
         $servicio->description="De 1 mega de velocidad";
         $servicio->price=200;
@@ -26,6 +27,7 @@ class InternetsTableSeeder extends Seeder
 
         $servicio = new Internet;
         $servicio->name="Internet 2 mb";
+        $servicio->category_id=2;
         $servicio->days_periods_id=3;
         $servicio->description=" de dos megas de velocidad";
         $servicio->price=250;
@@ -35,6 +37,7 @@ class InternetsTableSeeder extends Seeder
 
         $servicio = new Internet;
         $servicio->name="Internet 3 mb";
+        $servicio->category_id=2;
         $servicio->days_periods_id=3;
         $servicio->description="de 3 megas de velocidad";
         $servicio->price=300;

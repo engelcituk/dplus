@@ -16,6 +16,7 @@ class TelevisionsTableSeeder extends Seeder
 
         $servicio = new Television;
         $servicio->name="VeTV 135";
+        $servicio->category_id=1;
         $servicio->days_periods_id=3;
         $servicio->description="VeTV el más básico";
         $servicio->price=135;
@@ -25,6 +26,7 @@ class TelevisionsTableSeeder extends Seeder
 
         $servicio = new Television;
         $servicio->name="Sky/VeTV 185";
+        $servicio->category_id=1;
         $servicio->days_periods_id=3;
         $servicio->description="VeTV básico nivel 2";
         $servicio->price=185;
@@ -34,6 +36,7 @@ class TelevisionsTableSeeder extends Seeder
 
         $servicio = new Television;
         $servicio->name="Sky/VeTV 235";
+        $servicio->category_id=1;
         $servicio->days_periods_id=3;
         $servicio->description="VeTV plus";
         $servicio->price=235;

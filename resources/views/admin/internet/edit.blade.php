@@ -37,6 +37,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label" for="selectPeriodo">Selecciona categoría</label>
+                                    <select class="form-control" name="category_id">
+                                        @forelse ($categorias as $categoria)
+                                            <option value="{{$categoria->id}}"
+                                                    {{ old('category_id',$internet->category_id ) == $categoria->id ? 'selected': '' }}> {{$categoria->name}} </option>
+                                        @empty
+                                            <option value="">Sin datos</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label" for="selectPeriodo">Selecciona periodo de días</label>
                                     <select class="form-control" name="days_periods_id">
                                         @forelse ($periodos as $numDia)
