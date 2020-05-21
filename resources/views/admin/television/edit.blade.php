@@ -35,6 +35,19 @@
                                     <input type="text" class="form-control" placeholder="Nombre completo" aria-label="Nombre completo" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name', $television->name)}}">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="selectPeriodo">Selecciona categoría</label>
+                                    <select class="form-control" name="category_id">
+                                        @forelse ($categorias as $categoria)
+                                            <option value="{{$categoria->id}}"
+                                                    {{ old('category_id',$television->category_id ) == $categoria->id ? 'selected': '' }}> {{$categoria->name}} </option>
+                                        @empty
+                                            <option value="">Sin datos</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="form-label" for="selectPeriodo">Selecciona periodo de días</label>
                                     <select class="form-control" name="days_periods_id">
@@ -81,7 +94,7 @@
                                     <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" id="precioFinal" name="final_price" value="{{ old('final_price', $television->final_price)}}" readonly>
                                     </div>
                                 </div>
-                                <button class="mt-3 btn btn-primary btn-block"> Actualizar television TV</button>
+                                <button class="mt-3 btn btn-primary btn-block"> Actualizar servicio TV</button>
                             </div>
                         </div>        
                     </form>

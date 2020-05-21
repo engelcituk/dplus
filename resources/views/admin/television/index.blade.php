@@ -30,6 +30,7 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nombre</th>
+                                <th>Categoría</th>
                                 <th>Recurrencia</th>
                                 <th>Precio</th>
                                 <th>Comisión</th>
@@ -42,6 +43,7 @@
                                 <tr>
                                     <td>{{$servicioTV->id}}</td>
                                     <td>{{$servicioTV->name}}</td>
+                                    <td>{{$servicioTV->category->name}}</td>
                                     <td>{{$servicioTV->periodo->days_number}} días</td>                                    
                                     <td>{{$servicioTV->price}}</td>
                                     <td>{{$servicioTV->commission}}</td>

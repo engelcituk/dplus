@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Television;
 use App\DaysPeriod;
+use App\Category;
 
 class TelevisionController extends Controller
 {
@@ -24,10 +25,10 @@ class TelevisionController extends Controller
     public function create()
     {
         $this->authorize('create', new Television);
-
+        $categorias = Category::all();
         $periodos = DaysPeriod::all();
 
-        return view('admin.television.create', compact('periodos'));
+        return view('admin.television.create', compact('periodos','categorias'));
     }
 
     
@@ -38,6 +39,7 @@ class TelevisionController extends Controller
          //Validar el formulario
          $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'category_id'=>'required',
             'days_periods_id'=>'required',
             'description' =>     'required',
             'price' => 'required',
@@ -63,10 +65,10 @@ class TelevisionController extends Controller
     public function edit(Television $television)
     {
         $this->authorize('update', $television);
-
+        $categorias = Category::all();
         $periodos = DaysPeriod::all();
 
-        return view('admin.television.edit', compact('periodos','television'));
+        return view('admin.television.edit', compact('periodos','television','categorias'));
     }
 
  
@@ -77,6 +79,7 @@ class TelevisionController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'description' => 'required',
+            'category_id'=>'required', 
             'days_periods_id'=>'required', 
             'price' => 'required',
             'commission' => 'required',
