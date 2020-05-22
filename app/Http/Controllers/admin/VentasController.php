@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Cliente;
+use App\Television;
 use Illuminate\Support\Facades\DB;
 
 class VentasController extends Controller
@@ -25,7 +25,7 @@ class VentasController extends Controller
             $query->orWhere('cliente_television.referencia', 'like', '%'.$datosCliente.'%');
         })
         ->join('clientes', 'clientes.id', '=', 'cliente_television.cliente_id')
-        ->select('clientes.id as idCliente','clientes.name','cliente_television.referencia')
+        ->select('clientes.id as idCliente', 'cliente_television.television_id as idTelevision','clientes.name','cliente_television.referencia')
         ->get();
 
         return response()->json(
@@ -35,7 +35,20 @@ class VentasController extends Controller
             'clientes' => $clientes,
             ]
         );
+    }
 
+    public function getDatosServicioTv(Request $request){
+        $idTvServicio = $request->get('idTvServicio');
+
+        $servicioTV = Television::find($idTvServicio); //busco el servicio de tv
+
+        return response()->json(
+            [
+            'ok' => true,
+            'mensaje' => 'Datos de tv',
+            'servicioTV' => $servicioTV,
+            ]
+        );
     }
 
 }

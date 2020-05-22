@@ -63,6 +63,7 @@
         </div>
     </div>
 </div>
+@include('admin.ventas.modals.servicioTV') 
 @endsection
 @push('scriptsJs')   
     <script src="{{ asset('smartadmin/js/notifications/sweetalert2/sweetalert2.bundle.js') }}" ></script>   
