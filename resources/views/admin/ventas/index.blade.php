@@ -68,4 +68,5 @@
 @push('scriptsJs')   
     <script src="{{ asset('smartadmin/js/notifications/sweetalert2/sweetalert2.bundle.js') }}" ></script>   
     @include('admin.ventas.js.index') 
+    @include('admin.ventas.js.coreVentas') 
 @endpush

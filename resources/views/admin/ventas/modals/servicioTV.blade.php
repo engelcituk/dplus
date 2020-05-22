@@ -64,7 +64,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
                                     </div>
-                                <input type="number" class="form-control" step="0.01" id="precioInputTVService">
+                                <input type="number" class="form-control" step="0.01" id="precioInputTVService" onchange=" calculoPrecioFinal()">
                                 </div>
                             </div>
                         </div>                    
@@ -75,7 +75,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-money-bill fs-xl"></i></span>
                                     </div>
-                                <input type="number" class="form-control"  step="0.01" id="comisionInputTVService">
+                                <input type="number" class="form-control"  step="0.01" id="comisionInputTVService" onchange=" calculoPrecioFinal()">
                                 </div>
                             </div>
                         </div>
