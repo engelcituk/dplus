@@ -28,7 +28,7 @@
                     <table id="tblProductos" class="table table-bordered table-hover table-striped w-100">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                
                                 <th>Categoría</th>
                                 <th>Código de barras</th>
                                 <th>Descripción</th>
@@ -44,7 +44,7 @@
                         <tbody>
                             @forelse ($products as $product)
                                 <tr>
-                                    <td>{{$product->id}}</td>
+                                    
                                     <td>{{$product->category->name}}</td>
                                     <td>{{$product->barcode}}</td>
                                     <td>{{$product->description}}</td>                                    
@@ -69,7 +69,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td>:(</td>
+                                    
                                     <td>:(</td>
                                     <td>:(</td>
                                     <td>:(</td>

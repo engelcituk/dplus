@@ -56,6 +56,11 @@ class UsersTableSeeder extends Seeder
         Permission::create(['name'=>'Create pos printer','display_name'=>'Crear impresoras termicas']);
         Permission::create(['name'=>'Update pos printer','display_name'=>'Actualizar impresoras termicas']);
         Permission::create(['name'=>'Delete pos printer','display_name'=>'Borrar impresoras termicas']);
+        
+        Permission::create(['name'=>'View products','display_name'=>'Ver productos']);
+        Permission::create(['name'=>'Create products','display_name'=>'Crear productos']);
+        Permission::create(['name'=>'Update products','display_name'=>'Actualizar productos']);
+        Permission::create(['name'=>'Delete products','display_name'=>'Borrar productos']);
 
         Permission::create(['name'=>'View roles','display_name'=>'Ver roles']);
         Permission::create(['name'=>'Create roles','display_name'=>'Crear roles']);
