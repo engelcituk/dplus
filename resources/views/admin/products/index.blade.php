@@ -62,14 +62,13 @@
                                             <a class="btn btn-primary btn-sm" href="{{route('admin.products.edit', $product)}}"><i class="fal fa-edit"></i> </a>
                                         @endcan
                                         @can('delete', $product)
-                                            <button class="btn btn-danger btn-sm" onclick="borrarProducto{{$product->id}})"><i class="fal fa-trash"></i>
+                                            <button class="btn btn-danger btn-sm" onclick="borrarProducto({{$product->id}})"><i class="fal fa-trash"></i>
                                         @endcan
                                         </button>
                                     </td> 
                                 </tr>
                                 @empty
                                 <tr>
-                                    
                                     <td>:(</td>
                                     <td>:(</td>
                                     <td>:(</td>
@@ -79,7 +78,6 @@
                                     <td>:(</td>
                                     <td>:(</td>
                                     
-
                                 </tr>
                             @endforelse
                         </tbody>  

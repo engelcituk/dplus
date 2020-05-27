@@ -3,7 +3,7 @@
 @section('content')
     @include('admin.shared.flash-messages') {{-- incluyo el bloque para mensajes flash --}}  
     <ol class="breadcrumb page-breadcrumb">
-        <li class="breadcrumb-item"><a href="{{route('admin.television.index')}}" > <i class="fal fa-arrow-left"></i> Servicios</a></li>
+        <li class="breadcrumb-item"><a href="{{route('admin.products.index')}}" > <i class="fal fa-arrow-left"></i> Servicios</a></li>
         <li class="breadcrumb-item">Configuración</li>
         <li class="breadcrumb-item">Servicio</li>
         <li class="breadcrumb-item">TV</li>
@@ -19,7 +19,7 @@
                     <div class="d-flex flex-column align-items-center justify-content-center p-4">
                         <img src="{{asset('smartadmin/img/demo/avatars/avatar-admin-lg.png')}}" class="rounded-circle shadow-2 img-thumbnail" alt="">
                         <h5 class="mb-0 fw-700 text-center mt-3">
-                                {{ $television->name}}
+                                {{ $product->description}}
                             <small class="text-muted mb-0">Señor, Roo</small>
                         </h5>
                         <div class="mt-4 text-center demo">
