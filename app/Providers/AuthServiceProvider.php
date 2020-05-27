@@ -23,6 +23,8 @@ class AuthServiceProvider extends ServiceProvider
         'App\DaysPeriod' => 'App\Policies\DaysPeriodPolicy',
         'App\Printer' => 'App\Policies\PrinterPolicy',
         'App\Television' => 'App\Policies\TelevisionPolicy',
+        'App\Producto' => 'App\Policies\ProductoPolicy',
+
 
 
     ];

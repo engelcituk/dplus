@@ -7,7 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
     protected $fillable = [
-        'name','shared_name','ip','available','default', 'use_mode'
+        'barcode',
+        'description',
+        'price_cost',
+        'sale_price',
+        'wholesale_price',
+        'has_inventory',
+        'units',
+        'minimum'
     ];
-    public $timestamps = false; // para descartar las fechas en la tabla created_at y updated_at
+    public $timestamps = false; // para descartar las fechas created_at y updated_at
+
+     //un producto pertenece a una categoria
+     public function category()
+     {
+         return $this->belongsTo(Category::class);
+     }
 }

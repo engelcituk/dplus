@@ -13,50 +13,56 @@
     
 <div class="row">
     <div class="col-xl-12">
-        @can('create', $serviciosTV->first())
-            <a href="{{route('admin.television.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar servicio TV</a> 
+        @can('create', $products->first())
+            <a href="{{route('admin.products.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar producto</a> 
         @endcan        
         <div id="panel-1" class="panel">
             <div class="panel-hdr">
                 <h2>
-                    Lista de  <span class="fw-300"><i>servicios</i></span>
+                    Lista de  <span class="fw-300"><i>productos</i></span>
                 </h2>
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
                     <!-- datatable start -->
-                    <table id="tablaServiciosTV" class="table table-bordered table-hover table-striped w-100">
+                    <table id="tblProductos" class="table table-bordered table-hover table-striped w-100">
                         <thead>
                             <tr>
                                 <th>id</th>
-                                <th>Nombre</th>
                                 <th>Categoría</th>
-                                <th>Recurrencia</th>
-                                <th>Precio</th>
-                                <th>Comisión</th>
-                                <th>Precio final</th>
+                                <th>Código de barras</th>
+                                <th>Descripción</th>
+                                <th>Precio costo</th>
+                                <th>Precio venta</th>
+                                <th>Precio mayoreo</th>
+                                <th>Tiene inventario</th>
+                                <th>Unidades</th>
+                               
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($serviciosTV as $servicioTV)
+                            @forelse ($products as $product)
                                 <tr>
-                                    <td>{{$servicioTV->id}}</td>
-                                    <td>{{$servicioTV->name}}</td>
-                                    <td>{{$servicioTV->category->name}}</td>
-                                    <td>{{$servicioTV->periodo->days_number}} días</td>                                    
-                                    <td>{{$servicioTV->price}}</td>
-                                    <td>{{$servicioTV->commission}}</td>
-                                    <td>{{$servicioTV->final_price}}</td>
+                                    <td>{{$product->id}}</td>
+                                    <td>{{$product->category->name}}</td>
+                                    <td>{{$product->barcode}}</td>
+                                    <td>{{$product->description}}</td>                                    
+                                    <td>{{$product->price_cost}}</td>
+                                    <td>{{$product->sale_price}}</td>
+                                    <td>{{$product->wholesale_price}}</td>
+                                    <td>{!! setSiNo($product->has_inventory) !!}</td>
+                                    <td>{{$product->units}}</td>
+
                                     <td>
-                                        @can('view', $servicioTV)
-                                            <a class="btn btn-info btn-sm" href="{{route('admin.television.show', $servicioTV)}}"><i class="fal fa-eye"></i> </a> 
+                                        @can('view', $product)
+                                            <a class="btn btn-info btn-sm" href="{{route('admin.products.show', $product)}}"><i class="fal fa-eye"></i> </a> 
                                         @endcan
-                                        @can('update', $servicioTV)
-                                            <a class="btn btn-primary btn-sm" href="{{route('admin.television.edit', $servicioTV)}}"><i class="fal fa-edit"></i> </a>
+                                        @can('update', $product)
+                                            <a class="btn btn-primary btn-sm" href="{{route('admin.products.edit', $product)}}"><i class="fal fa-edit"></i> </a>
                                         @endcan
-                                        @can('delete', $servicioTV)
-                                            <button class="btn btn-danger btn-sm" onclick="borrarServicioTV({{$servicioTV->id}})"><i class="fal fa-trash"></i>
+                                        @can('delete', $product)
+                                            <button class="btn btn-danger btn-sm" onclick="borrarProducto{{$product->id}})"><i class="fal fa-trash"></i>
                                         @endcan
                                         </button>
                                     </td> 
@@ -70,6 +76,9 @@
                                     <td>:(</td>
                                     <td>:(</td>
                                     <td>:(</td>
+                                    <td>:(</td>
+                                    <td>:(</td>
+                                    
 
                                 </tr>
                             @endforelse
@@ -90,5 +99,5 @@
 @push('scriptsJs') 
     <script src="{{ asset('smartadmin/js/datagrid/datatables/datatables.bundle.js') }}" ></script>  
     <script src="{{ asset('smartadmin/js/notifications/sweetalert2/sweetalert2.bundle.js') }}" ></script>   
-    @include('admin.television.js.index') {{-- include con un file blade porque un archivo js no me permitía --}}
+    @include('admin.products.js.index') {{-- include con un file blade porque un archivo js no me permitía --}}
 @endpush

@@ -19,4 +19,10 @@ class Category extends Model
     {
         return $this->hasMany(Television::class);
     }
+
+    // una categoria tiene muchos productos
+    public function products()
+    {
+        return $this->hasMany(Producto::class);
+    }
 }

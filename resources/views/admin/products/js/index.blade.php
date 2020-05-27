@@ -1,7 +1,7 @@
 <script>
 
 $(document).ready(function(){
-    $('#tablaServiciosTV').dataTable({
+    $('#tblProductos').dataTable({
         responsive: true,
         language: {
         "decimal": "",
@@ -19,10 +19,10 @@ $(document).ready(function(){
     },
     });
 });
-function borrarServicioTV(idServicio){
+function borrarProducto(idProducto){
     var csrf_token = $('meta[name="csrf-token"]').attr('content');     
     Swal.fire({
-      title: '¿Seguro de borrar este servicio?',
+      title: '¿Seguro de borrar este producto?',
       text: "¡No podrás revertir esto!",
       type: 'warning',
       showCancelButton: true,
@@ -32,11 +32,11 @@ function borrarServicioTV(idServicio){
     }).then((result) => {
       if (result.value) {
         $.ajax({
-              url: "{{ url('admin/television') }}" + '/' + idServicio,
+              url: "{{ url('admin/products') }}" + '/' + idProducto,
               type: "DELETE",
               data: {
                   '_method': 'DELETE',
-                  'id': idServicio,
+                  'id': idProducto,
                   '_token': csrf_token
               },
               success: function(respuesta) {
