@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TelevisionsTableSeeder::class);
         $this->call(InternetsTableSeeder::class);
         $this->call(ClientesTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
+
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // lo vuelvo a activar
 

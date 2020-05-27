@@ -32,6 +32,8 @@ function(){
     Route::resource('internet', 'InternetsController',['as'=>'admin']); 
 
     Route::resource('printers', 'PrintersController',['as'=>'admin']);  
+    Route::resource('products', 'ProductsController',['as'=>'admin']);  
+
 
     Route::post('prints/shared', 'PrintsController@sharedPrinterTest')->name('admin.prints.compartido'); 
     //area de ventas

@@ -98,8 +98,8 @@
             </div>
         </form>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal"><i class="fal fa-window-close fs-xl"></i></button>
+                <button type="button" class="btn btn-primary"><i class="fal fa-plus-square fs-xl"></i></button>
             </div>
         </div>
     </div>
