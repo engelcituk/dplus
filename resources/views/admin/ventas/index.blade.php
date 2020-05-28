@@ -34,7 +34,14 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="tabVentas-3" role="tabpanel">
-                            Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic.
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Indique el nombre del producto o su código de barras" aria-label="producto o barcode" aria-describedby="btnBuscarProducto" id="nameBarcodeProducto" onkeyup="buscarProductos()">
+                                </div>
+                            </div>
+                            <div id="listaProductos">
+
+                            </div>
                         </div>
                     </div>
                 </div>

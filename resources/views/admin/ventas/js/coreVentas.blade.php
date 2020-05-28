@@ -1,5 +1,5 @@
 <script>
-
+    
 //copia en el portapapeles desde el listado de la busqueda
 function copiar(idCliente){
   //var resultado = document.getElementById('resultado');
@@ -39,7 +39,6 @@ function copiarDesdeInput(){
 
 //para obtener los datos del servicio de tv del cliente
 function getDataServicioTVCliente(idCliente, idTV, nombreCliente, referencia){
-  let csrf_token = $('meta[name="csrf-token"]').attr('content');     
 
   $.ajax({
       url: "{{ url('admin/ventas/datostvservicio') }}" ,

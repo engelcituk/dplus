@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Television;
-use Illuminate\Support\Facades\DB;
+use App\Producto;
 
 class VentasController extends Controller
 {
@@ -31,12 +32,26 @@ class VentasController extends Controller
         return response()->json(
             [
             'ok' => true,
-            'mensaje' => 'llegaste aquí',
+            'mensaje' => 'respuesta',
             'clientes' => $clientes,
             ]
         );
     }
 
+    public function getListaProductos(Request $request){
+        
+        $datosProducto = $request->get('datosProducto');
+    
+        $productos = Producto::where('description', 'like', '%' .$datosProducto. '%')->orWhere('barcode', 'like', '%' .$datosProducto. '%')->get();
+
+        return response()->json(
+            [
+            'ok' => true,
+            'mensaje' => 'llegaste aquí',
+            'productos' => $productos,
+            ]
+        );
+    }
     public function getDatosServicioTv(Request $request){
         $idTvServicio = $request->get('idTvServicio');
 
