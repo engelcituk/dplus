@@ -26955,15 +26955,15 @@ jQuery.fn.extend({
 
 					/**
 					 * Run function for the indicator image.
-					 **/
+					 **/ 
 					self._runPanelLoader(tPanel);
 
 				};
 
 
 				//backdrop sound
-				initApp.playSound('media/sound', 'messagebox')
-
+			initApp.playSound('media/sound', 'messagebox')
+			 
 				if (typeof bootbox  != 'undefined') {
 
 					bootbox.confirm({

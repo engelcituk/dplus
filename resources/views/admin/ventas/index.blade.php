@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xl-6 col-md-6">
+    <div class="col-xl-7 col-md-7">
         <!--Basic alerts-->
         <div class="panel">
             <div class="panel-hdr">
@@ -50,23 +50,9 @@
         </div>
         
     </div>
-    <div class="col-xl-6 col-md-6">
-        <!--Alert outline-->
-        <div class="panel">
-            <div class="panel-hdr">
-                <h2>
-                    Compras <span class="fw-300"><i></i></span>
-                </h2>
-            </div>
-            <div class="panel-container show">
-                <div class="panel-content">
-                    <div class="demo-v-spacing">
-                        
-                        <span id="resultado"></span>
-                        
-                    </div>
-                </div>
-            </div>
+    <div class="col-xl-5 col-md-5">
+        <div id="lsTickets">
+
         </div>
     </div>
 </div>

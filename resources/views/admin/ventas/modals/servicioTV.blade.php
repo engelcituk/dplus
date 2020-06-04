@@ -79,6 +79,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-6 m-auto">
+                            <div class="form-group">
+                                <label class="form-label" for="addon-wrapping-left">Número de pago proveedor</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-sort-numeric-up fs-xl"></i></span>
+                                    </div>
+                                <input type="text" class="form-control" id="numPago">
+                                </div>
+                            </div>
+                        </div>                    
+                        <div class="col-xs-6 m-auto"> 
+                            <div class="form-group">
+                                <label class="form-label" for="addon-wrapping-left">No. de autorización proveedor</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-sort-numeric-up fs-xl"></i></span>
+                                    </div>
+                                <input type="text" class="form-control"  id="numAutorización">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
@@ -99,7 +121,9 @@
         </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal"><i class="fal fa-window-close fs-xl"></i></button>
-                <button type="button" class="btn btn-primary"><i class="fal fa-plus-square fs-xl"></i></button>
+                <div id="lstTicketsTvServicios" class="form-group">
+
+                </div>
             </div>
         </div>
     </div>
