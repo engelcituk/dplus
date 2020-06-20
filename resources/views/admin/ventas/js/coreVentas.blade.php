@@ -80,13 +80,11 @@ function showModalServicioTV(servicioTV, idCliente, nombreCliente, referencia){
   $('#precioInputTVService').val(servicioTV.price);
   $('#comisionInputTVService').val(servicioTV.commission);
   $('#precioFinalInputTVService').val(servicioTV.final_price);
-
   listarTicketsEnModal();
   $('#servicioTV').modal({backdrop: 'static', keyboard: false})
 }
 
 function listarTicketsEnModal(){
-  console.log('hla')
   if(localStorage.getItem(ticketsVentas)){
     listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
     longitudArrTickets = listadoTickets.length;
@@ -98,7 +96,7 @@ function listarTicketsEnModal(){
       select += `</select>`
       $("#lstTicketsTvServicios").html(select); 
     }else{
-      button=`<button type="button" class="btn btn-primary"><i class="fal fa-plus-square fs-xl"></i> ${listadoTickets[0]}</button>`
+      button=`<button type="button" class="btn btn-primary" onclick="addServicioCliente()"><i class="fal fa-plus-square fs-xl"></i> ${listadoTickets[0]}</button>`
       $("#lstTicketsTvServicios").html(button); 
     }
     
@@ -138,25 +136,24 @@ function getTickets(){
     let ticket = Math.random().toString(36).substr(2, 9);
     listaTicketVentas.push(ticket);
 
-    /* let ticket2 = Math.random().toString(36).substr(2, 9);
+     /* let ticket2 = Math.random().toString(36).substr(2, 9);
     listaTicketVentas.push(ticket2);
 
     let ticket3 = Math.random().toString(36).substr(2, 9);
     listaTicketVentas.push(ticket3);
 
     let ticket4 = Math.random().toString(36).substr(2, 9);
-    listaTicketVentas.push(ticket4); */
+    listaTicketVentas.push(ticket4);  */
 
     localStorage.setItem(ticketsVentas, JSON.stringify(listaTicketVentas));
     leerTickets();
   }
 }
-
+ 
 function leerTickets(){
   if(localStorage.getItem(ticketsVentas)){
     listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
     listadoTickets.forEach( function (elemento, indice)  {
-      //console.log(elemento, indice,)
       panel = `
       <div class="panel">
                 <div class="panel-hdr">
@@ -170,7 +167,8 @@ function leerTickets(){
                 </div>
                 <div class="panel-container ${show = (indice === 0 ) ? 'show' : 'collapse'}">
                     <div class="panel-content">
-                        Click the buttons below to show and hide another element via class changes:
+                        <div id="${elemento}">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -182,6 +180,31 @@ function leerTickets(){
     console.log('vacio');
   }
 }
+ function addServicioCliente() {
+  let precio = document.getElementById("precioInputTVService").value;
+  let comision = document.getElementById("comisionInputTVService").value;
+  let numPago = document.getElementById("numPago").value;
+  let numAutorizacion = document.getElementById("numAutorizacion").value;
+  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
 
+  if(precio !='' && comision !='' && numPago != '' && numAutorizacion !=''){
+    console.log(numPago, numAutorizacion, listadoTickets[0])
+  }else{
+    /* Swal.fire({
+        type: "error",
+        title: "Oops...",
+        text: "Algún campo está vacío"
+      });  */ 
+
+      $.notify({							
+          message: '<i class="fal fa-sun"></i><strong> Algún campo está vacío</strong>'
+          },{								
+              type: 'danger',
+              delay: 2000,
+              z_index: 3000,
+          });
+  }
+
+ }
 
 </script>

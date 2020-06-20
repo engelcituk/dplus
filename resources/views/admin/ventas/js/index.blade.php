@@ -32,9 +32,7 @@ function buscarClientes(){
                 let idTV = clientes[i].idTelevision
                 let nombreCliente = clientes[i].name
                 let referencia = clientes[i].referencia
-
                 listaClientes += `
-
                 <tr>
                   <td>${nombreCliente}</td>
                   <td> <span id="ref${idCliente}">${referencia}</span></td>
@@ -108,7 +106,6 @@ function buscarProductos(){
                 <td>${nombreProducto}</td>
                 <td>${unidades}</td>
                 <td><button type="button" class="btn btn-info xs"><i class="fal fa-plus-circle"></i></button></td>
-
               </tr>`;
             }
           listaProductos += `</tbody></table>`
@@ -133,4 +130,8 @@ function buscarProductos(){
     $("#listaProductos").html('');
   }
 }
+
+//$('#lsTickets').sortable();
+
+
 </script>

@@ -58,8 +58,12 @@
 </div>
 @include('admin.ventas.modals.servicioTV') 
 @endsection
+@push('stylesCss')
+    <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/notifications/sweetalert2/sweetalert2.bundle.css') }}">
+@endpush
 @push('scriptsJs')   
     <script src="{{ asset('smartadmin/js/notifications/sweetalert2/sweetalert2.bundle.js') }}" ></script>   
+    <script src="{{ asset('smartadmin/js/notifications/notify/bootstrap-notify.js') }}" ></script>   
     @include('admin.ventas.js.index') 
     @include('admin.ventas.js.coreVentas') 
-@endpush
+@endpush 

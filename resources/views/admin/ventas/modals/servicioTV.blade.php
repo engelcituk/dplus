@@ -97,7 +97,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-sort-numeric-up fs-xl"></i></span>
                                     </div>
-                                <input type="text" class="form-control"  id="numAutorización">
+                                <input type="text" class="form-control"  id="numAutorizacion">
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                     </div>
                     <span class="badge badge-info" id="referenciaModalSpan"></span>
                 </div>                            
-            </div>
+            </div> 
         </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal"><i class="fal fa-window-close fs-xl"></i></button>
