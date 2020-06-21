@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xl-7 col-md-7">
+    <div class="col-xl-6 col-md-6">
         <!--Basic alerts-->
         <div class="panel">
             <div class="panel-hdr">
@@ -50,7 +50,7 @@
         </div>
         
     </div>
-    <div class="col-xl-5 col-md-5">
+    <div class="col-xl-6 col-md-6">
         <div id="lsTickets">
 
         </div>

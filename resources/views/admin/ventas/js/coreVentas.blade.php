@@ -1,6 +1,7 @@
 <script>
 let listaTicketVentas = [];
 let ticketsVentas = 'ticketsVentas';
+let listaItems = [];
 
 //copia en el portapapeles desde el listado de la busqueda
 function copiar(idCliente){
@@ -128,24 +129,17 @@ function calculoPrecioFinal(){
 }
 
 getTickets();
+leerItemsTicket(); //leo el contenido de los tickets
 
 function getTickets(){
   if(localStorage.getItem(ticketsVentas)){
     leerTickets();
   }else {
     let ticket = Math.random().toString(36).substr(2, 9);
+    let valor = [];
     listaTicketVentas.push(ticket);
-
-     /* let ticket2 = Math.random().toString(36).substr(2, 9);
-    listaTicketVentas.push(ticket2);
-
-    let ticket3 = Math.random().toString(36).substr(2, 9);
-    listaTicketVentas.push(ticket3);
-
-    let ticket4 = Math.random().toString(36).substr(2, 9);
-    listaTicketVentas.push(ticket4);  */
-
     localStorage.setItem(ticketsVentas, JSON.stringify(listaTicketVentas));
+    localStorage.setItem(ticket, JSON.stringify(valor));
     leerTickets();
   }
 }
@@ -158,7 +152,7 @@ function leerTickets(){
       <div class="panel">
                 <div class="panel-hdr">
                     <h2>
-                        ${elemento} <span class="fw-300"><i>${indice}</i></span>
+                        folio <span class="badge badge-success">${elemento}</span> <span class="fw-300"><i></i></span>
                     </h2>
                     <div class="panel-toolbar">
                         <button class="btn btn-panel waves-effect waves-themed" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -167,7 +161,25 @@ function leerTickets(){
                 </div>
                 <div class="panel-container ${show = (indice === 0 ) ? 'show' : 'collapse'}">
                     <div class="panel-content">
-                        <div id="${elemento}">
+                        <div id="tabla_items">
+                          <table class="table table-sm m-0">
+                              <thead class="bg-primary-500">
+                                  <tr>                               
+                                      <th>Descripción</th>
+                                      <th>P. Venta</th>                                      
+                                      <th>Cant.</th>                                      
+                                      <th>Ex.</th>
+                                      <th>Total</th>
+                                      <th></th>
+
+                                  </tr>
+                              </thead>
+                              <tbody>                                                        
+                                                                                          
+                              </tbody>
+                              <tfoot>                                                        
+                              </tfoot>
+                          </table>
                         </div>
                     </div>
                 </div>
@@ -175,36 +187,95 @@ function leerTickets(){
             `;
       $("#lsTickets").append(panel);
     });
-
   }else{
     console.log('vacio');
   }
 }
  function addServicioCliente() {
+  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+  let idCliente = document.getElementById("idClienteInputTVService").value;
+  let nombreCliente = document.getElementById("nombreClienteInputTVService").value;
+  let referencia = document.getElementById("referenciaClienteInputTVService").value;
+  let descripcion = document.getElementById("nombreInputTVService").value;
   let precio = document.getElementById("precioInputTVService").value;
   let comision = document.getElementById("comisionInputTVService").value;
   let numPago = document.getElementById("numPago").value;
   let numAutorizacion = document.getElementById("numAutorizacion").value;
-  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+  let precioFinal = document.getElementById("numAutorizacion").value;
+
+
+  let datosItem = JSON.stringify({
+    'folio' : listadoTickets[0],
+    'idCliente' : idCliente,
+    'nombreCliente' : nombreCliente,
+    'referencia' : referencia,
+    'descripcion' :  descripcion,
+    'tipo' : 'servicioTV',
+    'barcode' : '-',
+    'cantidad' : 1,
+    'existencia' : '-',
+    'precio' : precio,
+    'comision' : comision,
+    'numPagoProveedor' : numPago,
+    'numAutorizacionProveedor' : numAutorizacion,
+    'precioFinal' : precioFinal
+  });
 
   if(precio !='' && comision !='' && numPago != '' && numAutorizacion !=''){
+    addToTicket(datosItem);
     console.log(numPago, numAutorizacion, listadoTickets[0])
   }else{
-    /* Swal.fire({
-        type: "error",
-        title: "Oops...",
-        text: "Algún campo está vacío"
-      });  */ 
-
-      $.notify({							
-          message: '<i class="fal fa-sun"></i><strong> Algún campo está vacío</strong>'
-          },{								
-              type: 'danger',
-              delay: 2000,
-              z_index: 3000,
-          });
+    showMessageNotify("Algún campo está vacío", "danger", 3000)
   }
-
  }
+ // funcion exclusiva para mostrar mensajes como notificaciones
+ function showMessageNotify(mensaje, tipo, duracion) {
+  $.notify({							
+    message: `<i class="fal fa-sun"></i><strong> ${mensaje}</strong>`
+    },{								
+        type: tipo,
+        delay: duracion,
+        z_index: 3000,
+    });
+ } 
 
-</script>
+ function addToTicket(datosItem) {
+  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+  if(localStorage.getItem(ticketsVentas)){
+    if (localStorage.getItem(listadoTickets[0])) {
+      datosItem = JSON.parse(datosItem);
+      listaItems.push(datosItem);
+      localStorage.setItem(listadoTickets[0],JSON.stringify(listaItems));
+    }
+  }
+ }
+ function leerItemsTicket() {
+  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+
+  $("#tabla_items tbody").empty();//limpio tbody de tabla
+  $("#tabla_items tfoot").empty();// limpio el pie
+  if(localStorage.getItem(ticketsVentas)){
+    if (localStorage.getItem(listadoTickets[0])) {
+      listaItems = JSON.parse(localStorage.getItem(listadoTickets[0]));
+      for (let i = 0; i < listaItems.length; i++) {
+        const folio = listaItems[i]['folio'];
+        const descripcion = listaItems[i]['descripcion'];
+        const precio = parseFloat(listaItems[i]['precio']);
+        const cantidad = parseInt(listaItems[i]['cantidad']);
+        const existencia = listaItems[i]['existencia'];
+        const total = precio * cantidad;
+
+        const trItem =`<tr>
+            <th scope="row">${descripcion}</th>
+            <td>${precio}</td>
+            <td>${cantidad}</td>
+            <td>${existencia}</td>
+            <td>${total}</td>
+        </tr>`;
+        $("table tbody").append(trItem);
+      }
+
+    }
+  }
+ }
+ </script>
