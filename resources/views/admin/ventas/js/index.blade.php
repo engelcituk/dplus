@@ -88,6 +88,7 @@ function buscarProductos(){
                         <th>Barcode</th>
                         <th>Descripción</th>
                         <th>Existencia</th>
+                        <th>Precio</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -97,6 +98,7 @@ function buscarProductos(){
               let idProducto = productos[i].id
               let barcode = productos[i].barcode
               let nombreProducto = productos[i].description
+              let precio = productos[i].sale_price
               let unidades = productos[i].units
 
               listaProductos += `
@@ -105,7 +107,8 @@ function buscarProductos(){
                 <td>${barcode}</td>
                 <td>${nombreProducto}</td>
                 <td>${unidades}</td>
-                <td><button type="button" class="btn btn-info xs"><i class="fal fa-plus-circle"></i></button></td>
+                <td>${precio}</td>
+                <td><button type="button" class="btn btn-info xs" onclick="addProducto(${idProducto},'${barcode}','${nombreProducto}','${precio}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
               </tr>`;
             }
           listaProductos += `</tbody></table>`
@@ -130,8 +133,4 @@ function buscarProductos(){
     $("#listaProductos").html('');
   }
 }
-
-//$('#lsTickets').sortable();
-
-
 </script>

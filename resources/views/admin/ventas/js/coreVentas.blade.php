@@ -156,13 +156,12 @@ function leerTickets(){
                     </h2>
                     <div class="panel-toolbar">
                         <button class="btn btn-panel waves-effect waves-themed" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-                        <button class="btn btn-panel waves-effect waves-themed" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
                     </div>
                 </div>
                 <div class="panel-container ${show = (indice === 0 ) ? 'show' : 'collapse'}">
                     <div class="panel-content">
                         <div id="tabla_items">
-                          <table class="table table-sm m-0">
+                          <table class="table table-sm m-0" id="tabla_items_tr">
                               <thead class="bg-primary-500">
                                   <tr>                               
                                       <th>Descripción</th>
@@ -170,7 +169,7 @@ function leerTickets(){
                                       <th>Cant.</th>                                      
                                       <th>Ex.</th>
                                       <th>Total</th>
-                                      <th></th>
+                                      <th>Acciones</th>
 
                                   </tr>
                               </thead>
@@ -193,6 +192,7 @@ function leerTickets(){
 }
  function addServicioCliente() {
   let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+
   let idCliente = document.getElementById("idClienteInputTVService").value;
   let nombreCliente = document.getElementById("nombreClienteInputTVService").value;
   let referencia = document.getElementById("referenciaClienteInputTVService").value;
@@ -207,6 +207,7 @@ function leerTickets(){
   let datosItem = JSON.stringify({
     'folio' : listadoTickets[0],
     'idCliente' : idCliente,
+    'idProducto':'-',
     'nombreCliente' : nombreCliente,
     'referencia' : referencia,
     'descripcion' :  descripcion,
@@ -218,15 +219,38 @@ function leerTickets(){
     'comision' : comision,
     'numPagoProveedor' : numPago,
     'numAutorizacionProveedor' : numAutorizacion,
-    'precioFinal' : precioFinal
+    'nota':''
   });
 
   if(precio !='' && comision !='' && numPago != '' && numAutorizacion !=''){
     addToTicket(datosItem);
-    console.log(numPago, numAutorizacion, listadoTickets[0])
+    leerItemsTicket(); //leo el contenido del ticket
   }else{
     showMessageNotify("Algún campo está vacío", "danger", 3000)
   }
+ }
+ function addProducto(idProducto,barcode,descripcion,precio, existencia) {
+  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+  let datosItem = JSON.stringify({
+    'folio' : listadoTickets[0],
+    'idCliente' : '-',
+    'idProducto':idProducto,
+    'nombreCliente' : '-',
+    'referencia' : '-',
+    'descripcion' :  descripcion,
+    'tipo' : 'producto',
+    'barcode' : barcode,
+    'cantidad' : 1,
+    'existencia' : existencia,
+    'precio' : precio,
+    'comision' : '-',
+    'numPagoProveedor' : '-',
+    'numAutorizacionProveedor' : '-',
+    'nota':''
+  });
+  //añado al ticket y leo listado
+  addToTicket(datosItem);
+  leerItemsTicket();
  }
  // funcion exclusiva para mostrar mensajes como notificaciones
  function showMessageNotify(mensaje, tipo, duracion) {
@@ -252,8 +276,8 @@ function leerTickets(){
  function leerItemsTicket() {
   let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
 
-  $("#tabla_items tbody").empty();//limpio tbody de tabla
-  $("#tabla_items tfoot").empty();// limpio el pie
+  $("#tabla_items_tr tbody").empty();//limpio tbody de tabla
+  $("#tabla_items_tr tfoot").empty();// limpio el pie
   if(localStorage.getItem(ticketsVentas)){
     if (localStorage.getItem(listadoTickets[0])) {
       listaItems = JSON.parse(localStorage.getItem(listadoTickets[0]));
@@ -261,9 +285,14 @@ function leerTickets(){
         const folio = listaItems[i]['folio'];
         const descripcion = listaItems[i]['descripcion'];
         const precio = parseFloat(listaItems[i]['precio']);
+        const tipo = listaItems[i]['tipo'];
         const cantidad = parseInt(listaItems[i]['cantidad']);
         const existencia = listaItems[i]['existencia'];
         const total = precio * cantidad;
+
+        let disabled = cantidad == 1 ? 'disabled' : '';
+        let disabled2 = tipo == 'servicioTV' ? 'disabled' : '';
+
 
         const trItem =`<tr>
             <th scope="row">${descripcion}</th>
@@ -271,8 +300,14 @@ function leerTickets(){
             <td>${cantidad}</td>
             <td>${existencia}</td>
             <td>${total}</td>
+            <td>
+              <button type="button" class="btn btn-warning btn-sm" ${disabled}><i class="fal fa-minus"></i></button>
+              <button type="button" class="btn btn-success btn-sm" ${disabled2}><i class="fal fa-plus-circle"></i></button>
+              <button type="button" class="btn btn-info btn-sm"><i class="fal fa-sticky-note"></i></button>
+              <button type="button" class="btn btn-danger btn-sm"><i class="fal fa-trash-alt"></i></button>
+            </td>
         </tr>`;
-        $("table tbody").append(trItem);
+        $("#tabla_items_tr tbody").append(trItem);
       }
 
     }
