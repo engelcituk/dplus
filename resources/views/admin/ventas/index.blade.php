@@ -9,6 +9,9 @@
                 <h2>
                     Dplus <span class="fw-300"><i>ventas</i></span>
                 </h2>
+                <div class="panel-toolbar">
+                    <button type="button" class="btn btn-success btn-sm" onclick="nuevoTicket()"><i class="fal fa-plus-circle"></i> Nuevo ticket</button>
+                </div>
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
@@ -48,7 +51,15 @@
                 
             </div>
         </div>
-        
+        <div class="panel">
+            <div class="panel-container">
+                <div class="panel-content">
+                    <div id="btnTickets">
+
+                    </div>
+                </div> 
+            </div>
+        </div>
     </div>
     <div class="col-xl-6 col-md-6">
         <div id="lsTickets">

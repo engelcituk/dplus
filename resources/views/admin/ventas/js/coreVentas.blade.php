@@ -1,6 +1,5 @@
 <script>
 let listaTicketVentas = [];
-let ticketsVentas = 'ticketsVentas';
 let listaItems = [];
 
 //copia en el portapapeles desde el listado de la busqueda
@@ -81,26 +80,16 @@ function showModalServicioTV(servicioTV, idCliente, nombreCliente, referencia){
   $('#precioInputTVService').val(servicioTV.price);
   $('#comisionInputTVService').val(servicioTV.commission);
   $('#precioFinalInputTVService').val(servicioTV.final_price);
-  listarTicketsEnModal();
+  showTicketActivoEnModal();
   $('#servicioTV').modal({backdrop: 'static', keyboard: false})
 }
 
-function listarTicketsEnModal(){
-  if(localStorage.getItem(ticketsVentas)){
-    listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
-    longitudArrTickets = listadoTickets.length;
-    if(longitudArrTickets > 1){
-      select = `<label class="form-label">Selecciona ticket</label><select class='form-control' name='idModo' id='modoSelect'>"`
-      for(i = 0;  i<listadoTickets.length; i++){
-        select+="<option value='"+listadoTickets[i]+"'>" +listadoTickets[i]+ "</option>"; 
-      }
-      select += `</select>`
-      $("#lstTicketsTvServicios").html(select); 
-    }else{
-      button=`<button type="button" class="btn btn-primary" onclick="addServicioCliente()"><i class="fal fa-plus-square fs-xl"></i> ${listadoTickets[0]}</button>`
-      $("#lstTicketsTvServicios").html(button); 
-    }
-    
+function showTicketActivoEnModal(){
+  if(localStorage.getItem('ticketsVentas')){
+    listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+    const ticketActivo = getTicketActivo();
+    button=`<button type="button" class="btn btn-primary" onclick="addServicioCliente()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
+    $("#lstTicketsTvServicios").html(button);  
   }
 }
 
@@ -130,35 +119,89 @@ function calculoPrecioFinal(){
 
 getTickets();
 leerItemsTicket(); //leo el contenido de los tickets
-
+showButtonsTickets()// muestro los botones de los tickets
 function getTickets(){
-  if(localStorage.getItem(ticketsVentas)){
-    leerTickets();
+  if(localStorage.getItem('ticketsVentas')){
+    showDivTableTicket();
   }else {
     let ticket = Math.random().toString(36).substr(2, 9);
     let valor = [];
-    listaTicketVentas.push(ticket);
-    localStorage.setItem(ticketsVentas, JSON.stringify(listaTicketVentas));
+    //objeto ticket
+    let datosTicket = {
+      'ticket' : ticket,
+      'estado':'activo'
+    }
+    listaTicketVentas.push(datosTicket);// se añade al array
+    localStorage.setItem('ticketsVentas',JSON.stringify(listaTicketVentas));
     localStorage.setItem(ticket, JSON.stringify(valor));
-    leerTickets();
+    showDivTableTicket();
   }
 }
- 
-function leerTickets(){
-  if(localStorage.getItem(ticketsVentas)){
-    listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
-    listadoTickets.forEach( function (elemento, indice)  {
+function getTicketActivo(){
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  if (localStorage.getItem('ticketsVentas')) {
+    const ticketActivo = listadoTickets.find( ticket => ticket.estado == 'activo' );
+    return ticketActivo;
+  }
+}
+function getTicketByFolio(folio) {
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  if (localStorage.getItem('ticketsVentas')) {
+    const resultadoTicket = listadoTickets.find( ticket => ticket.ticket == folio );
+    return resultadoTicket;
+  }
+}
+// para el botón de nuevo ticket
+function nuevoTicket() {
+  let listaTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+   if(localStorage.getItem('ticketsVentas')){
+    let ticket = Math.random().toString(36).substr(2, 9);
+    let valor = [];
+    let datosTicket = {
+      'ticket' : ticket,
+      'estado':'desactivado'
+    }
+    const tickets = listaTickets.concat(datosTicket);// fusiono el array de localstorage con el nuevo
+    localStorage.setItem('ticketsVentas',JSON.stringify(tickets));
+    localStorage.setItem(ticket, JSON.stringify(valor));
+    showButtonsTickets()// muestro los botones de tickets
+   }
+ }
+ //para mostrar la lista de botones de tickets
+function showButtonsTickets(){
+  const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  $("#btnTickets").html('');
+  if(localStorage.getItem('ticketsVentas')){
+    let botonesTickets=``;
+    for (let i = 0; i < listaTickets.length; i++) {
+      let ticket = listaTickets[i]['ticket'];
+      let estado = listaTickets[i]['estado'];
+      let btnActive = estado == 'activo' ? 'btn-success' : ''; 
+
+      botonesTickets+=`<button type="button" class="btn ${btnActive} btn-sm mr-2 mb-2 buttonTickets" onclick="activarTicket(this,'${ticket}')"  ><i class="fal fa-plus-circle"></i> ${ticket}</button>`;
+    }
+    botonesTickets+=``;
+    $("#btnTickets").html(botonesTickets);
+  }
+}
+ //para mostrar el area donde va la tabla de items de productos, servicios
+function showDivTableTicket(){
+  $("#lsTickets").html('');
+  if(localStorage.getItem('ticketsVentas')){
+    listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+    const ticketActivo = getTicketActivo();
+    if (localStorage.getItem(ticketActivo.ticket)) {
       panel = `
       <div class="panel">
                 <div class="panel-hdr">
                     <h2>
-                        folio <span class="badge badge-success">${elemento}</span> <span class="fw-300"><i></i></span>
+                        folio <span class="badge badge-success" id="spanFolio">${ticketActivo.ticket}</span> <span class="fw-300"><i></i></span>
                     </h2>
                     <div class="panel-toolbar">
-                        <button class="btn btn-panel waves-effect waves-themed" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                        <button class="btn btn-panel waves-effect waves-themed" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Colapsar"></button>
                     </div>
                 </div>
-                <div class="panel-container ${show = (indice === 0 ) ? 'show' : 'collapse'}">
+                <div class="panel-container show">
                     <div class="panel-content">
                         <div id="tabla_items">
                           <table class="table table-sm m-0" id="tabla_items_tr">
@@ -185,13 +228,12 @@ function leerTickets(){
             </div>
             `;
       $("#lsTickets").append(panel);
-    });
-  }else{
-    console.log('vacio');
+    }
   }
 }
- function addServicioCliente() {
-  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+
+function addServicioCliente() {
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
 
   let idCliente = document.getElementById("idClienteInputTVService").value;
   let nombreCliente = document.getElementById("nombreClienteInputTVService").value;
@@ -203,9 +245,10 @@ function leerTickets(){
   let numAutorizacion = document.getElementById("numAutorizacion").value;
   let precioFinal = document.getElementById("numAutorizacion").value;
 
+  const ticketActivo = getTicketActivo();
 
   let datosItem = JSON.stringify({
-    'folio' : listadoTickets[0],
+    'folio' : ticketActivo.ticket,
     'idCliente' : idCliente,
     'idProducto':'-',
     'nombreCliente' : nombreCliente,
@@ -225,14 +268,18 @@ function leerTickets(){
   if(precio !='' && comision !='' && numPago != '' && numAutorizacion !=''){
     addToTicket(datosItem);
     leerItemsTicket(); //leo el contenido del ticket
+    $('#servicioTV').modal('hide');// oculto el modal servicioTV
   }else{
     showMessageNotify("Algún campo está vacío", "danger", 3000)
   }
  }
+
  function addProducto(idProducto,barcode,descripcion,precio, existencia) {
-  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const ticketActivo = getTicketActivo();
+
   let datosItem = JSON.stringify({
-    'folio' : listadoTickets[0],
+    'folio' : ticketActivo.ticket,    
     'idCliente' : '-',
     'idProducto':idProducto,
     'nombreCliente' : '-',
@@ -251,6 +298,7 @@ function leerTickets(){
   //añado al ticket y leo listado
   addToTicket(datosItem);
   leerItemsTicket();
+
  }
  // funcion exclusiva para mostrar mensajes como notificaciones
  function showMessageNotify(mensaje, tipo, duracion) {
@@ -259,28 +307,57 @@ function leerTickets(){
     },{								
         type: tipo,
         delay: duracion,
-        z_index: 3000,
+        z_i: 3000,
     });
  } 
 
  function addToTicket(datosItem) {
-  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
-  if(localStorage.getItem(ticketsVentas)){
-    if (localStorage.getItem(listadoTickets[0])) {
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const ticketActivo = getTicketActivo();
+  if(localStorage.getItem('ticketsVentas')){
+    if (localStorage.getItem(ticketActivo.ticket)) {
       datosItem = JSON.parse(datosItem);
       listaItems.push(datosItem);
-      localStorage.setItem(listadoTickets[0],JSON.stringify(listaItems));
+      localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems));
     }
   }
  }
- function leerItemsTicket() {
-  let listadoTickets = JSON.parse(localStorage.getItem(ticketsVentas)); //convierto a json
+ 
+function activarTicket(elemento,folio){
+  let botones = document.getElementsByClassName('buttonTickets'); 
+  let listaTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  let ticketActivo = getTicketActivo();
+  let ticketActivar = getTicketByFolio(folio);
+
+  for (i = 0; i < botones.length; i++) {   
+    botones[i].classList.remove('btn-success')
+  }    
+  elemento.classList.add('btn-success');
+
+  if (localStorage.getItem('ticketsVentas')) {
+    for (let i = 0; i < listaTickets.length; i++) {
+      if(listaTickets[i]["ticket"] == ticketActivo.ticket ){
+        listaTickets[i]["estado"] = 'desactivado';
+      }
+      if(listaTickets[i]["ticket"] == ticketActivar.ticket ){
+        listaTickets[i]["estado"] = 'activo';
+      }
+      localStorage.setItem('ticketsVentas',JSON.stringify(listaTickets));
+    }
+  }
+  leerItemsTicket()// leo tabla de items de productos, servicios
+} 
+
+function leerItemsTicket() {
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const ticketActivo = getTicketActivo();
 
   $("#tabla_items_tr tbody").empty();//limpio tbody de tabla
   $("#tabla_items_tr tfoot").empty();// limpio el pie
-  if(localStorage.getItem(ticketsVentas)){
-    if (localStorage.getItem(listadoTickets[0])) {
-      listaItems = JSON.parse(localStorage.getItem(listadoTickets[0]));
+  $("#spanFolio").text(ticketActivo.ticket);
+  if(localStorage.getItem('ticketsVentas')){
+    if (localStorage.getItem(ticketActivo.ticket)) {
+      listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
       for (let i = 0; i < listaItems.length; i++) {
         const folio = listaItems[i]['folio'];
         const descripcion = listaItems[i]['descripcion'];
@@ -289,15 +366,16 @@ function leerTickets(){
         const cantidad = parseInt(listaItems[i]['cantidad']);
         const existencia = listaItems[i]['existencia'];
         const total = precio * cantidad;
-
+        //ternarios
         let disabled = cantidad == 1 ? 'disabled' : '';
         let disabled2 = tipo == 'servicioTV' ? 'disabled' : '';
+        let cantidadEditable = tipo == 'servicioTV' ? false : true;
 
 
         const trItem =`<tr>
             <th scope="row">${descripcion}</th>
             <td>${precio}</td>
-            <td>${cantidad}</td>
+            <td contenteditable=${cantidadEditable}>${cantidad}</td>
             <td>${existencia}</td>
             <td>${total}</td>
             <td>
