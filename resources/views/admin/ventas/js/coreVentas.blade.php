@@ -52,8 +52,8 @@ function getDataServicioTVCliente(idCliente, idTV, nombreCliente, referencia){
       success: function(respuesta) {
           ok= respuesta.ok;
           if(ok){
-            servicioTV = respuesta.servicioTV;
-            showModalServicioTV(servicioTV, idCliente, nombreCliente, referencia);          
+            servicio = respuesta.servicioTV;
+            showModalservicio(servicio, idCliente, nombreCliente, referencia);          
           }else {
             console.log(respuesta.mensaje)
         } 
@@ -69,17 +69,17 @@ function getDataServicioTVCliente(idCliente, idTV, nombreCliente, referencia){
     })
 }
 // para mostrar el modal donde se pintan los datos de cliente y su servicio de tv
-function showModalServicioTV(servicioTV, idCliente, nombreCliente, referencia){
+function showModalservicio(servicio, idCliente, nombreCliente, referencia){
   //le pinto los valores en los campos
   $('#idClienteInputTVService').val(idCliente);
   $('#nombreClienteInputTVService').val(nombreCliente);
   $('#referenciaClienteInputTVService').val(referencia);
  // document.getElementById('referenciaClienteInputTVService').onclick = copiar(idCliente);
   $("#referenciaClienteInputTVService").click(copiar(idCliente));
-  $('#nombreInputTVService').val(servicioTV.name);
-  $('#precioInputTVService').val(servicioTV.price);
-  $('#comisionInputTVService').val(servicioTV.commission);
-  $('#precioFinalInputTVService').val(servicioTV.final_price);
+  $('#nombreInputTVService').val(servicio.name);
+  $('#precioInputTVService').val(servicio.price);
+  $('#comisionInputTVService').val(servicio.commission);
+  $('#precioFinalInputTVService').val(servicio.final_price);
   showTicketActivoEnModal();
   $('#servicioTV').modal({backdrop: 'static', keyboard: false})
 }
@@ -240,7 +240,8 @@ function showDivTableTicket(){
                         <div id="tabla_items">
                           <table class="table table-sm m-0" id="tabla_items_tr">
                               <thead class="bg-primary-500">
-                                  <tr>                               
+                                  <tr>      
+                                      <th>PM</th>
                                       <th>Descripción</th>
                                       <th>P. Venta</th>                                      
                                       <th>Cant.</th>                                      
@@ -249,8 +250,7 @@ function showDivTableTicket(){
                                       <th>Acciones</th>
                                   </tr>
                               </thead>
-                              <tbody>                                                        
-                                                                                          
+                              <tbody>                                                       
                               </tbody>
                               <tfoot>                                                        
                               </tfoot>
@@ -287,10 +287,10 @@ function addServicioCliente() {
     'nombreCliente' : nombreCliente,
     'referencia' : referencia,
     'descripcion' :  descripcion,
-    'tipo' : 'servicioTV',
+    'tipo' : 'servicio',
     'barcode' : '-',
     'cantidad' : 1,
-    'existencia' : '-',
+    'existencia' : 'Ilim',
     'precio' : precio,
     'comision' : comision,
     'numPagoProveedor' : numPago,
@@ -301,7 +301,7 @@ function addServicioCliente() {
   if(precio !='' && comision !='' && numPago != '' && numAutorizacion !=''){
     addToTicket(datosItem);
     leerItemsTicket(); //leo el contenido del ticket
-    $('#servicioTV').modal('hide');// oculto el modal servicioTV
+    $('#servicioTV').modal('hide');// oculto el modal servicio
   }else{
     showMessageNotify("Algún campo está vacío", "danger", 3000)
   }
@@ -384,7 +384,6 @@ function activarTicket(elemento,folio){
 function leerItemsTicket() {
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
-
   $("#tabla_items_tr tbody").empty();//limpio tbody de tabla
   $("#tabla_items_tr tfoot").empty();// limpio el pie
   $("#spanFolio").text(ticketActivo.ticket);
@@ -393,35 +392,38 @@ function leerItemsTicket() {
       listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
       if(listaItems.length > 0 ){
         for (let i = 0; i < listaItems.length; i++) {
-        const folio = listaItems[i]['folio'];
-        const descripcion = listaItems[i]['descripcion'];
-        const precio = parseFloat(listaItems[i]['precio']);
-        const tipo = listaItems[i]['tipo'];
-        const cantidad = parseInt(listaItems[i]['cantidad']);
-        const existencia = listaItems[i]['existencia'];
-        const total = precio * cantidad;
-        //ternarios
-        let disabled = cantidad == 1 ? 'disabled' : '';
-        let disabled2 = tipo == 'servicioTV' ? 'disabled' : '';
-        let cantidadEditable = tipo == 'servicioTV' ? false : true;
-
-
-        const trItem =`<tr>
-            <th scope="row">${descripcion}</th>
-            <td>${precio}</td>
-            <td contenteditable=${cantidadEditable}>${cantidad}</td>
-            <td>${existencia}</td>
-            <td>${total}</td>
-            <td>
-              <button type="button" class="btn btn-warning btn-sm" ${disabled}><i class="fal fa-minus"></i></button>
-              <button type="button" class="btn btn-success btn-sm" ${disabled2}><i class="fal fa-plus-circle"></i></button>
-              <button type="button" class="btn btn-info btn-sm"><i class="fal fa-sticky-note"></i></button>
-              <button type="button" class="btn btn-danger btn-sm"><i class="fal fa-trash-alt"></i></button>
-            </td>
-        </tr>`;
-        $("#tabla_items_tr tbody").append(trItem);
-      }
-      }else {
+          const folio = listaItems[i]['folio'];
+          const descripcion = listaItems[i]['descripcion'];
+          const precio = parseFloat(listaItems[i]['precio']);
+          const tipo = listaItems[i]['tipo'];
+          const cantidad = parseInt(listaItems[i]['cantidad']);
+          const existencia = listaItems[i]['existencia'];
+          const total = precio * cantidad;
+          //ternarios
+          let disabled = cantidad == 1 ? 'disabled' : '';
+          let cssNotAllowedCantidad = cantidad == 1 ? 'cursor:not-allowed' : 'cursor:pointer'; 
+          let disabled2 = tipo == 'servicio' ? 'disabled' : '';
+          let cssNotAllowed = tipo == 'servicio' ? 'cursor:not-allowed' : 'cursor:pointer'; 
+          let cantidadEditable = tipo == 'servicio' ? false : true;
+          let buttonMayoreo = `<button type="button" class="btn btn-warning btn-sm" ${disabled2} style=${cssNotAllowed}><i class="fal fa-money-bill"></i></button>`;
+        
+          const trItem =`<tr>
+              <th>${buttonMayoreo}</th>
+              <th>${descripcion}</th>
+              <td>${precio}</td>
+              <td contenteditable=${cantidadEditable}>${cantidad}</td>
+              <td>${existencia}</td>
+              <td>${total}</td>
+              <td>
+                <button type="button" class="btn btn-warning btn-sm" ${disabled} style=${cssNotAllowedCantidad}><i class="fal fa-minus"></i></button>
+                <button type="button" class="btn btn-success btn-sm" ${disabled2} style=${cssNotAllowed}><i class="fal fa-plus-circle"></i></button>
+                <button type="button" class="btn btn-info btn-sm"><i class="fal fa-sticky-note"></i></button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fal fa-trash-alt"></i></button>
+              </td>
+          </tr>`;
+          $("#tabla_items_tr tbody").append(trItem);
+        }
+      }else{
         const trItem =`<tr><td colspan="6" style='text-align:center;vertical-align:middle'>Aún no hay elementos en la lista</td></tr>`;
         $("#tabla_items_tr tbody").append(trItem);
       }
@@ -439,15 +441,17 @@ function showTotals(){
         total = 0;
         for (let i = 0; i < listaItems.length; i++) {
           const precio = parseFloat(listaItems[i]['precio']);
-          total = total + precio;
+          const cantidad = parseInt(listaItems[i]['cantidad']);
+          const subtoTotal = precio * cantidad;
+          total = total + subtoTotal;
         }
         const trItem =`
         <tr>
-            <td colspan="3" style='text-align:center;vertical-align:middle'>Total</td>
+            <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
             <td colspan="3" style='text-align:center;vertical-align:middle'>${total}</td>
           </tr>
           <tr>
-            <td colspan="6" style='text-align:center;vertical-align:middle'>
+            <td colspan="7" style='text-align:center;vertical-align:middle'>
               <button type="button" class="btn btn-info btn-block"><i class="fal fa-money-bill"></i> Cobrar</button>
             </td>
           </tr>
@@ -455,7 +459,7 @@ function showTotals(){
         $("#tabla_items_tr tfoot").append(trItem);
       }else{
         const trItem =`<tr>
-            <td colspan="3" style='text-align:center;vertical-align:middle'>Total</td>
+            <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
             <td colspan="3" style='text-align:center;vertical-align:middle'>0</td>
           </tr>`;
         $("#tabla_items_tr tfoot").append(trItem);
