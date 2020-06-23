@@ -68,6 +68,7 @@
     </div>
 </div>
 @include('admin.ventas.modals.servicioTV') 
+@include('admin.ventas.modals.notaItem') 
 @endsection
 @push('stylesCss')
     <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/notifications/sweetalert2/sweetalert2.bundle.css') }}">

@@ -92,13 +92,24 @@ function showTicketActivoEnModal(){
     $("#lstTicketsTvServicios").html(button);  
   }
 }
-
-// reseteo el contenido del modal al cerrarlo
+/*=======================================================================
+--- reseteo el contenido de los modales al cerrarlo
+========================================================================*/
 $('#servicioTV').on('hidden.bs.modal', function () {
     texto = document.getElementById('referenciaModalSpan');
     $('#servicioTV form')[0].reset();
     texto.innerHTML = '';
 });
+
+$('#modalNotaItem').on('hidden.bs.modal', function () {
+    texto = document.getElementById('positionItemModalNote');
+    $('#modalNotaItem form')[0].reset();
+    texto.innerHTML = '';
+});
+/*=======================================================================
+--- fin de reseteo el contenido de los modales al cerrarlo
+========================================================================*/
+
 // calculo el precio final con base al precio inicial + la comision
 function calculoPrecioFinal(){
     
@@ -427,14 +438,14 @@ function leerItemsTicket() {
           const trItem =`<tr>
               <th>${buttonMayoreo}</th>
               <th>${descripcion}</th>
-              <td>${precio}</td>
+              <td>${(Math.round(precio * 100) / 100).toFixed(2)}</td>
               <td contenteditable=${cantidadEditable}>${cantidad}</td>
               <td>${existencia}</td>
-              <td>${total}</td>
+              <td>${(Math.round(total * 100) / 100).toFixed(2)}</td>
               <td>
                 <button type="button" class="btn btn-warning btn-sm" ${disabled} style=${cssNotAllowedCantidad}><i class="fal fa-minus"></i></button>
                 <button type="button" class="btn btn-success btn-sm" ${disabled2} style=${cssNotAllowed}><i class="fal fa-plus-circle"></i></button>
-                <button type="button" class="btn btn-info btn-sm"><i class="fal fa-sticky-note"></i></button>
+                <button type="button" class="btn btn-info btn-sm" onclick="verNotaDelItem(${i})"><i class="fal fa-sticky-note"></i></button>
                 <button type="button" class="btn btn-danger btn-sm" onclick="removeItemFromTicket(${i})"><i class="fal fa-trash-alt"></i></button>
               </td>
           </tr>`;
@@ -465,7 +476,7 @@ function showTotals(){
         const trItem =`
         <tr>
             <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
-            <td colspan="3" style='text-align:center;vertical-align:middle'>${total}</td>
+            <td colspan="3" style='text-align:center;vertical-align:middle'>${(Math.round(total * 100) / 100).toFixed(2)}</td>
           </tr>
           <tr>
             <td colspan="7" style='text-align:center;vertical-align:middle'>
@@ -489,8 +500,32 @@ function removeItemFromTicket(position) {
   const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
   if(localStorage.getItem(ticketActivo.ticket)){
     listaItems.splice(position, 1);// elimino un item del ticket activo de la posicion recibida
-    localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de tickets
-    leerItemsTicket()// leo tabla de items de productos, servicios
+    localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de items
+    leerItemsTicket()// leo tabla de items de productos, servicios.. etc al borrar un item
+  }
+}
+function verNotaDelItem(position) {
+  const ticketActivo = getTicketActivo();
+  const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  if(localStorage.getItem(ticketActivo.ticket)){
+    const notaItem = listaItems[position]["nota"];
+    const descripcion = listaItems[position]["descripcion"];
+    $('#tituloNotaItemModal').text(descripcion);
+    $('#areaNotaItem').val(notaItem);
+    $('#positionItemModalNote').text(position);
+    $('#modalNotaItem').modal({backdrop: 'static', keyboard: false})
+  }
+}
+function addNoteToItemTicket() {
+  const ticketActivo = getTicketActivo();
+  const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  const position =$('#positionItemModalNote').text();
+  const nota =$('#areaNotaItem').val();
+  if(localStorage.getItem(ticketActivo.ticket)){
+    listaItems[position]["nota"] = nota;// le agrego la nota al item
+    localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de items
+    $('#modalNotaItem').modal('hide');// oculto el modal servicio
+    leerItemsTicket()// leo tabla de items de productos, servicios.. etc al borrar un item
   }
 }
  function borrarTicket() {
