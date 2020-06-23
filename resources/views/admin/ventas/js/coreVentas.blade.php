@@ -211,7 +211,7 @@ function showButtonsTickets(){
       let estado = listaTickets[i]['estado'];
       let btnActive = estado == 'activo' ? 'btn-success' : ''; 
 
-      botonesTickets+=`<button type="button" class="btn ${btnActive} btn-sm mr-2 mb-2 buttonTickets" onclick="activarTicket(this,'${ticket}')"  ><i class="fal fa-plus-circle"></i> ${ticket} </button>`;
+      botonesTickets+=`<button type="button" class="btn ${btnActive} btn-sm mr-2 mb-2 buttonTickets" onclick="activarTicket(this,'${ticket}')"  ><i class="fal fa-ticket-alt"></i> ${ticket} </button>`;
     }
     botonesTickets+=``;
     $("#btnTickets").html(botonesTickets);
@@ -391,7 +391,8 @@ function leerItemsTicket() {
   if(localStorage.getItem('ticketsVentas')){
     if (localStorage.getItem(ticketActivo.ticket)) {
       listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
-      for (let i = 0; i < listaItems.length; i++) {
+      if(listaItems.length > 0 ){
+        for (let i = 0; i < listaItems.length; i++) {
         const folio = listaItems[i]['folio'];
         const descripcion = listaItems[i]['descripcion'];
         const precio = parseFloat(listaItems[i]['precio']);
@@ -420,11 +421,48 @@ function leerItemsTicket() {
         </tr>`;
         $("#tabla_items_tr tbody").append(trItem);
       }
-
+      }else {
+        const trItem =`<tr><td colspan="6" style='text-align:center;vertical-align:middle'>Aún no hay elementos en la lista</td></tr>`;
+        $("#tabla_items_tr tbody").append(trItem);
+      }
+      showTotals();// muestro los totales del ticket
     }
   }
  }
-
+function showTotals(){
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const ticketActivo = getTicketActivo();
+  if(localStorage.getItem('ticketsVentas')){
+    if (localStorage.getItem(ticketActivo.ticket)){
+      listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+      if (listaItems.length > 0 ) {
+        total = 0;
+        for (let i = 0; i < listaItems.length; i++) {
+          const precio = parseFloat(listaItems[i]['precio']);
+          total = total + precio;
+        }
+        const trItem =`
+        <tr>
+            <td colspan="3" style='text-align:center;vertical-align:middle'>Total</td>
+            <td colspan="3" style='text-align:center;vertical-align:middle'>${total}</td>
+          </tr>
+          <tr>
+            <td colspan="6" style='text-align:center;vertical-align:middle'>
+              <button type="button" class="btn btn-info btn-block"><i class="fal fa-money-bill"></i> Cobrar</button>
+            </td>
+          </tr>
+        `;
+        $("#tabla_items_tr tfoot").append(trItem);
+      }else{
+        const trItem =`<tr>
+            <td colspan="3" style='text-align:center;vertical-align:middle'>Total</td>
+            <td colspan="3" style='text-align:center;vertical-align:middle'>0</td>
+          </tr>`;
+        $("#tabla_items_tr tfoot").append(trItem);
+      }
+    }
+  }
+}
  function borrarTicket() {
   const ticketActivo = getTicketActivo();
   const firstTicketDesactivado = getPrimerTicketDesactivado();
@@ -442,10 +480,10 @@ function leerItemsTicket() {
     }).then((result) => {
       if (result.value) {
         if (localStorage.getItem('ticketsVentas')){
-          listaTickets[firstTicketDesactivadoPosition]["estado"] = 'activo';
-          listaTickets.splice(ticketActivoPosition, 1);
-          localStorage.removeItem(ticketActivo.ticket);
-          localStorage.setItem('ticketsVentas',JSON.stringify(listaTickets));
+          listaTickets[firstTicketDesactivadoPosition]["estado"] = 'activo';// cambio su estado a activo al primer ticket desactivado
+          listaTickets.splice(ticketActivoPosition, 1);// elimino el ticket activado del array de tickets
+          localStorage.removeItem(ticketActivo.ticket); // borro el con sus items
+          localStorage.setItem('ticketsVentas',JSON.stringify(listaTickets)); // guardo el array de tickets
           showButtonsTickets()// muestro los botones de tickets
           leerItemsTicket()// leo tabla de items de productos, servicios
         }

@@ -10,7 +10,7 @@
                     Dplus <span class="fw-300"><i>ventas</i></span>
                 </h2>
                 <div class="panel-toolbar">
-                    <button type="button" class="btn btn-success btn-sm" onclick="nuevoTicket()"><i class="fal fa-plus-circle"></i> Nuevo ticket</button>
+                    <button type="button" class="btn btn-success btn-sm" onclick="nuevoTicket()"><i class="fal fa-ticket-alt"></i> Nuevo ticket</button>
                 </div>
             </div>
             <div class="panel-container show">
