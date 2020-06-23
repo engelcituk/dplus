@@ -198,6 +198,7 @@ function nuevoTicket() {
     localStorage.setItem('ticketsVentas',JSON.stringify(tickets));
     localStorage.setItem(ticket, JSON.stringify(valor));
     showButtonsTickets()// muestro los botones de tickets
+    showButtonDeleteTicket();// muestro u oculto boton de borrado de ticket
    }
  }
  //para mostrar la lista de botones de tickets
@@ -217,12 +218,25 @@ function showButtonsTickets(){
     $("#btnTickets").html(botonesTickets);
   }
 }
+function showButtonDeleteTicket(){
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); 
+  const longitud = listadoTickets.length;
+  if(localStorage.getItem('ticketsVentas')){
+    const buttonDelete = `<button class="btn btn-danger btn-xs" data-toggle="tooltip" data-original-title="Borrar ticket" onclick="borrarTicket()"> <i class="fal fa-trash-alt"></i> </button>`;
+    const btnDeleteTicket = longitud < 2 ? '' : buttonDelete;
+    $('#btnDeleteTicket').html(btnDeleteTicket)
+    return btnDeleteTicket;
+  }
+
+}
  //para mostrar el area donde va la tabla de items de productos, servicios
 function showDivTableTicket(){
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   $("#lsTickets").html('');
   if(localStorage.getItem('ticketsVentas')){
-    listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
     const ticketActivo = getTicketActivo();
+    const btnDeleteTicket = showButtonDeleteTicket();
+
     if (localStorage.getItem(ticketActivo.ticket)) {
       panel = `
       <div class="panel">
@@ -232,7 +246,9 @@ function showDivTableTicket(){
                     </h2>
                     <div class="panel-toolbar">
                         <button class="btn btn-panel waves-effect waves-themed mr-2" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Colapsar"></button>
-                        <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-original-title="Borrar ticket" onclick="borrarTicket()"> <i class="fal fa-trash-alt"></i> </button>
+                        <div id="btnDeleteTicket">
+                          ${btnDeleteTicket}
+                        </div>
                     </div>
                 </div>
                 <div class="panel-container show">
@@ -382,6 +398,7 @@ function activarTicket(elemento,folio){
 } 
 
 function leerItemsTicket() {
+  showButtonDeleteTicket();// muestro u oculto boton de borrado del ticket
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
   $("#tabla_items_tr tbody").empty();//limpio tbody de tabla
@@ -480,6 +497,7 @@ function showTotals(){
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
+      cancelButtonText: '¡Cancelar!',
       confirmButtonText: 'Sí, borrarlo!'
     }).then((result) => {
       if (result.value) {
