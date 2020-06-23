@@ -435,7 +435,7 @@ function leerItemsTicket() {
                 <button type="button" class="btn btn-warning btn-sm" ${disabled} style=${cssNotAllowedCantidad}><i class="fal fa-minus"></i></button>
                 <button type="button" class="btn btn-success btn-sm" ${disabled2} style=${cssNotAllowed}><i class="fal fa-plus-circle"></i></button>
                 <button type="button" class="btn btn-info btn-sm"><i class="fal fa-sticky-note"></i></button>
-                <button type="button" class="btn btn-danger btn-sm"><i class="fal fa-trash-alt"></i></button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeItemFromTicket(${i})"><i class="fal fa-trash-alt"></i></button>
               </td>
           </tr>`;
           $("#tabla_items_tr tbody").append(trItem);
@@ -484,6 +484,15 @@ function showTotals(){
     }
   }
 }
+function removeItemFromTicket(position) {
+  const ticketActivo = getTicketActivo();
+  const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  if(localStorage.getItem(ticketActivo.ticket)){
+    listaItems.splice(position, 1);// elimino un item del ticket activo de la posicion recibida
+    localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de tickets
+    leerItemsTicket()// leo tabla de items de productos, servicios
+  }
+}
  function borrarTicket() {
   const ticketActivo = getTicketActivo();
   const firstTicketDesactivado = getPrimerTicketDesactivado();
@@ -504,7 +513,7 @@ function showTotals(){
         if (localStorage.getItem('ticketsVentas')){
           listaTickets[firstTicketDesactivadoPosition]["estado"] = 'activo';// cambio su estado a activo al primer ticket desactivado
           listaTickets.splice(ticketActivoPosition, 1);// elimino el ticket activado del array de tickets
-          localStorage.removeItem(ticketActivo.ticket); // borro el con sus items
+          localStorage.removeItem(ticketActivo.ticket); // borro la variable localstorage con sus items
           localStorage.setItem('ticketsVentas',JSON.stringify(listaTickets)); // guardo el array de tickets
           showButtonsTickets()// muestro los botones de tickets
           leerItemsTicket()// leo tabla de items de productos, servicios
