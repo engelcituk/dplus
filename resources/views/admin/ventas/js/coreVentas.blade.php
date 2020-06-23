@@ -137,11 +137,23 @@ function getTickets(){
     showDivTableTicket();
   }
 }
+
+/*=======================================================================
+--- funciones para obtener primer ticket activo, desactivado, y por folio
+--- posicion del ticket activo y del primer ticket desactivado
+========================================================================*/
 function getTicketActivo(){
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   if (localStorage.getItem('ticketsVentas')) {
     const ticketActivo = listadoTickets.find( ticket => ticket.estado == 'activo' );
     return ticketActivo;
+  }
+}
+function getPrimerTicketDesactivado(){
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  if (localStorage.getItem('ticketsVentas')) {
+    const ticketDesactivado = listadoTickets.find( ticket => ticket.estado == 'desactivado' );
+    return ticketDesactivado;
   }
 }
 function getTicketByFolio(folio) {
@@ -151,6 +163,27 @@ function getTicketByFolio(folio) {
     return resultadoTicket;
   }
 }
+function getPositionTicketActivo(){
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const ticketActivo = getTicketActivo();
+  if (localStorage.getItem('ticketsVentas')) {
+    const positionTicket = listadoTickets.findIndex(x => x.ticket == ticketActivo.ticket)
+    return positionTicket;
+  }
+}
+function getPositionPrimerTicketDesactivado(){
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const primerTicketDesactivado = getPrimerTicketDesactivado();
+  if (localStorage.getItem('ticketsVentas')) {
+    const positionTicket = listadoTickets.findIndex(x => x.ticket == primerTicketDesactivado.ticket)
+    return positionTicket;
+  }
+}
+/*==============================================================================
+--- fin de funciones para obtener primer ticket activo, desactivado, y por folio
+--- posicion del ticket activo y del primer ticket desactivado
+=========================================== ==================================== */
+
 // para el botón de nuevo ticket
 function nuevoTicket() {
   let listaTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
@@ -178,7 +211,7 @@ function showButtonsTickets(){
       let estado = listaTickets[i]['estado'];
       let btnActive = estado == 'activo' ? 'btn-success' : ''; 
 
-      botonesTickets+=`<button type="button" class="btn ${btnActive} btn-sm mr-2 mb-2 buttonTickets" onclick="activarTicket(this,'${ticket}')"  ><i class="fal fa-plus-circle"></i> ${ticket}</button>`;
+      botonesTickets+=`<button type="button" class="btn ${btnActive} btn-sm mr-2 mb-2 buttonTickets" onclick="activarTicket(this,'${ticket}')"  ><i class="fal fa-plus-circle"></i> ${ticket} </button>`;
     }
     botonesTickets+=``;
     $("#btnTickets").html(botonesTickets);
@@ -198,7 +231,8 @@ function showDivTableTicket(){
                         folio <span class="badge badge-success" id="spanFolio">${ticketActivo.ticket}</span> <span class="fw-300"><i></i></span>
                     </h2>
                     <div class="panel-toolbar">
-                        <button class="btn btn-panel waves-effect waves-themed" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Colapsar"></button>
+                        <button class="btn btn-panel waves-effect waves-themed mr-2" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Colapsar"></button>
+                        <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-original-title="Borrar ticket" onclick="borrarTicket()"> <i class="fal fa-trash-alt"></i> </button>
                     </div>
                 </div>
                 <div class="panel-container show">
@@ -213,7 +247,6 @@ function showDivTableTicket(){
                                       <th>Ex.</th>
                                       <th>Total</th>
                                       <th>Acciones</th>
-
                                   </tr>
                               </thead>
                               <tbody>                                                        
@@ -390,5 +423,33 @@ function leerItemsTicket() {
 
     }
   }
+ }
+
+ function borrarTicket() {
+  const ticketActivo = getTicketActivo();
+  const firstTicketDesactivado = getPrimerTicketDesactivado();
+  const ticketActivoPosition = getPositionTicketActivo();
+  const firstTicketDesactivadoPosition = getPositionPrimerTicketDesactivado();
+  let listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
+  Swal.fire({
+      title: `¿Seguro de borrar el ticket ${ticketActivo.ticket}?`,
+      text: "¡No podrás revertir esto!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrarlo!'
+    }).then((result) => {
+      if (result.value) {
+        if (localStorage.getItem('ticketsVentas')){
+          listaTickets[firstTicketDesactivadoPosition]["estado"] = 'activo';
+          listaTickets.splice(ticketActivoPosition, 1);
+          localStorage.removeItem(ticketActivo.ticket);
+          localStorage.setItem('ticketsVentas',JSON.stringify(listaTickets));
+          showButtonsTickets()// muestro los botones de tickets
+          leerItemsTicket()// leo tabla de items de productos, servicios
+        }
+      }
+    })
  }
  </script>
