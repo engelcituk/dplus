@@ -253,7 +253,7 @@ function showDivTableTicket(){
       <div class="panel">
                 <div class="panel-hdr">
                     <h2>
-                        folio <span class="badge badge-success" id="spanFolio">${ticketActivo.ticket}</span> <span class="fw-300"><i></i></span>
+                        folio&nbsp;&nbsp;<span class="badge badge-success" id="spanFolio">${ticketActivo.ticket}</span> <span class="fw-300"><i></i></span>
                     </h2>
                     <div class="panel-toolbar">
                         <button class="btn btn-panel waves-effect waves-themed mr-2" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Colapsar"></button>
@@ -303,7 +303,7 @@ function addServicioCliente() {
   let comision = document.getElementById("comisionInputTVService").value;
   let numPago = document.getElementById("numPago").value;
   let numAutorizacion = document.getElementById("numAutorizacion").value;
-  let precioFinal = document.getElementById("numAutorizacion").value;
+  let precioFinal = document.getElementById("precioFinalInputTVService").value;
 
   const ticketActivo = getTicketActivo();
 
@@ -318,7 +318,7 @@ function addServicioCliente() {
     'barcode' : '-',
     'cantidad' : 1,
     'existencia' : 'Ilim',
-    'precio' : precio,
+    'precio' : precioFinal,
     'comision' : comision,
     'numPagoProveedor' : numPago,
     'numAutorizacionProveedor' : numAutorizacion,
@@ -439,12 +439,16 @@ function leerItemsTicket() {
               <th>${buttonMayoreo}</th>
               <th>${descripcion}</th>
               <td>${(Math.round(precio * 100) / 100).toFixed(2)}</td>
-              <td contenteditable=${cantidadEditable}>${cantidad}</td>
+              <td contenteditable=${cantidadEditable} id='cantidadItemTr${i}' onBlur="modificarCantidadItem(${i})">${cantidad}</td>
               <td>${existencia}</td>
               <td>${(Math.round(total * 100) / 100).toFixed(2)}</td>
               <td>
-                <button type="button" class="btn btn-warning btn-sm" ${disabled} style=${cssNotAllowedCantidad}><i class="fal fa-minus"></i></button>
-                <button type="button" class="btn btn-success btn-sm" ${disabled2} style=${cssNotAllowed}><i class="fal fa-plus-circle"></i></button>
+                <button type="button" class="btn btn-warning btn-sm" ${disabled} style=${cssNotAllowedCantidad} onclick="aumentarDisminuir(${i},${false})">
+                  <i class="fal fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" ${disabled2} style=${cssNotAllowed} onclick="aumentarDisminuir(${i},${true})">
+                  <i class="fal fa-plus-circle"></i>
+                </button>
                 <button type="button" class="btn btn-info btn-sm" onclick="verNotaDelItem(${i})"><i class="fal fa-sticky-note"></i></button>
                 <button type="button" class="btn btn-danger btn-sm" onclick="removeItemFromTicket(${i})"><i class="fal fa-trash-alt"></i></button>
               </td>
@@ -452,7 +456,7 @@ function leerItemsTicket() {
           $("#tabla_items_tr tbody").append(trItem);
         }
       }else{
-        const trItem =`<tr><td colspan="6" style='text-align:center;vertical-align:middle'>Aún no hay elementos en la lista</td></tr>`;
+        const trItem =`<tr><td colspan="7" style='text-align:center;vertical-align:middle'>Aún no hay elementos en la lista</td></tr>`;
         $("#tabla_items_tr tbody").append(trItem);
       }
       showTotals();// muestro los totales del ticket
@@ -488,7 +492,7 @@ function showTotals(){
       }else{
         const trItem =`<tr>
             <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
-            <td colspan="3" style='text-align:center;vertical-align:middle'>0</td>
+            <td colspan="3" style='text-align:center;vertical-align:middle'>${(Math.round(0 * 100) / 100).toFixed(2)}</td>
           </tr>`;
         $("#tabla_items_tr tfoot").append(trItem);
       }
@@ -526,6 +530,41 @@ function addNoteToItemTicket() {
     localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de items
     $('#modalNotaItem').modal('hide');// oculto el modal servicio
     leerItemsTicket()// leo tabla de items de productos, servicios.. etc al borrar un item
+  }
+}
+function aumentarDisminuir(position,restaSuma) {
+  const ticketActivo = getTicketActivo();
+  let listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  if(localStorage.getItem(ticketActivo.ticket)){
+    const cantidadAnterior = listaItems[position]["cantidad"];
+    if (restaSuma) {
+      nuevaCantidad = parseInt(cantidadAnterior) + 1;
+      listaItems[position]["cantidad"] = nuevaCantidad;// le agrego la nueva cantidad al item
+    } else {
+      nuevaCantidad = parseInt(cantidadAnterior) - 1; 
+      listaItems[position]["cantidad"] = nuevaCantidad;// le agrego la nueva cantidad al item
+    }
+    localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de items
+    leerItemsTicket()// leo tabla de items de productos, servicios.. etc al modificar cantidad de un item
+  }
+}
+function modificarCantidadItem(position) {
+  const ticketActivo = getTicketActivo();
+  let listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  if(localStorage.getItem(ticketActivo.ticket)){
+    const cantidadAnterior = listaItems[position]["cantidad"];
+    const nuevaCantidad = $("#cantidadItemTr"+position).html();
+    if(nuevaCantidad !=''){
+      if(!isNaN(nuevaCantidad) && nuevaCantidad > 0){
+      listaItems[position]["cantidad"] = nuevaCantidad;// le agrego la nueva cantidad al item
+      }else{
+        $("#cantidadItemTr"+position).html(cantidadAnterior);
+      }
+    }else{
+      $("#cantidadItemTr"+position).html(cantidadAnterior);
+    }
+    localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de items
+    leerItemsTicket()// leo tabla de items de productos, servicios.. etc al modificar cantidad de un item
   }
 }
  function borrarTicket() {
