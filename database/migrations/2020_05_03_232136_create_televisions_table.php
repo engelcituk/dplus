@@ -18,6 +18,7 @@ class CreateTelevisionsTable extends Migration
             $table->string('name');
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('days_periods_id')->unsigned();
+            $table->string('code')->unique();
             $table->string('description')->nullable();
             $table->decimal('price');
             $table->decimal('commission');

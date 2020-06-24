@@ -315,7 +315,7 @@ function addServicioCliente() {
     'referencia' : referencia,
     'descripcion' :  descripcion,
     'tipo' : 'servicio',
-    'barcode' : '-',
+    'code' : '-',
     'cantidad' : 1,
     'existencia' : 'Ilim',
     'precio' : precioFinal,
@@ -334,7 +334,7 @@ function addServicioCliente() {
   }
  }
 
- function addProducto(idProducto,barcode,descripcion,precio, existencia) {
+ function addProducto(idProducto,code,descripcion,precio, existencia) {
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
 
@@ -346,7 +346,7 @@ function addServicioCliente() {
     'referencia' : '-',
     'descripcion' :  descripcion,
     'tipo' : 'producto',
-    'barcode' : barcode,
+    'code' : code,
     'cantidad' : 1,
     'existencia' : existencia,
     'precio' : precio,
@@ -367,7 +367,7 @@ function addServicioCliente() {
     },{								
         type: tipo,
         delay: duracion,
-        z_i: 3000,
+        z_index: 3000,
     });
  } 
 
@@ -478,7 +478,7 @@ function showTotals(){
           total = total + subtoTotal;
         }
         const trItem =`
-        <tr>
+          <tr >
             <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
             <td colspan="3" style='text-align:center;vertical-align:middle'>${(Math.round(total * 100) / 100).toFixed(2)}</td>
           </tr>
@@ -490,7 +490,7 @@ function showTotals(){
         `;
         $("#tabla_items_tr tfoot").append(trItem);
       }else{
-        const trItem =`<tr>
+        const trItem =`<tr class="bg-primary-500">
             <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
             <td colspan="3" style='text-align:center;vertical-align:middle'>${(Math.round(0 * 100) / 100).toFixed(2)}</td>
           </tr>`;

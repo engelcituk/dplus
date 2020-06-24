@@ -16,11 +16,11 @@ class ProductsTableSeeder extends Seeder
 
         $product = new Producto;
         $product->category_id=4;
-        $product->barcode="1273298573952";
+        $product->code="1273298573952";
         $product->description="producto 1";
         $product->price_cost=45;
         $product->sale_price=50;
-        $product->wholesale_price=60;
+        $product->wholesale_price=40;
         $product->has_inventory=true;
         $product->units=25;
         $product->minimum=5;
@@ -28,11 +28,11 @@ class ProductsTableSeeder extends Seeder
 
         $product = new Producto;
         $product->category_id=4;
-        $product->barcode="2473298573952";
+        $product->code="2473298573952";
         $product->description="producto 2";
         $product->price_cost=15;
         $product->sale_price=20;
-        $product->wholesale_price=25;
+        $product->wholesale_price=10;
         $product->has_inventory=true;
         $product->units=25;
         $product->minimum=5;
@@ -40,11 +40,11 @@ class ProductsTableSeeder extends Seeder
 
         $product = new Producto;
         $product->category_id=4;
-        $product->barcode="4573298573952";
+        $product->code="4573298573952";
         $product->description="producto 3";
         $product->price_cost=20;
         $product->sale_price=30;
-        $product->wholesale_price=40;
+        $product->wholesale_price=15;
         $product->has_inventory=true;
         $product->units=25;
         $product->minimum=5;

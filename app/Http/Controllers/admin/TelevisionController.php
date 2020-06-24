@@ -39,6 +39,7 @@ class TelevisionController extends Controller
          //Validar el formulario
          $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'code' => ['required','unique:televisions,code'],
             'category_id'=>'required',
             'days_periods_id'=>'required',
             'description' =>     'required',
@@ -78,13 +79,13 @@ class TelevisionController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'code' => ['required','unique:televisions,code,'.$television->id],
             'description' => 'required',
             'category_id'=>'required', 
             'days_periods_id'=>'required', 
             'price' => 'required',
             'commission' => 'required',
-            'final_price' => 'required'
-            
+            'final_price' => 'required' 
         ]);
 
         $television->update($data);

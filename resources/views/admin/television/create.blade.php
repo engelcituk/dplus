@@ -67,6 +67,15 @@
                             </div>
                             <div class="col-xl-6">
                                 <div class="form-group">
+                                    <label class="form-label" for="addon-wrapping-left">Código</label>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fal fa-barcode fs-xl"></i></span>
+                                        </div>
+                                    <input type="text" class="form-control" placeholder="Código único" aria-label="Código" aria-describedby="addon-wrapping-left" id="precio" name="code" value="{{ old('code')}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label" for="addon-wrapping-left">Precio</label>
                                     <div class="input-group flex-nowrap">
                                         <div class="input-group-prepend">

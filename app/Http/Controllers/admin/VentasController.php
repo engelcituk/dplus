@@ -42,7 +42,7 @@ class VentasController extends Controller
         
         $datosProducto = $request->get('datosProducto');
     
-        $productos = Producto::where('description', 'like', '%' .$datosProducto. '%')->orWhere('barcode', 'like', '%' .$datosProducto. '%')->get();
+        $productos = Producto::where('description', 'like', '%' .$datosProducto. '%')->orWhere('code', 'like', '%' .$datosProducto. '%')->get();
 
         return response()->json(
             [

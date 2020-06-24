@@ -30,6 +30,7 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nombre</th>
+                                <th>Código</th>
                                 <th>Categoría</th>
                                 <th>Recurrencia</th>
                                 <th>Precio</th>
@@ -43,6 +44,7 @@
                                 <tr>
                                     <td>{{$servicioTV->id}}</td>
                                     <td>{{$servicioTV->name}}</td>
+                                    <td>{{$servicioTV->code}}</td>
                                     <td>{{$servicioTV->category->name}}</td>
                                     <td>{{$servicioTV->periodo->days_number}} días</td>                                    
                                     <td>{{$servicioTV->price}}</td>
@@ -63,6 +65,8 @@
                                 </tr>
                                 @empty
                                 <tr>
+                                    <td>:(</td>
+                                    <td>:(</td>
                                     <td>:(</td>
                                     <td>:(</td>
                                     <td>:(</td>

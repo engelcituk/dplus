@@ -33,7 +33,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-barcode fs-xl"></i></span>
                                         </div>
-                                    <input type="text" class="form-control" placeholder="Código de barras" aria-label="código de barras" aria-describedby="addon-wrapping-left" name="barcode" value="{{ old('barcode')}}">
+                                    <input type="text" class="form-control" placeholder="Código de barras" aria-label="código de barras" aria-describedby="addon-wrapping-left" name="code" value="{{ old('code')}}">
                                     </div>
                                 </div>
                                 <div class="form-group">

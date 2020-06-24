@@ -17,6 +17,7 @@ function buscarClientes(){
           var ok= respuesta.ok;
           if(ok){
             clientes = respuesta.clientes;
+            console.log(clientes);
             listaClientes = `
             <table class="table table-bordered m-2">
                 <thead>
@@ -85,7 +86,7 @@ function buscarProductos(){
                 <thead>
                     <tr>
                         <th>IMG</th>
-                        <th>Barcode</th>
+                        <th>Código</th>
                         <th>Descripción</th>
                         <th>Existencia</th>
                         <th>Precio</th>
@@ -96,19 +97,19 @@ function buscarProductos(){
 
             for(i = 0; i < productos.length; i++){
               let idProducto = productos[i].id
-              let barcode = productos[i].barcode
+              let code = productos[i].code
               let nombreProducto = productos[i].description
               let precio = productos[i].sale_price
               let unidades = productos[i].units
-
+ 
               listaProductos += `
               <tr>
                 <td><button type="button" class="btn btn-info xs"><i class="fal fa-image"></i></button></td>                
-                <td>${barcode}</td>
+                <td>${code}</td>
                 <td>${nombreProducto}</td>
                 <td>${unidades}</td>
                 <td>${precio}</td>
-                <td><button type="button" class="btn btn-info xs" onclick="addProducto(${idProducto},'${barcode}','${nombreProducto}','${precio}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
+                <td><button type="button" class="btn btn-info xs" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
               </tr>`;
             }
           listaProductos += `</tbody></table>`

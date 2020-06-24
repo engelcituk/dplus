@@ -52,7 +52,7 @@ class ProductsController extends Controller
 
         //Validar el formulario
         $data = $request->validate([
-            'barcode' => 'required',
+            'code' => ['required','unique:productos,code'],
             'category_id'=>'required', 
             'description' => 'required',
             'price_cost' => 'required',
@@ -73,7 +73,7 @@ class ProductsController extends Controller
        $this->authorize('update',$product); // politica de acceso
 
         $data = $request->validate([
-            'barcode' => 'required',
+            'code' => ['required','unique:productos,code,'.$product->id],
             'category_id'=>'required', 
             'description' => 'required',
             'price_cost' => 'required',

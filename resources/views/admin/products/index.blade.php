@@ -30,7 +30,7 @@
                             <tr>
                                 
                                 <th>Categoría</th>
-                                <th>Código de barras</th>
+                                <th>Código</th>
                                 <th>Descripción</th>
                                 <th>Precio costo</th>
                                 <th>Precio venta</th>
@@ -46,7 +46,7 @@
                                 <tr>
                                     
                                     <td>{{$product->category->name}}</td>
-                                    <td>{{$product->barcode}}</td>
+                                    <td>{{$product->code}}</td>
                                     <td>{{$product->description}}</td>                                    
                                     <td>{{$product->price_cost}}</td>
                                     <td>{{$product->sale_price}}</td>
