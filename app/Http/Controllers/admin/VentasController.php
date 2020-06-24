@@ -26,7 +26,8 @@ class VentasController extends Controller
             $query->orWhere('cliente_television.referencia', 'like', '%'.$datosCliente.'%');
         })
         ->join('clientes', 'clientes.id', '=', 'cliente_television.cliente_id')
-        ->select('clientes.id as idCliente', 'cliente_television.television_id as idTelevision','clientes.name','cliente_television.referencia')
+        ->join('televisions', 'televisions.id', '=', 'cliente_television.television_id')
+        ->select('clientes.id as idCliente', 'cliente_television.television_id as idTelevision','televisions.code as code','clientes.name','cliente_television.referencia')
         ->get();
 
         return response()->json(

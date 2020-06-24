@@ -14,7 +14,7 @@ function copiar(idCliente){
   try {
     var successful = document.execCommand('copy');
     var mensaje = successful ? 'Referencia Copiada' : 'No se pudo copiar :c';
-    //resultado.innerHTML = mensaje;
+    showMessageNotify("Se ha copiado referencia en el portapapeles", "info", 3000)
     window.getSelection().removeAllRanges();
   } catch (e) {
     console.log(mensaje)    
@@ -40,7 +40,7 @@ function copiarDesdeInput(){
 }
 
 //para obtener los datos del servicio de tv del cliente
-function getDataServicioTVCliente(idCliente, idTV, nombreCliente, referencia){
+function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referencia){
   $.ajax({
       url: "{{ url('admin/ventas/datostvservicio') }}" ,
       type: "GET",
@@ -72,6 +72,8 @@ function getDataServicioTVCliente(idCliente, idTV, nombreCliente, referencia){
 function showModalservicio(servicio, idCliente, nombreCliente, referencia){
   //le pinto los valores en los campos
   $('#idClienteInputTVService').val(idCliente);
+  $('#codeTvService').val(servicio.code);
+
   $('#nombreClienteInputTVService').val(nombreCliente);
   $('#referenciaClienteInputTVService').val(referencia);
  // document.getElementById('referenciaClienteInputTVService').onclick = copiar(idCliente);
@@ -296,6 +298,7 @@ function addServicioCliente() {
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
 
   let idCliente = document.getElementById("idClienteInputTVService").value;
+  let code = document.getElementById("codeTvService").value;
   let nombreCliente = document.getElementById("nombreClienteInputTVService").value;
   let referencia = document.getElementById("referenciaClienteInputTVService").value;
   let descripcion = document.getElementById("nombreInputTVService").value;
@@ -315,7 +318,7 @@ function addServicioCliente() {
     'referencia' : referencia,
     'descripcion' :  descripcion,
     'tipo' : 'servicio',
-    'code' : '-',
+    'codigo' : code,
     'cantidad' : 1,
     'existencia' : 'Ilim',
     'precio' : precioFinal,
@@ -346,11 +349,11 @@ function addServicioCliente() {
     'referencia' : '-',
     'descripcion' :  descripcion,
     'tipo' : 'producto',
-    'code' : code,
+    'codigo' : code,
     'cantidad' : 1,
     'existencia' : existencia,
     'precio' : precio,
-    'comision' : '-',
+    'comision' : 0,
     'numPagoProveedor' : '-',
     'numAutorizacionProveedor' : '-',
     'nota':''
@@ -428,12 +431,13 @@ function leerItemsTicket() {
           const existencia = listaItems[i]['existencia'];
           const total = precio * cantidad;
           //ternarios
-          let disabled = cantidad == 1 ? 'disabled' : '';
+          let disabledButtonDisminuir = cantidad == 1 ? 'disabled' : '';
           let cssNotAllowedCantidad = cantidad == 1 ? 'cursor:not-allowed' : 'cursor:pointer'; 
-          let disabled2 = tipo == 'servicio' ? 'disabled' : '';
+          let disabledButtonAumentar = (tipo == 'servicio' || cantidad == existencia  )? 'disabled' : '';
+          let disabledButtonMayoreo = (tipo == 'servicio'  )? 'disabled' : '';
           let cssNotAllowed = tipo == 'servicio' ? 'cursor:not-allowed' : 'cursor:pointer'; 
           let cantidadEditable = tipo == 'servicio' ? false : true;
-          let buttonMayoreo = `<button type="button" class="btn btn-warning btn-sm" ${disabled2} style=${cssNotAllowed}><i class="fal fa-money-bill"></i></button>`;
+          let buttonMayoreo = `<button type="button" class="btn btn-warning btn-sm" ${disabledButtonMayoreo} style=${cssNotAllowed}><i class="fal fa-money-bill"></i></button>`;
         
           const trItem =`<tr>
               <th>${buttonMayoreo}</th>
@@ -443,10 +447,10 @@ function leerItemsTicket() {
               <td>${existencia}</td>
               <td>${(Math.round(total * 100) / 100).toFixed(2)}</td>
               <td>
-                <button type="button" class="btn btn-warning btn-sm" ${disabled} style=${cssNotAllowedCantidad} onclick="aumentarDisminuir(${i},${false})">
+                <button type="button" class="btn btn-warning btn-sm" ${disabledButtonDisminuir} style=${cssNotAllowedCantidad} onclick="aumentarDisminuir(${i},${false})">
                   <i class="fal fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-success btn-sm" ${disabled2} style=${cssNotAllowed} onclick="aumentarDisminuir(${i},${true})">
+                <button type="button" class="btn btn-success btn-sm" ${disabledButtonAumentar} style=${cssNotAllowed} onclick="aumentarDisminuir(${i},${true})">
                   <i class="fal fa-plus-circle"></i>
                 </button>
                 <button type="button" class="btn btn-info btn-sm" onclick="verNotaDelItem(${i})"><i class="fal fa-sticky-note"></i></button>
@@ -553,10 +557,16 @@ function modificarCantidadItem(position) {
   let listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
   if(localStorage.getItem(ticketActivo.ticket)){
     const cantidadAnterior = listaItems[position]["cantidad"];
+    const existencia = listaItems[position]["existencia"];
     const nuevaCantidad = $("#cantidadItemTr"+position).html();
     if(nuevaCantidad !=''){
       if(!isNaN(nuevaCantidad) && nuevaCantidad > 0){
-      listaItems[position]["cantidad"] = nuevaCantidad;// le agrego la nueva cantidad al item
+        if ( nuevaCantidad <= existencia) {
+          listaItems[position]["cantidad"] = nuevaCantidad;// le agrego la nueva cantidad al item
+        }else{
+          showMessageNotify(`La nueva cantidad ${nuevaCantidad} supera la existencia ${existencia} disponible`,'danger', 3000);
+          $("#cantidadItemTr"+position).html(cantidadAnterior);
+        }
       }else{
         $("#cantidadItemTr"+position).html(cantidadAnterior);
       }

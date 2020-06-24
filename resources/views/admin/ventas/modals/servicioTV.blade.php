@@ -13,7 +13,7 @@
                 <div class="container">
                     <form action="">
                     <div class="row">
-                        <div class="col-xs-6 m-auto">
+                        <div class="col-xs-6 m-auto d-none">
                             <div class="form-group">
                                 <label class="form-label" for="addon-wrapping-left">idCliente</label>
                                 <div class="input-group flex-nowrap">
@@ -24,6 +24,17 @@
                                 </div>
                             </div>
                         </div>  
+                        <div class="col-xs-6 m-auto">
+                            <div class="form-group">
+                                <label class="form-label" for="addon-wrapping-left">Código</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-barcode fs-xl"></i></span>
+                                    </div>
+                                <input type="text" class="form-control" id="codeTvService" readonly>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-xs-6 m-auto">
                             <div class="form-group">
                                 <label class="form-label" for="addon-wrapping-left">Nombre del cliente</label>
@@ -100,21 +111,18 @@
                                 <input type="text" class="form-control"  id="numAutorizacion">
                                 </div>
                             </div>
-                        </div>
+                        </div>                    
                     </div>
                     <br>
                     <div class="form-group">
-                        <label class="form-label" for="addon-wrapping-left">Precio final</label>
-                        <div class="input-group flex-nowrap">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
-                            </div>
+                            <label class="form-label" for="addon-wrapping-left">Precio final</label>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
+                                </div>
                             <input type="text" class="form-control"  id="precioFinalInputTVService" readonly>
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="fal fa-money-bill fs-xl"></i></span>
                             </div>
                         </div>
-                    </div>
                     <span class="badge badge-info" id="referenciaModalSpan"></span>
                 </div>                            
             </div> 

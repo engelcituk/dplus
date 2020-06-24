@@ -17,12 +17,12 @@ function buscarClientes(){
           var ok= respuesta.ok;
           if(ok){
             clientes = respuesta.clientes;
-            console.log(clientes);
             listaClientes = `
             <table class="table table-bordered m-2">
                 <thead>
                     <tr>
                         <th>Nombre Cliente</th>
+                        <th>Código</th>
                         <th>Referencia</th>
                         <th>Acciones</th>
                     </tr>
@@ -31,15 +31,17 @@ function buscarClientes(){
               for(i = 0; i < clientes.length; i++){
                 let idCliente = clientes[i].idCliente
                 let idTV = clientes[i].idTelevision
+                let code = clientes[i].code
                 let nombreCliente = clientes[i].name
                 let referencia = clientes[i].referencia
                 listaClientes += `
                 <tr>
                   <td>${nombreCliente}</td>
+                  <td>${code}</td>
                   <td> <span id="ref${idCliente}">${referencia}</span></td>
                   <td>
                     <button type="button" class="btn btn-primary xs" onclick="copiar(${idCliente})"><i class="fal fa-copy"></i></button>
-                    <button type="button" class="btn btn-info xs" onclick="getDataServicioTVCliente(${idCliente}, ${idTV}, '${nombreCliente}',${referencia})">
+                    <button type="button" class="btn btn-info xs" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${code}','${nombreCliente}',${referencia})">
                       <i class="fal fa-plus-circle"></i>
                     </button
                   </td>
@@ -61,7 +63,7 @@ function buscarClientes(){
       }
     });
   }else {
-    console.log("campos vacios o caracteres muy limitados");
+    //console.log("campos vacios o caracteres muy limitados");
     $("#listaClientes").html('');
   }
 }
@@ -130,7 +132,7 @@ function buscarProductos(){
       }
     });
   }else {
-    console.log("campos vacios o caracteres muy limitados");
+    //console.log("campos vacios o caracteres muy limitados");
     $("#listaProductos").html('');
   }
 }
