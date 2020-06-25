@@ -198,10 +198,11 @@ function seRepiteItem(code) {
   let listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket)); //convierto a json
   if(localStorage.getItem(ticketActivo.ticket)){
     const item = listaItems.find( item => item.codigo == code );
+    const positionItem = listaItems.findIndex(item => item.codigo == code)
     if(item){
-      return true;
+      return {'repetido': true, 'posicion': positionItem};
     }else {
-      return false;
+      return {'repetido': false, 'posicion': positionItem};      
     }
   }
 }
@@ -336,6 +337,7 @@ function addServicioCliente() {
     'cantidad' : 1,
     'existencia' : 'Ilim',
     'precio' : precioFinal,
+    'precioMayoreo':precioFinal,
     'comision' : comision,
     'numPagoProveedor' : numPago,
     'numAutorizacionProveedor' : numAutorizacion,
@@ -351,7 +353,7 @@ function addServicioCliente() {
   }
  }
 
- function addProducto(idProducto,code,descripcion,precio, existencia) {
+ function addProducto(idProducto,code,descripcion,precio,precioMayoreo, existencia) {
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
 
@@ -367,6 +369,7 @@ function addServicioCliente() {
     'cantidad' : 1,
     'existencia' : existencia,
     'precio' : precio,
+    'precioMayoreo':precioMayoreo,
     'comision' : 0,
     'numPagoProveedor' : '-',
     'numAutorizacionProveedor' : '-',
@@ -389,15 +392,26 @@ function addServicioCliente() {
  } 
 
  function addToTicket(datosItem) {
-  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
-
+  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  let listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
   if(localStorage.getItem('ticketsVentas')){
     if (localStorage.getItem(ticketActivo.ticket)) {
       datos = JSON.parse(datosItem);
       seRepite = seRepiteItem(datos.codigo);
-      console.log(seRepite);
-      listaItems.push(datos);
+      if (seRepite.repetido && datos.tipo == 'producto') {
+        existencia = parseInt(listaItems[seRepite.posicion]["existencia"]);
+        cantidadPrevia = parseInt(listaItems[seRepite.posicion]["cantidad"]);
+        nuevaCantidad = cantidadPrevia + 1;
+        if(nuevaCantidad <= existencia){
+          listaItems[seRepite.posicion]["cantidad"] = nuevaCantidad;        
+        }else {
+          showMessageNotify(`La cantidad ${nuevaCantidad} supera la existencia ${existencia} disponible`,'danger', 3000);
+          listaItems[seRepite.posicion]["cantidad"] = cantidadPrevia;        
+        }
+      } else {
+        listaItems.push(datos);
+      }
       localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems));
     }
   }
@@ -581,7 +595,7 @@ function modificarCantidadItem(position) {
         if ( nuevaCantidad <= existencia) {
           listaItems[position]["cantidad"] = nuevaCantidad;// le agrego la nueva cantidad al item
         }else{
-          showMessageNotify(`La nueva cantidad ${nuevaCantidad} supera la existencia ${existencia} disponible`,'danger', 3000);
+          showMessageNotify(`La cantidad ${nuevaCantidad} supera la existencia ${existencia} disponible`,'danger', 3000);
           $("#cantidadItemTr"+position).html(cantidadAnterior);
         }
       }else{

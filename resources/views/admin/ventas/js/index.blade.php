@@ -98,11 +98,12 @@ function buscarProductos(){
               <tbody>`
 
             for(i = 0; i < productos.length; i++){
-              let idProducto = productos[i].id
-              let code = productos[i].code
-              let nombreProducto = productos[i].description
-              let precio = productos[i].sale_price
-              let unidades = productos[i].units
+              const idProducto = productos[i].id
+              const code = productos[i].code
+              const nombreProducto = productos[i].description
+              const precio = productos[i].sale_price
+              const precioMayoreo = productos[i].wholesale_price
+              const unidades = productos[i].units
  
               listaProductos += `
               <tr>
@@ -111,7 +112,7 @@ function buscarProductos(){
                 <td>${nombreProducto}</td>
                 <td>${unidades}</td>
                 <td>${precio}</td>
-                <td><button type="button" class="btn btn-info xs" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
+                <td><button type="button" class="btn btn-info xs" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}','${precioMayoreo}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
               </tr>`;
             }
           listaProductos += `</tbody></table>`
