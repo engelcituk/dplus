@@ -77,7 +77,7 @@ function showModalservicio(servicio, idCliente, nombreCliente, referencia){
   $('#nombreClienteInputTVService').val(nombreCliente);
   $('#referenciaClienteInputTVService').val(referencia);
  // document.getElementById('referenciaClienteInputTVService').onclick = copiar(idCliente);
-  $("#referenciaClienteInputTVService").click(copiar(idCliente));
+  $("#referenciaClienteInputTVService").val(referencia);
   $('#nombreInputTVService').val(servicio.name);
   $('#precioInputTVService').val(servicio.price);
   $('#comisionInputTVService').val(servicio.commission);
@@ -154,6 +154,7 @@ function getTickets(){
 /*=======================================================================
 --- funciones para obtener primer ticket activo, desactivado, y por folio
 --- posicion del ticket activo y del primer ticket desactivado
+-- si se repite un elemento en el ticket activo
 ========================================================================*/
 function getTicketActivo(){
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
@@ -192,9 +193,22 @@ function getPositionPrimerTicketDesactivado(){
     return positionTicket;
   }
 }
+function seRepiteItem(code) {
+  const ticketActivo = getTicketActivo();
+  let listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket)); //convierto a json
+  if(localStorage.getItem(ticketActivo.ticket)){
+    const item = listaItems.find( item => item.codigo == code );
+    if(item){
+      return true;
+    }else {
+      return false;
+    }
+  }
+}
 /*==============================================================================
 --- fin de funciones para obtener primer ticket activo, desactivado, y por folio
 --- posicion del ticket activo y del primer ticket desactivado
+-- si se repite un elemento en el ticket activo
 =========================================== ==================================== */
 
 // para el botón de nuevo ticket
@@ -377,10 +391,13 @@ function addServicioCliente() {
  function addToTicket(datosItem) {
   let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
+
   if(localStorage.getItem('ticketsVentas')){
     if (localStorage.getItem(ticketActivo.ticket)) {
-      datosItem = JSON.parse(datosItem);
-      listaItems.push(datosItem);
+      datos = JSON.parse(datosItem);
+      seRepite = seRepiteItem(datos.codigo);
+      console.log(seRepite);
+      listaItems.push(datos);
       localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems));
     }
   }
