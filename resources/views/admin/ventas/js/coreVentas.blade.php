@@ -336,6 +336,8 @@ function addServicioCliente() {
     'codigo' : code,
     'cantidad' : 1,
     'existencia' : 'Ilim',
+    'tieneMayoreo': false,
+    'mayoreoAplicado':false,
     'precio' : precioFinal,
     'precioMayoreo':precioFinal,
     'comision' : comision,
@@ -368,6 +370,8 @@ function addServicioCliente() {
     'codigo' : code,
     'cantidad' : 1,
     'existencia' : existencia,
+    'tieneMayoreo': true,
+    'mayoreoAplicado':false,
     'precio' : precio,
     'precioMayoreo':precioMayoreo,
     'comision' : 0,
@@ -460,18 +464,21 @@ function leerItemsTicket() {
           const tipo = listaItems[i]['tipo'];
           const cantidad = parseInt(listaItems[i]['cantidad']);
           const existencia = listaItems[i]['existencia'];
+          const tieneMayoreo = listaItems[i]['tieneMayoreo'];
+          const mayoreoAplicado = listaItems[i]['mayoreoAplicado'];
           const total = precio * cantidad;
           //ternarios
-          let disabledButtonDisminuir = cantidad == 1 ? 'disabled' : '';
-          let cssNotAllowedCantidad = cantidad == 1 ? 'cursor:not-allowed' : 'cursor:pointer'; 
-          let disabledButtonAumentar = (tipo == 'servicio' || cantidad == existencia  )? 'disabled' : '';
-          let disabledButtonMayoreo = (tipo == 'servicio'  )? 'disabled' : '';
-          let cssNotAllowed = tipo == 'servicio' ? 'cursor:not-allowed' : 'cursor:pointer'; 
-          let cantidadEditable = tipo == 'servicio' ? false : true;
-          let buttonMayoreo = `<button type="button" class="btn btn-warning btn-sm" ${disabledButtonMayoreo} style=${cssNotAllowed}><i class="fal fa-money-bill"></i></button>`;
-        
+          const disabledButtonDisminuir = cantidad == 1 ? 'disabled' : '';
+          const cssNotAllowedCantidad = cantidad == 1 ? 'cursor:not-allowed' : 'cursor:pointer'; 
+          const disabledButtonAumentar = (tipo == 'servicio' || cantidad == existencia  )? 'disabled' : '';
+          const cssNotAllowed = tipo == 'servicio' ? 'cursor:not-allowed' : 'cursor:pointer'; 
+          const cantidadEditable = tipo == 'servicio' ? false : true;
+          const buttonConMayoreo = `<button type="button" class="btn btn-info btn-sm" style='cursor:pointer' onclick="aplicarMayoreo(${i})"><i class="fal fa-money-bill"></i></button>`;
+          const buttonSinMayoreo = `<button type="button" class="btn btn-warning btn-sm" disabled style='cursor:not-allowed'><i class="fal fa-money-bill"></i></button>`;
+          const buttonTieneMayoreo = tieneMayoreo == true ? buttonConMayoreo : buttonSinMayoreo;
+          
           const trItem =`<tr>
-              <th>${buttonMayoreo}</th>
+              <th>${buttonTieneMayoreo}</th>
               <th>${descripcion}</th>
               <td>${(Math.round(precio * 100) / 100).toFixed(2)}</td>
               <td contenteditable=${cantidadEditable} id='cantidadItemTr${i}' onBlur="modificarCantidadItem(${i})">${cantidad}</td>
@@ -608,6 +615,21 @@ function modificarCantidadItem(position) {
     leerItemsTicket()// leo tabla de items de productos, servicios.. etc al modificar cantidad de un item
   }
 }
+function aplicarMayoreo(position) { // aplica y quita el mayoreo
+  const ticketActivo = getTicketActivo();
+  const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  if(localStorage.getItem(ticketActivo.ticket)){
+    const precioAnterior = listaItems[position]["precio"];
+    const nuevoPrecio = listaItems[position]["precioMayoreo"];
+    const mayoreoAplicado = listaItems[position]["mayoreoAplicado"];
+    listaItems[position]["precio"] = nuevoPrecio;
+    listaItems[position]["precioMayoreo"] = precioAnterior;
+    listaItems[position]["mayoreoAplicado"] = !mayoreoAplicado;
+    localStorage.setItem(ticketActivo.ticket,JSON.stringify(listaItems)); // guardo el array de items
+    leerItemsTicket();
+  }
+}
+
  function borrarTicket() {
   const ticketActivo = getTicketActivo();
   const firstTicketDesactivado = getPrimerTicketDesactivado();
