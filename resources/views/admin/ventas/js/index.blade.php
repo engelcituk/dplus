@@ -83,6 +83,20 @@ function buscarProductos(){
           var ok= respuesta.ok;
           if(ok){
             productos = respuesta.productos;
+            longitud = productos.length;
+            if (longitud === 1) {
+              const ticketActivo = getTicketActivo();
+              const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+              if(localStorage.getItem(ticketActivo.ticket)){
+                const idProducto = productos[0].id
+                const code = productos[0].code
+                const nombreProducto = productos[0].description
+                const precio = productos[0].sale_price
+                const precioMayoreo = productos[0].wholesale_price
+                const unidades = productos[0].units
+                addProducto(idProducto,code,nombreProducto,precio,precioMayoreo,unidades);
+              }
+            }
             listaProductos = `
               <table class="table table-bordered m-2">
                 <thead>
