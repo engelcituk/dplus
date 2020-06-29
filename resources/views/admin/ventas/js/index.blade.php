@@ -5,12 +5,15 @@ function buscarClientes(){
   let datosCliente= $('#clienteReferencia').val();
   
   if (datosCliente != '' && datosCliente.length > 1) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
     $.ajax({
       url: "{{ url('admin/ventas/clienteservicios') }}" ,
       type: "GET",
       data: {
-          '_method': 'GET',
-          '_token': csrf_token,
           'datosCliente': datosCliente
       },
       success: function(respuesta) {
@@ -40,8 +43,9 @@ function buscarClientes(){
                   <td>${code}</td>
                   <td> <span id="ref${idCliente}">${referencia}</span></td>
                   <td>
-                    <button type="button" class="btn btn-primary xs" onclick="copiar(${idCliente})"><i class="fal fa-copy"></i></button>
-                    <button type="button" class="btn btn-info xs" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${code}','${nombreCliente}',${referencia})">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getDataCliente(${idCliente})"><i class="fal fa-edit"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="copiar(${idCliente})"><i class="fal fa-copy"></i></button>
+                    <button type="button" class="btn btn-info btn-sm" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${code}','${nombreCliente}','${referencia}')">
                       <i class="fal fa-plus-circle"></i>
                     </button
                   </td>
@@ -71,12 +75,15 @@ function buscarProductos(){
   let datosProducto = $('#nameBarcodeProducto').val();
   
  if (datosProducto != '' && datosProducto.length > 1) {
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
     $.ajax({
       url: "{{ url('admin/ventas/listaproductos') }}" ,
       type: "GET",
       data: {
-          '_method': 'GET',
-          '_token': csrf_token,
           'datosProducto': datosProducto
       },
       success: function(respuesta) {
@@ -121,12 +128,12 @@ function buscarProductos(){
  
               listaProductos += `
               <tr>
-                <td><button type="button" class="btn btn-info xs"><i class="fal fa-image"></i></button></td>                
+                <td><button type="button" class="btn btn-info btn-sm"><i class="fal fa-image"></i></button></td>                
                 <td>${code}</td>
                 <td>${nombreProducto}</td>
                 <td>${unidades}</td>
                 <td>${precio}</td>
-                <td><button type="button" class="btn btn-info xs" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}','${precioMayoreo}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
+                <td><button type="button" class="btn btn-info btn-sm" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}','${precioMayoreo}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
               </tr>`;
             }
           listaProductos += `</tbody></table>`

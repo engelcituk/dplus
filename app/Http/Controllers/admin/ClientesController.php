@@ -40,6 +40,8 @@ class ClientesController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255']
         ]);
+        //primera letra en mayuscula, su separador espacio en blanco, trim para eliminar espacios en blanco al final e inicio de la cadena
+        $data['name'] = trim(ucwords($data['name'],' '));
         $cliente = Cliente::create($data);
         
         return redirect()->route('admin.clientes.edit', compact('cliente'))->withFlash('El cliente ha sido creado');

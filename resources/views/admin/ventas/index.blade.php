@@ -24,6 +24,7 @@
                     <div class="tab-content p-3">
                         <div class="tab-pane fade show active" id="tabVentas-1" role="tabpanel">
                             <div class="form-group">
+                                <button class="btn btn-info btn-sm float-right mb-3" data-toggle="modal"  data-target="#registrarCliente"> <i class="fal fa-pen"></i> Registrar cliente</button>    
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Indique el nombre del cliente o su referencia" aria-label="cliente o referencia" aria-describedby="btnBuscarCliente" id="clienteReferencia" onkeyup="buscarClientes()">
                                     {{-- <div class="input-group-append">
@@ -68,6 +69,8 @@
     </div>
 </div>
 @include('admin.ventas.modals.servicioTV') 
+@include('admin.ventas.modals.registrarCliente') 
+@include('admin.ventas.modals.updateCliente') 
 @include('admin.ventas.modals.notaItem') 
 @endsection
 @push('stylesCss')

@@ -66,7 +66,7 @@ function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referenci
               timer: '1500'
           })
       }
-    })
+  })
 }
 // para mostrar el modal donde se pintan los datos de cliente y su servicio de tv
 function showModalservicio(servicio, idCliente, nombreCliente, referencia){
@@ -107,6 +107,10 @@ $('#modalNotaItem').on('hidden.bs.modal', function () {
     texto = document.getElementById('positionItemModalNote');
     $('#modalNotaItem form')[0].reset();
     texto.innerHTML = '';
+});
+
+$('#registrarCliente').on('hidden.bs.modal', function () {
+    $('#registrarCliente form')[0].reset();
 });
 /*=======================================================================
 --- fin de reseteo el contenido de los modales al cerrarlo
@@ -658,4 +662,131 @@ function aplicarMayoreo(position) { // aplica y quita el mayoreo
       }
     })
  }
+ /*=======================================================================
+--- Get data del cliente
+--- registrar cliente
+--- actualizar cliente
+========================================================================*/
+function getDataCliente(idCliente) {
+
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
+  $.ajax({
+      url: "{{ url('admin/ventas/getdatacliente') }}" ,
+      type: "get",
+      data: {
+          'id':idCliente
+      },
+      success: function(respuesta) {
+          ok = respuesta.ok;
+          if(ok){
+            cliente = respuesta.cliente; 
+            mensaje = respuesta.mensaje;
+            idCliente = cliente.id;
+            nombre = cliente.name;
+            idTvServicio= cliente.televisions[0].id;//id del tv service
+            referencia =  cliente.televisions[0].pivot.referencia; //obtengo la referencia pasando por los nodos del objeto
+            $('#idClienteModalEdit').val(idCliente);            
+            $('#nombreClienteModalEdit').val(nombre);
+            //$("div.selectTvOption select").val(idTvServicio); //seteo el select
+            $("#televisionsSelectIdEdit").val(idTvServicio); //seteo el select
+            $('#referenciaClienteModalEdit').val(referencia);
+            $('#updateCliente').modal({backdrop: 'static', keyboard: false});
+          } 
+      },
+      error: function(respuesta) {
+          swal({
+              title: 'Oops...',
+              text: '¡Algo salió mal!'+respuesta,
+              type: 'error',
+              timer: '1500'
+          })
+      }
+  }) 
+}
+function saveCliente() {
+  let idCliente = document.getElementById("idClienteModalEdit").value;
+  let nombreCliente = document.getElementById("nombreClienteModal").value;
+  let idTvServicio = document.getElementById("televisionsSelectId").value;
+  let referenciaCliente = document.getElementById("referenciaClienteModal").value;
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
+  $.ajax({
+      url: "{{ url('admin/ventas/savecliente') }}" ,
+      type: "POST",
+      data: {
+        'name':nombreCliente,
+        'television_id': idTvServicio,
+        'referencia':referenciaCliente
+      },
+      success: function(respuesta) {
+          ok = respuesta.ok;
+          if(ok){
+            cliente = respuesta.cliente; 
+            mensaje = respuesta.mensaje;
+            $('#registrarCliente').modal('hide');// oculto el modal registrarCliente
+            showMessageNotify(mensaje, "info", 3000);
+          }
+      },
+      error: function(respuesta) {
+          swal({
+              title: 'Oops...',
+              text: '¡Algo salió mal!'+respuesta,
+              type: 'error',
+              timer: '1500'
+          })
+      }
+  }) 
+}
+function updateCliente() {
+  let idCliente = document.getElementById("idClienteModalEdit").value;
+  let nombreCliente = document.getElementById("nombreClienteModalEdit").value;
+  let idTvServicio = document.getElementById("televisionsSelectIdEdit").value;
+  let referenciaCliente = document.getElementById("referenciaClienteModalEdit").value;
+  $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
+  $.ajax({
+      url: "{{ url('admin/ventas/updatecliente') }}" ,
+      type: "PUT",
+      data: {
+        'id':idCliente,
+        'name':nombreCliente,
+        'television_id': idTvServicio,
+        'referencia':referenciaCliente
+      },
+      success: function(respuesta) {
+          ok = respuesta.ok;
+          if(ok){
+            cliente = respuesta.cliente; 
+            mensaje = respuesta.mensaje;
+            $('#updateCliente').modal('hide');// oculto el modal updateCliente
+            $('#clienteReferencia').val('');
+            $("#listaClientes").html('');
+            showMessageNotify(mensaje, "info", 3000);
+          }
+      },
+      error: function(respuesta) {
+          swal({
+              title: 'Oops...',
+              text: '¡Algo salió mal!'+respuesta,
+              type: 'error',
+              timer: '1500'
+          })
+      }
+  }) 
+}
+/*=======================================================================
+--- fin de Get data del cliente
+--- fin de registrar cliente
+--- fin de actualizar cliente
+========================================================================*/
  </script>
