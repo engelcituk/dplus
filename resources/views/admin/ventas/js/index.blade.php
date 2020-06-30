@@ -70,10 +70,13 @@ function buscarClientes(){
     $("#listaClientes").html('');
   }
 }
-function buscarProductos(){
+function buscarProductos(event){
   let datosProducto = $('#nameBarcodeProducto').val();
   const isNumber = esNumero(datosProducto);
-  
+  const codigoClave = event.keyCode;
+  const ticketActivo = getTicketActivo();
+  const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+    
  if (datosProducto != '' && datosProducto.length > 1) {
   $.ajaxSetup({
       headers: {
@@ -90,8 +93,7 @@ function buscarProductos(){
           var ok= respuesta.ok;
           if(ok){
             productos = respuesta.productos;
-            longitud = productos.length;
-            
+            longitud = productos.length;            
             listaProductos = `
               <table class="table table-bordered m-2">
                 <thead>
@@ -127,9 +129,7 @@ function buscarProductos(){
           listaProductos += `</tbody></table>`
         
         $("#listaProductos").html(listaProductos);
-          if (longitud === 1 ) {
-              const ticketActivo = getTicketActivo();
-              const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+          if(codigoClave == '13' && longitud==1){            
               if(localStorage.getItem(ticketActivo.ticket)){
                 const idProducto = productos[0].id
                 const code = productos[0].code
@@ -140,8 +140,8 @@ function buscarProductos(){
                 addProducto(idProducto,code,nombreProducto,precio,precioMayoreo,unidades);
                 $('#nameBarcodeProducto').val('')
                 $("#listaProductos").html('');
-              }
-          }
+              } 
+          }         
         } else {
             console.log(respuesta.mensaje)
         } 
