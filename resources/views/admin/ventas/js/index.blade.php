@@ -3,7 +3,6 @@ let csrf_token = $('meta[name="csrf-token"]').attr('content');
 
 function buscarClientes(){
   let datosCliente= $('#clienteReferencia').val();
-  
   if (datosCliente != '' && datosCliente.length > 1) {
     $.ajaxSetup({
       headers: {
@@ -73,6 +72,7 @@ function buscarClientes(){
 }
 function buscarProductos(){
   let datosProducto = $('#nameBarcodeProducto').val();
+  const isNumber = esNumero(datosProducto);
   
  if (datosProducto != '' && datosProducto.length > 1) {
   $.ajaxSetup({
@@ -91,19 +91,7 @@ function buscarProductos(){
           if(ok){
             productos = respuesta.productos;
             longitud = productos.length;
-            if (longitud === 1) {
-              const ticketActivo = getTicketActivo();
-              const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
-              if(localStorage.getItem(ticketActivo.ticket)){
-                const idProducto = productos[0].id
-                const code = productos[0].code
-                const nombreProducto = productos[0].description
-                const precio = productos[0].sale_price
-                const precioMayoreo = productos[0].wholesale_price
-                const unidades = productos[0].units
-                addProducto(idProducto,code,nombreProducto,precio,precioMayoreo,unidades);
-              }
-            }
+            
             listaProductos = `
               <table class="table table-bordered m-2">
                 <thead>
@@ -139,7 +127,21 @@ function buscarProductos(){
           listaProductos += `</tbody></table>`
         
         $("#listaProductos").html(listaProductos);
-
+          if (longitud === 1 ) {
+              const ticketActivo = getTicketActivo();
+              const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+              if(localStorage.getItem(ticketActivo.ticket)){
+                const idProducto = productos[0].id
+                const code = productos[0].code
+                const nombreProducto = productos[0].description
+                const precio = productos[0].sale_price
+                const precioMayoreo = productos[0].wholesale_price
+                const unidades = productos[0].units
+                addProducto(idProducto,code,nombreProducto,precio,precioMayoreo,unidades);
+                $('#nameBarcodeProducto').val('')
+                $("#listaProductos").html('');
+              }
+          }
         } else {
             console.log(respuesta.mensaje)
         } 
@@ -156,6 +158,13 @@ function buscarProductos(){
   }else {
     //console.log("campos vacios o caracteres muy limitados");
     $("#listaProductos").html('');
+  }
+}
+function esNumero(cadena) {
+  if (!isNaN(cadena)) {
+    return true;
+  } else {
+    return false;
   }
 }
 </script>
