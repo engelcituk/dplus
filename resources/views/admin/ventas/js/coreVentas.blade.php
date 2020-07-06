@@ -332,6 +332,7 @@ function addServicioCliente() {
   let datosItem = JSON.stringify({
     'folio' : ticketActivo.ticket,
     'idCliente' : idCliente,
+    'idUsuario' : auth_user_id,
     'idProducto':'-',
     'nombreCliente' : nombreCliente,
     'referencia' : referencia,
@@ -365,7 +366,7 @@ function addServicioCliente() {
 
   let datosItem = JSON.stringify({
     'folio' : ticketActivo.ticket,    
-    'idCliente' : '-',
+    'idCliente' : '',
     'idProducto':idProducto,
     'nombreCliente' : '-',
     'referencia' : '-',

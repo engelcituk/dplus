@@ -10,6 +10,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @if (Auth::check()) 
+            <meta name="user_id" content="{{ Auth::user()->id }}" />
+        @endif
 
         <!-- Call App Mode on ios devices -->
         <meta name="apple-mobile-web-app-capable" content="yes" />

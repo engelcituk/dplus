@@ -1,8 +1,10 @@
 <script>
-let csrf_token = $('meta[name="csrf-token"]').attr('content');     
+const csrf_token = $('meta[name="csrf-token"]').attr('content');    
+const auth_user_id = $('meta[name="user_id"]').attr('content');     
+
 
 function buscarClientes(){
-  let datosCliente= $('#clienteReferencia').val();
+  const datosCliente= $('#clienteReferencia').val();
   if (datosCliente != '' && datosCliente.length > 1) {
     $.ajaxSetup({
       headers: {
@@ -16,7 +18,7 @@ function buscarClientes(){
           'datosCliente': datosCliente
       },
       success: function(respuesta) {
-          var ok= respuesta.ok;
+          const ok= respuesta.ok;
           if(ok){
             clientes = respuesta.clientes;
             listaClientes = `
@@ -78,7 +80,7 @@ function buscarProductos(event){
   const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
     
  if (datosProducto != '' && datosProducto.length > 1) {
-  $.ajaxSetup({
+   $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': csrf_token
       }
@@ -90,7 +92,7 @@ function buscarProductos(event){
           'datosProducto': datosProducto
       },
       success: function(respuesta) {
-          var ok= respuesta.ok;
+          const ok= respuesta.ok;
           if(ok){
             productos = respuesta.productos;
             longitud = productos.length;            
@@ -107,41 +109,39 @@ function buscarProductos(event){
                     </tr>
                 </thead>
               <tbody>`
-
-            for(i = 0; i < productos.length; i++){
-              const idProducto = productos[i].id
-              const code = productos[i].code
-              const nombreProducto = productos[i].description
-              const precio = productos[i].sale_price
-              const precioMayoreo = productos[i].wholesale_price
-              const unidades = productos[i].units
- 
-              listaProductos += `
-              <tr>
-                <td><button type="button" class="btn btn-info btn-sm"><i class="fal fa-image"></i></button></td>                
-                <td>${code}</td>
-                <td>${nombreProducto}</td>
-                <td>${unidades}</td>
-                <td>${precio}</td>
-                <td><button type="button" class="btn btn-info btn-sm" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}','${precioMayoreo}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
-              </tr>`;
-            }
-          listaProductos += `</tbody></table>`
-        
-        $("#listaProductos").html(listaProductos);
-          if(codigoClave == '13' && longitud==1){            
-              if(localStorage.getItem(ticketActivo.ticket)){
-                const idProducto = productos[0].id
-                const code = productos[0].code
-                const nombreProducto = productos[0].description
-                const precio = productos[0].sale_price
-                const precioMayoreo = productos[0].wholesale_price
-                const unidades = productos[0].units
-                addProducto(idProducto,code,nombreProducto,precio,precioMayoreo,unidades);
-                $('#nameBarcodeProducto').val('')
-                $("#listaProductos").html('');
-              } 
-          }         
+                for(i = 0; i < productos.length; i++){
+                  const idProducto = productos[i].id
+                  const code = productos[i].code
+                  const nombreProducto = productos[i].description
+                  const precio = productos[i].sale_price
+                  const precioMayoreo = productos[i].wholesale_price
+                  const unidades = productos[i].units
+    
+                  listaProductos += `
+                  <tr>
+                    <td><button type="button" class="btn btn-info btn-sm"><i class="fal fa-image"></i></button></td>                
+                    <td>${code}</td>
+                    <td>${nombreProducto}</td>
+                    <td>${unidades}</td>
+                    <td>${precio}</td>
+                    <td><button type="button" class="btn btn-info btn-sm" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}','${precioMayoreo}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
+                  </tr>`;
+                }
+                listaProductos += `</tbody></table>`
+                $("#listaProductos").html(listaProductos);
+                if(codigoClave == '13' && longitud==1){            
+                    if(localStorage.getItem(ticketActivo.ticket)){
+                      const idProducto = productos[0].id
+                      const code = productos[0].code
+                      const nombreProducto = productos[0].description
+                      const precio = productos[0].sale_price
+                      const precioMayoreo = productos[0].wholesale_price
+                      const unidades = productos[0].units
+                      addProducto(idProducto,code,nombreProducto,precio,precioMayoreo,unidades);
+                      $('#nameBarcodeProducto').val('')
+                      $("#listaProductos").html('');
+                    } 
+                }         
         } else {
             console.log(respuesta.mensaje)
         } 

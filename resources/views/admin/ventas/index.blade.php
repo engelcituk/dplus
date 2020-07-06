@@ -40,7 +40,7 @@
                         <div class="tab-pane fade" id="tabVentas-3" role="tabpanel">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Indique el nombre del producto o su código de barras" aria-label="producto o barcode" aria-describedby="btnBuscarProducto" id="nameBarcodeProducto" onkeypress="buscarProductos(event)">
+                                    <input type="text" class="form-control" placeholder="Indique el nombre del producto o su código de barras" aria-label="producto o barcode" aria-describedby="btnBuscarProducto" id="nameBarcodeProducto" onkeyup="buscarProductos(event)">
                                 </div>
                             </div>
                             <div id="listaProductos">
