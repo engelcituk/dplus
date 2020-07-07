@@ -72,6 +72,8 @@
 @include('admin.ventas.modals.registrarCliente') 
 @include('admin.ventas.modals.updateCliente') 
 @include('admin.ventas.modals.notaItem') 
+@include('admin.ventas.modals.cobrarVenta') 
+
 @endsection
 @push('stylesCss')
     <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/notifications/sweetalert2/sweetalert2.bundle.css') }}">

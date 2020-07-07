@@ -146,7 +146,8 @@ function getTickets(){
     //objeto ticket
     let datosTicket = {
       'ticket' : ticket,
-      'estado':'activo'
+      'estado':'activo',
+      'total':0
     }
     listaTicketVentas.push(datosTicket);// se añade al array
     localStorage.setItem('ticketsVentas',JSON.stringify(listaTicketVentas));
@@ -224,7 +225,8 @@ function nuevoTicket() {
     let valor = [];
     let datosTicket = {
       'ticket' : ticket,
-      'estado':'desactivado'
+      'estado':'desactivado',
+      'total': 0
     }
     const tickets = listaTickets.concat(datosTicket);// fusiono el array de localstorage con el nuevo
     localStorage.setItem('ticketsVentas',JSON.stringify(tickets));
@@ -453,7 +455,7 @@ function activarTicket(elemento,folio){
 
 function leerItemsTicket() {
   showButtonDeleteTicket();// muestro u oculto boton de borrado del ticket
-  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
   $("#tabla_items_tr tbody").empty();//limpio tbody de tabla
   $("#tabla_items_tr tfoot").empty();// limpio el pie
@@ -511,8 +513,10 @@ function leerItemsTicket() {
   }
  }
 function showTotals(){
-  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
+  const positionTicketActivo = getPositionTicketActivo();
+  
   if(localStorage.getItem('ticketsVentas')){
     if (localStorage.getItem(ticketActivo.ticket)){
       listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
@@ -536,12 +540,17 @@ function showTotals(){
           </tr>
         `;
         $("#tabla_items_tr tfoot").append(trItem);
+        listadoTickets[positionTicketActivo]["total"] = (Math.round(total * 100) / 100).toFixed(2);
+        localStorage.setItem('ticketsVentas',JSON.stringify(listadoTickets));
+
       }else{
         const trItem =`<tr class="bg-primary-500">
             <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
             <td colspan="3" style='text-align:center;vertical-align:middle'>${(Math.round(0 * 100) / 100).toFixed(2)}</td>
           </tr>`;
         $("#tabla_items_tr tfoot").append(trItem);
+        listadoTickets[positionTicketActivo]["total"] = (Math.round(0 * 100) / 100).toFixed(2);
+        localStorage.setItem('ticketsVentas',JSON.stringify(listadoTickets));
       }
     }
   }
@@ -789,5 +798,10 @@ function updateCliente() {
 --- fin de Get data del cliente
 --- fin de registrar cliente
 --- fin de actualizar cliente
+========================================================================*/
+
+ /*=======================================================================
+--- cobrar la venta
+--- enviar lista de items a DB de transacciones
 ========================================================================*/
  </script>
