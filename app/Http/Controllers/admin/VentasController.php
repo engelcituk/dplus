@@ -19,7 +19,7 @@ class VentasController extends Controller
         return view('admin.ventas.index', compact('tvServicios'));
     }
     public function getClientesServicios(Request $request){
-        
+    
         $datosCliente = $request->get('datosCliente');
     
         $clientes = DB::table('cliente_television')

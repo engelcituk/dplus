@@ -53,7 +53,7 @@ function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referenci
           ok= respuesta.ok;
           if(ok){
             servicio = respuesta.servicioTV;
-            showModalservicio(servicio, idCliente, nombreCliente, referencia);          
+            showModalservicio(servicio, idCliente, idTV, nombreCliente, referencia);          
           }else {
             console.log(respuesta.mensaje)
         } 
@@ -69,9 +69,10 @@ function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referenci
   })
 }
 // para mostrar el modal donde se pintan los datos de cliente y su servicio de tv
-function showModalservicio(servicio, idCliente, nombreCliente, referencia){
+function showModalservicio(servicio, idCliente, idTV, nombreCliente, referencia){
   //le pinto los valores en los campos
   $('#idClienteInputTVService').val(idCliente);
+  $('#idTvServicio').val(idTV);
   $('#codeTvService').val(servicio.code);
 
   $('#nombreClienteInputTVService').val(nombreCliente);
@@ -112,6 +113,10 @@ $('#modalNotaItem').on('hidden.bs.modal', function () {
 $('#registrarCliente').on('hidden.bs.modal', function () {
     $('#registrarCliente form')[0].reset();
 });
+
+$('#cobrarVenta').on('hidden.bs.modal', function () {
+    $('#cobrarVenta form')[0].reset();
+});
 /*=======================================================================
 --- fin de reseteo el contenido de los modales al cerrarlo
 ========================================================================*/
@@ -147,7 +152,7 @@ function getTickets(){
     let datosTicket = {
       'ticket' : ticket,
       'estado':'activo',
-      'total':0
+      'total':'0.00'
     }
     listaTicketVentas.push(datosTicket);// se añade al array
     localStorage.setItem('ticketsVentas',JSON.stringify(listaTicketVentas));
@@ -316,26 +321,29 @@ function showDivTableTicket(){
 }
 
 function addServicioCliente() {
-  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
 
-  let idCliente = document.getElementById("idClienteInputTVService").value;
-  let code = document.getElementById("codeTvService").value;
-  let nombreCliente = document.getElementById("nombreClienteInputTVService").value;
-  let referencia = document.getElementById("referenciaClienteInputTVService").value;
-  let descripcion = document.getElementById("nombreInputTVService").value;
-  let precio = document.getElementById("precioInputTVService").value;
-  let comision = document.getElementById("comisionInputTVService").value;
-  let numPago = document.getElementById("numPago").value;
-  let numAutorizacion = document.getElementById("numAutorizacion").value;
-  let precioFinal = document.getElementById("precioFinalInputTVService").value;
+  const idCliente = document.getElementById("idClienteInputTVService").value;
+  const idTV = document.getElementById("idTvServicio").value;
+  const code = document.getElementById("codeTvService").value;
+  const nombreCliente = document.getElementById("nombreClienteInputTVService").value;
+  const referencia = document.getElementById("referenciaClienteInputTVService").value;
+  const descripcion = document.getElementById("nombreInputTVService").value;
+  const precio = document.getElementById("precioInputTVService").value;
+  const comision = document.getElementById("comisionInputTVService").value;
+  const numPago = document.getElementById("numPago").value;
+  const numAutorizacion = document.getElementById("numAutorizacion").value;
+  const precioFinal = document.getElementById("precioFinalInputTVService").value;
 
   const ticketActivo = getTicketActivo();
-
-  let datosItem = JSON.stringify({
+  
+  const datosItem = JSON.stringify({
     'folio' : ticketActivo.ticket,
-    'idCliente' : idCliente,
-    'idUsuario' : auth_user_id,
-    'idProducto':'-',
+    'idCliente' : parseInt(idCliente),
+    'idUsuario' : parseInt(auth_user_id),
+    'idProducto':'',
+    'transactionable_type':'App\\Television',
+    'transactionable_id':parseInt(idTV,
     'nombreCliente' : nombreCliente,
     'referencia' : referencia,
     'descripcion' :  descripcion,
@@ -363,15 +371,18 @@ function addServicioCliente() {
  }
 
  function addProducto(idProducto,code,descripcion,precio,precioMayoreo, existencia) {
-  let listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
 
-  let datosItem = JSON.stringify({
+  const datosItem = JSON.stringify({
     'folio' : ticketActivo.ticket,    
     'idCliente' : '',
+    'idUsuario' : parseInt(auth_user_id),
     'idProducto':idProducto,
-    'nombreCliente' : '-',
-    'referencia' : '-',
+    'transactionable_type':'App\\Producto',
+    'transactionable_id':idProducto,
+    'nombreCliente' : '',
+    'referencia' : '',
     'descripcion' :  descripcion,
     'tipo' : 'producto',
     'codigo' : code,
@@ -382,8 +393,8 @@ function addServicioCliente() {
     'precio' : precio,
     'precioMayoreo':precioMayoreo,
     'comision' : 0,
-    'numPagoProveedor' : '-',
-    'numAutorizacionProveedor' : '-',
+    'numPagoProveedor' : '',
+    'numAutorizacionProveedor' : '',
     'nota':''
   });
   //añado al ticket y leo listado
@@ -535,7 +546,7 @@ function showTotals(){
           </tr>
           <tr>
             <td colspan="7" style='text-align:center;vertical-align:middle'>
-              <button type="button" class="btn btn-info btn-block"><i class="fal fa-money-bill"></i> Cobrar</button>
+              <button type="button" class="btn btn-info btn-block" onclick='openCobrar()'><i class="fal fa-money-bill"></i> Cobrar</button>
             </td>
           </tr>
         `;
@@ -649,7 +660,7 @@ function aplicarMayoreo(position) { // aplica y quita el mayoreo
   const firstTicketDesactivado = getPrimerTicketDesactivado();
   const ticketActivoPosition = getPositionTicketActivo();
   const firstTicketDesactivadoPosition = getPositionPrimerTicketDesactivado();
-  let listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
+  const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
   Swal.fire({
       title: `¿Seguro de borrar el ticket ${ticketActivo.ticket}?`,
       text: "¡No podrás revertir esto!",
@@ -800,8 +811,73 @@ function updateCliente() {
 --- fin de actualizar cliente
 ========================================================================*/
 
- /*=======================================================================
+/*=======================================================================
 --- cobrar la venta
---- enviar lista de items a DB de transacciones
+--- validar datos de cobro, calcular cambio
+--- enviar lista de items a DB de transacciones (cobro)
+========================================================================*/
+function openCobrar() {
+  const ticketActivo = getTicketActivo();
+  const ticketActivoPosition = getPositionTicketActivo();
+  const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
+  const importe = listaTickets[ticketActivoPosition]['total'];
+  const folio = listaTickets[ticketActivoPosition]['ticket'];
+  if(localStorage.getItem('ticketsVentas')){
+    if(localStorage.getItem(ticketActivo.ticket)){
+      $('#folioCobro').text(folio);
+      $('#importeItems').val(importe);
+      $('#cambioDiferencia').val('0.00');
+      $('#cobrarVenta').modal({backdrop: 'static', keyboard: false});
+    }
+  }
+}
+// para validar campos acepten solo numero y decimales
+$(function(){
+    $(".validarDecimal").keydown(function(event){
+        //alert(event.keyCode);
+        if((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) && event.keyCode !==190  && event.keyCode !==110 && event.keyCode !==8 && event.keyCode !==9  ){
+            return false;
+        }
+    });
+});
+function calcularCambio() {
+  const importe = parseFloat(document.getElementById("importeItems").value);
+  const pagaCon = parseFloat(document.getElementById("pagaCon").value);
+  if(pagaCon >= importe){
+    $('.btn-cobrar').prop('disabled', false);
+    const cambio = pagaCon - importe;
+    $('#cambioDiferencia').val((Math.round(cambio * 100) / 100).toFixed(2));
+  }else{
+    $('.btn-cobrar').prop('disabled', true);
+    $('#cambioDiferencia').val('0.00');
+  }
+}
+function cobrar(necesitaTicket) {
+  const ticketActivo = getTicketActivo();
+  const ticketActivoPosition = getPositionTicketActivo();
+  const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
+  const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  const importe = listaTickets[ticketActivoPosition]['total'];
+  const folio = listaTickets[ticketActivoPosition]['ticket'];
+  const pagaCon = document.getElementById("pagaCon").value;
+  const cambio = document.getElementById("cambioDiferencia").value;
+
+  if(localStorage.getItem('ticketsVentas')){
+    if(localStorage.getItem(ticketActivo.ticket)){
+      cabecera = {
+        'folio': folio,
+        'pagaCon': pagaCon,
+        'importe': importe,
+        'cambio': cambio
+      };
+      console.log(listaItems)
+    }
+  }
+}
+
+/*=======================================================================
+--- fin de cobrar la venta
+--- fin de validar datos de cobro
+--- fin de enviar lista de items a DB de transacciones
 ========================================================================*/
  </script>

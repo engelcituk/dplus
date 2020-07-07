@@ -24,6 +24,17 @@
                                 </div>
                             </div>
                         </div>  
+                        <div class="col-xs-6 m-auto d-none">
+                            <div class="form-group">
+                                <label class="form-label" for="addon-wrapping-left">idTvServicio</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fal fa-key fs-xl"></i></span>
+                                    </div>
+                                <input type="text" class="form-control"  id="idTvServicio" readonly>
+                                </div>
+                            </div>
+                        </div> 
                         <div class="col-xs-6 m-auto">
                             <div class="form-group">
                                 <label class="form-label" for="addon-wrapping-left">Código</label>

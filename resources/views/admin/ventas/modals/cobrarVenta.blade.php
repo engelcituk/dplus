@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    Cobro de servicios y venta de productos 
+                    Cobro de servicios y venta de productos <span class="badge badge-success" id="folioCobro"></span>
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true"><i class="fal fa-times"></i></span>
@@ -29,7 +29,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-dollar-sign"></i></span>
                                         </div>
-                                    <input type="text" class="form-control" id="pagaCon">
+                                    <input type="number" step="0.01" class="form-control validarDecimal" id="pagaCon" onkeyup="calcularCambio()">
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-dollar-sign"></i></span>
                                         </div>
-                                    <input type="text" class="form-control" id="cambioDiferencia">
+                                    <input type="number" step="0.01" class="form-control" id="cambioDiferencia" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -50,8 +50,8 @@
             </div> 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal"><i class="fal fa-window-close fs-xl"></i> Cancelar</button>
-                <button type="button" class="btn btn-info mr-auto" onclick="cobrar(true)><i class="fal fa-sticky-note"></i> Cobrar + ticket</button>
-                <button type="button" class="btn btn-success" onclick="cobrar(false)"><i class="fal fa-dollar-sign"></i> Solo Cobrar</button> 
+                <button type="button" class="btn btn-info mr-auto btn-cobrar" onclick="cobrar(true)" disabled><i class="fal fa-sticky-note"></i> Cobrar + ticket</button>
+                <button type="button" class="btn btn-success btn-cobrar" onclick="cobrar(false)" disabled><i class="fal fa-dollar-sign"></i> Solo Cobrar</button> 
             </div>
         </div>
     </div>
