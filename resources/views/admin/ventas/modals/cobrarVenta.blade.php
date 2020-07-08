@@ -44,7 +44,23 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>     
+                        </div>  
+                        
+                        <div id="panel-3" class="panel panel-collapsed mt-3 mb-3">
+                                <div class="panel-hdr">
+                                    <h2>
+                                        Añadir notas <span class="fw-300"><i>al cobro</i></span>
+                                    </h2>
+                                    <div class="panel-toolbar">
+                                        <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Colapsar"></button>
+                                    </div>
+                                </div>
+                                <div class="panel-container collapse">
+                                    <div class="panel-content">
+                                        <textarea class="form-control" name="notaCuenta" cols="3" id="notaEnCabecera" onkeyup="addNotaEnCabecera()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
                     </form>
                 </div>                            
             </div> 

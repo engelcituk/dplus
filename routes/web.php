@@ -44,5 +44,7 @@ function(){
     Route::get('ventas/getdatacliente', 'VentasController@getDataCliente')->name('admin.ventas.getdatacliente');
     Route::post('ventas/savecliente', 'VentasController@saveCliente')->name('admin.ventas.savecliente');
     Route::put('ventas/updatecliente', 'VentasController@updateCliente')->name('admin.ventas.updatecliente');
+    Route::post('ventas/cobrar', 'VentasController@cobrar')->name('admin.ventas.cobrar');
+
 
 }); 

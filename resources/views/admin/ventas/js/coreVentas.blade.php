@@ -115,6 +115,7 @@ $('#registrarCliente').on('hidden.bs.modal', function () {
 });
 
 $('#cobrarVenta').on('hidden.bs.modal', function () {
+    $('.btn-cobrar').prop('disabled', true);
     $('#cobrarVenta form')[0].reset();
 });
 /*=======================================================================
@@ -152,7 +153,8 @@ function getTickets(){
     let datosTicket = {
       'ticket' : ticket,
       'estado':'activo',
-      'total':'0.00'
+      'total':'0.00',
+      'nota':''
     }
     listaTicketVentas.push(datosTicket);// se añade al array
     localStorage.setItem('ticketsVentas',JSON.stringify(listaTicketVentas));
@@ -231,7 +233,8 @@ function nuevoTicket() {
     let datosTicket = {
       'ticket' : ticket,
       'estado':'desactivado',
-      'total': 0
+      'total': 0,
+      'nota':''
     }
     const tickets = listaTickets.concat(datosTicket);// fusiono el array de localstorage con el nuevo
     localStorage.setItem('ticketsVentas',JSON.stringify(tickets));
@@ -343,7 +346,7 @@ function addServicioCliente() {
     'idUsuario' : parseInt(auth_user_id),
     'idProducto':'',
     'transactionable_type':'App\\Television',
-    'transactionable_id':parseInt(idTV,
+    'transactionable_id':parseInt(idTV),
     'nombreCliente' : nombreCliente,
     'referencia' : referencia,
     'descripcion' :  descripcion,
@@ -814,6 +817,8 @@ function updateCliente() {
 /*=======================================================================
 --- cobrar la venta
 --- validar datos de cobro, calcular cambio
+--- eliminar variables localstorage
+--- añadir notas en cabecera de la cuenta
 --- enviar lista de items a DB de transacciones (cobro)
 ========================================================================*/
 function openCobrar() {
@@ -822,10 +827,13 @@ function openCobrar() {
   const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
   const importe = listaTickets[ticketActivoPosition]['total'];
   const folio = listaTickets[ticketActivoPosition]['ticket'];
+  const nota = listaTickets[ticketActivoPosition]['nota'];
+
   if(localStorage.getItem('ticketsVentas')){
     if(localStorage.getItem(ticketActivo.ticket)){
       $('#folioCobro').text(folio);
       $('#importeItems').val(importe);
+      $('#notaEnCabecera').val(nota);
       $('#cambioDiferencia').val('0.00');
       $('#cobrarVenta').modal({backdrop: 'static', keyboard: false});
     }
@@ -852,6 +860,15 @@ function calcularCambio() {
     $('#cambioDiferencia').val('0.00');
   }
 }
+function addNotaEnCabecera() { //nota que se agrega al cobrar
+  const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
+  const ticketActivoPosition = getPositionTicketActivo();
+  const notaCabecera = document.getElementById("notaEnCabecera").value;
+  if (localStorage.getItem('ticketsVentas')) {
+    listaTickets[ticketActivoPosition]["nota"] = notaCabecera;
+    localStorage.setItem('ticketsVentas',JSON.stringify(listaTickets));  
+  }
+}
 function cobrar(necesitaTicket) {
   const ticketActivo = getTicketActivo();
   const ticketActivoPosition = getPositionTicketActivo();
@@ -859,6 +876,8 @@ function cobrar(necesitaTicket) {
   const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
   const importe = listaTickets[ticketActivoPosition]['total'];
   const folio = listaTickets[ticketActivoPosition]['ticket'];
+  const notaCabecera = listaTickets[ticketActivoPosition]['nota'];
+
   const pagaCon = document.getElementById("pagaCon").value;
   const cambio = document.getElementById("cambioDiferencia").value;
 
@@ -868,13 +887,77 @@ function cobrar(necesitaTicket) {
         'folio': folio,
         'pagaCon': pagaCon,
         'importe': importe,
-        'cambio': cambio
+        'cambio': cambio,
+        'nota': notaCabecera
       };
-      console.log(listaItems)
+      $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
+      $.ajax({
+          url: "{{ url('admin/ventas/cobrar') }}" ,
+          type: "post",
+          data: {
+              'items': listaItems,
+              'cabecera': cabecera,
+              'necesitaTicket': necesitaTicket
+          },
+          success: function(respuesta) {
+              ok = respuesta.ok;
+              if(ok){
+                mensaje = respuesta.mensaje;
+                $('#cobrarVenta').modal('hide');// oculto el modal servicio
+                showMessageNotify(mensaje,'success',2000)
+                generaNuevoTicketAlCobrar()// borro los datos del ticket, variables localstorage
+                showButtonsTickets()// muestro los botones de tickets
+                leerItemsTicket()// leo tabla de items de productos, servicios
+              } 
+          },
+          error: function(respuesta) {
+              swal({
+                  title: 'Oops...',
+                  text: '¡Algo salió mal!'+respuesta,
+                  type: 'error',
+                  timer: '1500'
+              })
+          }
+      })
     }
   }
 }
+//genero nuevo ticket si al cobrar la lista de tickets su lenght se igual a uno o sino activar el proximo ticket desactivado
+function generaNuevoTicketAlCobrar() { 
+  const ticketActivo = getTicketActivo();
+  const ticketActivoPosition = getPositionTicketActivo();
+  const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
+  const longitudTickets = listaTickets.length;
+  if(localStorage.getItem('ticketsVentas')){
+    if(longitudTickets==1){
+      const ticket = Math.random().toString(36).substr(2, 9);
+      const valor = [];
+      const datosTicket = {
+        'ticket' : ticket,
+        'estado':'activo',
+        'total': 0,
+        'nota':''
+      }
+      listaTickets.splice(ticketActivoPosition, 1);   
+      localStorage.removeItem(ticketActivo.ticket);
+      const tickets = listaTickets.concat(datosTicket);// fusiono el array de localstorage con el nuevo
+      localStorage.setItem('ticketsVentas',JSON.stringify(tickets));
+      localStorage.setItem(ticket, JSON.stringify(valor));
 
+    }else{
+      const firstTicketDesactivado = getPrimerTicketDesactivado();  
+      const firstTicketDesactivadoPosition = getPositionPrimerTicketDesactivado();
+      listaTickets[firstTicketDesactivadoPosition]["estado"] = 'activo';
+      listaTickets.splice(ticketActivoPosition, 1);
+      localStorage.removeItem(ticketActivo.ticket);
+      localStorage.setItem('ticketsVentas',JSON.stringify(listaTickets));
+    }
+  }
+}
 /*=======================================================================
 --- fin de cobrar la venta
 --- fin de validar datos de cobro

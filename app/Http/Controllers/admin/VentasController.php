@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Television;
 use App\Producto;
 use App\Cliente;
+use App\Transaction;
+use App\Total;
 
 class VentasController extends Controller
 {
@@ -150,5 +152,52 @@ class VentasController extends Controller
             ]
         );
     }
+    public function cobrar(Request $request)
+    {
+        $items = $request->get('items'); //array de productos y o servicios
+        $cabecera = $request->get('cabecera');
+        $necesitaTicket = $request->get('necesitaTicket');
 
+        foreach($items as $data){ // recorro el array y voy construyendo la estructura de la tabla de transacciones
+            $transaction = new Transaction([
+                'folio' => $data['folio'],
+                'code' => $data['codigo'],
+                'user_id' => $data['idUsuario'],
+                'cliente_id' => $data['idCliente'],
+                'transactionable_type' => $data['transactionable_type'],
+                'transactionable_id' => $data['transactionable_id'],
+                'description' => $data['descripcion'],
+                'name_cliente' => $data['nombreCliente'],
+                'reference' => $data['referencia'],
+                'quantity' => $data['cantidad'],
+                'price' => $data['precio'],
+                'commission' => $data['comision'],
+                'provider_payment_number' => $data['numPagoProveedor'],
+                'provider_authorization_number' => $data['numAutorizacionProveedor'],
+                'note' => $data['nota']
+            ]);
+
+            $transaction->save(); // guardo
+        }
+        if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
+
+        }
+        $formData  = array(
+            'folio' => $cabecera['folio'],
+            'amount' => $cabecera['importe'],
+            'pay_with' => $cabecera['pagaCon'],
+            'cambio' => $cabecera['cambio'],
+            'note' => $cabecera['nota']
+        );
+
+       Total::create($formData); // creo el registro de los totales de la venta
+
+        return response()->json(
+            [
+            'ok' => true,
+            'mensaje' => 'Cobro realizado exitosamente'
+            ]
+        );
+
+    }
 }

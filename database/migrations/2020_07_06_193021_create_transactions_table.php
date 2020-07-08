@@ -28,7 +28,7 @@ class CreateTransactionsTable extends Migration
             $table->decimal('commission');
             $table->string('provider_payment_number')->nullable();// numero de pago proveedor
             $table->string('provider_authorization_number')->nullable();//numero de autorizacion
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
