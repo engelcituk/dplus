@@ -154,10 +154,20 @@ class VentasController extends Controller
     }
     public function cobrar(Request $request)
     {
-        $items = $request->get('items'); //array de productos y o servicios
         $cabecera = $request->get('cabecera');
+        $items = $request->get('items'); //array de productos y o servicios
         $necesitaTicket = $request->get('necesitaTicket');
 
+        $formData  = array(
+            'folio' => $cabecera['folio'],
+            'amount' => $cabecera['importe'],
+            'pay_with' => $cabecera['pagaCon'],
+            'cambio' => $cabecera['cambio'],
+            'note' => $cabecera['nota']
+        );
+
+       Total::create($formData); // creo el registro de los totales de la venta
+       
         foreach($items as $data){ // recorro el array y voy construyendo la estructura de la tabla de transacciones
             $transaction = new Transaction([
                 'folio' => $data['folio'],
@@ -182,16 +192,7 @@ class VentasController extends Controller
         if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
 
         }
-        $formData  = array(
-            'folio' => $cabecera['folio'],
-            'amount' => $cabecera['importe'],
-            'pay_with' => $cabecera['pagaCon'],
-            'cambio' => $cabecera['cambio'],
-            'note' => $cabecera['nota']
-        );
-
-       Total::create($formData); // creo el registro de los totales de la venta
-
+        
         return response()->json(
             [
             'ok' => true,

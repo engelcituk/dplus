@@ -13,14 +13,19 @@ class Transaction extends Model
 
         return $this->morpTo();
     }
-    //una transaction pertenece a una cliente
+    //una transaction pertenece a un cliente
     public function cliente()
     {
         return $this->belongsTo(Cliente::class);
     }
-    //una transaction lo hace un usuario
+    //una transaction pertenece a un usuario
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    //una transaccion pertenece a un total
+    public function total()
+    {
+        return $this->belongsTo(Total::class);
     }
 }

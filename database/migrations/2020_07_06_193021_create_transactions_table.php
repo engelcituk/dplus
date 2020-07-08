@@ -31,6 +31,10 @@ class CreateTransactionsTable extends Migration
             $table->string('note')->nullable();
             $table->timestamps();
 
+            $table->foreign('folio')->references('folio')->on('totals')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+
             $table->foreign('user_id')->references('id')->on('users')
                     ->onDelete('cascade')
                     ->onUpdate('cascade'); 
