@@ -14,7 +14,8 @@ class CreateTotalsTable extends Migration
     public function up()
     {
         Schema::create('totals', function (Blueprint $table) {
-            $table->string('folio')->primary();
+            $table->id();
+            $table->string('folio');
             $table->decimal('amount');
             $table->decimal('pay_with');
             $table->decimal('cambio');
