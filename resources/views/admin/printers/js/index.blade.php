@@ -85,7 +85,7 @@ function borrarPrinter(idPrinter){
       testImpresionPorCompartido(nombreCompartido);
     }
   }
-
+ 
   function testImpresionPorCompartido(nombreCompartido){
     
     var csrf_token = $('meta[name="csrf-token"]').attr('content');    

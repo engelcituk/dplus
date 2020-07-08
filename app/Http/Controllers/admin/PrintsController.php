@@ -13,33 +13,17 @@ use Mike42\Escpos\Printer;
 
 class PrintsController extends Controller
 {
+    // la impresora está conectado por usb, pero tiene que ser compartida desde windows
     public function sharedPrinterTest(Request $request){
 
-        // $nombreCompartido = $request->get('nombreCompartido');
-
-        // $profile = CapabilityProfile::load("simple");
-        // $smb='smb://CEO-DP/';
-        // $connector = new WindowsPrintConnector($nombreCompartido);
-
-        // $impresora = new Printer($connector, $profile);
-        
-        // try {
-           
-        //     $impresora->text("Hola mundo ticket\n");
-        //     $impresora->text("Hola mundo ticket 2\n");
-        //     $impresora->text("-----------------------\n");
-        //     $impresora->text("\n");
-        //     $impresora->cut();
-        // } finally {
-        //     $impresora->close();
-        // }
-        $nombreImpresoraUsb = 'Printer-Pos';
+        $nombreImpresoraUsb = 'xprinter-pos';
         
         try {
             // Enter the share name for your USB printer here
             //$connector = null;
             $connector = new WindowsPrintConnector($nombreImpresoraUsb);
             /* Print a "Hello world" receipt" */
+            // conv("UTF-8", "ASCII", "$text"), PHP_EOL;
             $printer = new Printer($connector);
             $printer -> text("Hello World!\n");
             $printer -> text("Prueba de impresión!\n");
