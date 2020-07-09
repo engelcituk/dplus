@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-
+//para usar impresoras por nombre compartido
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\Printer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -10,7 +13,7 @@ use App\Producto;
 use App\Cliente;
 use App\Transaction;
 use App\Total;
-use App\Printer;
+use App\Printer as MiniPrinter; // con alias porque choca con la clase de la librería de mike42
 
 class VentasController extends Controller
 {
@@ -191,9 +194,14 @@ class VentasController extends Controller
             $transaction->save(); // guardo
         }
         if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
-            $printer = Printer::where('available', 1)->Where('default',1)->first();//obtengo la primera impresora que este disponible y predeterminada
-            if( $printer){ // si hay impresora, mando a imprimir
-                $idP = $printer['id'];
+            $printer = MiniPrinter::where('available', 1)->Where('default',1)->first();//get first miniprinter available and default
+            if($printer){ // si hay impresora, mando a imprimir
+                $modoUso = $printer['use_mode']; // se obtiene el tipo de impresora
+                if ($modoUso == 'usb/compartido') {// si por compartido usb, se manda a esa impresora
+                    $this->imprimeTicketPorUsbCompartido($printer,$cabecera,$items);
+                } elseif ($modoUso == 'red/ip') {//si es por red
+                    // $this->imprimeTicketPorIpRed($printer,$cabecera,$items);
+                }
             }
         }
         
@@ -205,8 +213,47 @@ class VentasController extends Controller
         );
     }
 
-    public function imprimeTicket($printer)
+    public function imprimeTicketPorUsbCompartido($printer,$cabecera,$items)
     {
+        $namePrinterUsbShared = $printer['shared_name'];
+
+        try {
+            
+            $connector = new WindowsPrintConnector($namePrinterUsbShared);
+            
+            $printer = new Printer($connector);
+            $printer->text("Hello World!\n");
+            $printer->text("Prueba de impresión!\n");
+            $printer->text("Impresora usb!\n");
+            $printer->text("Prueba desde desarrollo!\n");
+            $printer->text("Desde PC de desarrollo!\n");
+            $printer->text(" :) wiii\n");
+            $printer->text("\n");
+            $printer->text("\n");
+            $printer->text("\n");
+            $printer->cut();
+            /* Close printer */
+            $printer->close();
+        } catch (Exception $e) {
+            echo "No se puede imprimir con esta impresora: ".$e->getMessage()."\n";
+        }
         
+    }
+
+    public function imprimeTicketPorIpRed($printer,$cabecera,$items)
+    {
+        $ip = $printer['ip'];
+        $port = 9100;
+        $conector = new NetworkPrintConnector($ip, $port);
+        $impresora = new Printer($conector);
+        try {
+            $impresora->text("titulo\n");
+            $impresora->text("-----------------------\n");
+            $impresora->text("cuerpo del ticket\n");
+            $impresora->cut(); 
+            $impresora->text("\n");
+        } finally {
+            $impresora->close();
+        }
     }
 }

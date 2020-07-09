@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 //para usar impresoras por nombre compartido
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\CapabilityProfile;
-
 use Mike42\Escpos\Printer;
 
 

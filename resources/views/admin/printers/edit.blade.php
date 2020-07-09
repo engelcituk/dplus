@@ -86,8 +86,8 @@
                                     <span class="input-group-text"><i class="fal fa-wifi fs-xl"></i></span>
                                 </div>
                                 <select class="form-control" name="use_mode" required>
-                                    <option value="compartido" {{old('use_mode', $printer->use_mode) == 'compartido' ? 'selected': '' }}>Por impresora compartida</option>
-                                    <option value="ip" {{old('use_mode', $printer->use_mode) == 'ip' ? 'selected': '' }}>Por ip</option>
+                                    <option value="usb/compartido" {{old('use_mode', $printer->use_mode) == 'usb/compartido' ? 'selected': '' }}>Impresora usb/compartida</option>
+                                    <option value="red/ip" {{old('use_mode', $printer->use_mode) == 'red/ip' ? 'selected': '' }}>Por red/ip</option>
                                     
                                 </select>
                             </div>
