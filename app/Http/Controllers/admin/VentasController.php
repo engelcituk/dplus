@@ -216,18 +216,30 @@ class VentasController extends Controller
     public function imprimeTicketPorUsbCompartido($printer,$cabecera,$items)
     {
         $namePrinterUsbShared = $printer['shared_name'];
+        $folio = $cabecera['folio'];
+        $user = auth()->user();
 
         try {
             
             $connector = new WindowsPrintConnector($namePrinterUsbShared);
             
             $printer = new Printer($connector);
-            $printer->text("Hello World!\n");
-            $printer->text("Prueba de impresión!\n");
-            $printer->text("Impresora usb!\n");
-            $printer->text("Prueba desde desarrollo!\n");
-            $printer->text("Desde PC de desarrollo!\n");
-            $printer->text(" :) wiii\n");
+            $printer -> setJustification(Printer::JUSTIFY_CENTER);
+			$printer->text(date("Y-m-d H:i:s")."\n");//Fecha de la factura
+			$printer->feed(1); //Alimentamos el papel 1 vez*/
+			$printer->text("DPlus System"."\n");//Nombre de la empresa
+			$printer->text("RFC: 71.759.963-9"."\n");//Nit de la empresa
+			$printer->text("Dirección: Colonia centro"."\n");//Dirección de la empresa
+			$printer->text("Teléfono: 983 786 52 49"."\n");//Teléfono de la empresa
+			$printer->text("Folio:".$folio."\n");//Número de factura
+			$printer->feed(1); //Alimentamos el papel 1 vez*/
+            $printer->text("Le atiende: ".$user["name"]."\n");//Nombre del vendedor
+            foreach($items as $data){ // recorro el array y voy construyendo la estructura de la tabla de transacciones
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
+				$printer->text($data["descripcion"]."\n");//Nombre del producto
+                $printer->setJustification(Printer::JUSTIFY_RIGHT);
+				$printer->text("$ ".number_format($data["precio"],2)." Und x ".$data["cantidad"]." = $ ".number_format($cabecera['importe'],2)."\n");
+            }
             $printer->text("\n");
             $printer->text("\n");
             $printer->text("\n");
