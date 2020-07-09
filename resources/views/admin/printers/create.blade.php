@@ -13,7 +13,7 @@
     </ol> 
 
 <div class="row">    
-    <div class="col-xl-6 ">
+    <div class="col-md-6 ">
             
         <div id="panel-2" class="panel">
             <div class="panel-hdr">

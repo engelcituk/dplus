@@ -10,6 +10,7 @@ use App\Producto;
 use App\Cliente;
 use App\Transaction;
 use App\Total;
+use App\Printer;
 
 class VentasController extends Controller
 {
@@ -190,7 +191,10 @@ class VentasController extends Controller
             $transaction->save(); // guardo
         }
         if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
-
+            $printer = Printer::where('available', 1)->Where('default',1)->first();//obtengo la primera impresora que este disponible y predeterminada
+            if( $printer){ // si hay impresora, mando a imprimir
+                $idP = $printer['id'];
+            }
         }
         
         return response()->json(
@@ -199,6 +203,10 @@ class VentasController extends Controller
             'mensaje' => 'Cobro realizado exitosamente'
             ]
         );
+    }
 
+    public function imprimeTicket($printer)
+    {
+        
     }
 }

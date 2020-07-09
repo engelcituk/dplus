@@ -20,7 +20,7 @@ class PrintersTableSeeder extends Seeder
         $printer->ip="127.0.0.1";
         $printer->available=true;
         $printer->default=true;
-        $printer->use_mode='compartido';
+        $printer->use_mode='usb/compartido';
         $printer->save();
 
         $printer = new Printer;
@@ -29,7 +29,7 @@ class PrintersTableSeeder extends Seeder
         $printer->ip="127.0.0.2";
         $printer->available=true;
         $printer->default=false;
-        $printer->use_mode='compartido';
+        $printer->use_mode='usb/compartido';
         $printer->save();
 
         $printer = new Printer;
@@ -38,7 +38,7 @@ class PrintersTableSeeder extends Seeder
         $printer->ip="127.0.0.3";
         $printer->available=true;
         $printer->default=false;
-        $printer->use_mode='ip';
+        $printer->use_mode='red/ip';
         $printer->save();
     }
 }

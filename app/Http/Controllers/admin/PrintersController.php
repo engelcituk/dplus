@@ -76,7 +76,7 @@ class PrintersController extends Controller
         $this->authorize('update', $printer);
         
         $printer->available = $request->available ? true : false;
-        $printer->default = $request->default? true : false;
+        $printer->default = $request->default ? true : false;
 
         $data = $request->validate([
             'name'=>'required',
