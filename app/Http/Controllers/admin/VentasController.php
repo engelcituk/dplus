@@ -224,22 +224,42 @@ class VentasController extends Controller
             $connector = new WindowsPrintConnector($namePrinterUsbShared);
             
             $printer = new Printer($connector);
-            $printer -> setJustification(Printer::JUSTIFY_CENTER);
-			$printer->text(date("Y-m-d H:i:s")."\n");//Fecha de la factura
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
 			$printer->feed(1); //Alimentamos el papel 1 vez*/
-			$printer->text("DPlus System"."\n");//Nombre de la empresa
-			$printer->text("RFC: 71.759.963-9"."\n");//Nit de la empresa
-			$printer->text("Dirección: Colonia centro"."\n");//Dirección de la empresa
-			$printer->text("Teléfono: 983 786 52 49"."\n");//Teléfono de la empresa
-			$printer->text("Folio:".$folio."\n");//Número de factura
-			$printer->feed(1); //Alimentamos el papel 1 vez*/
+			$printer->text("DIGITAL PLUS"."\n");//Nombre de la empresa
+			$printer->text("SENOR Q.ROO COL. CENTRO"."\n");//Dirección de la empresa
+			$printer->text("Tel.: 983 809 43 88"."\n");//Teléfono de la empresa
+            $printer->text("Folio:".$folio."\n");//Número de factura
+			$printer->text(date("Y-m-d H:i:s A")."\n");//Fecha de la factura
+            $printer->text("\n");			
             $printer->text("Le atiende: ".$user["name"]."\n");//Nombre del vendedor
-            foreach($items as $data){ // recorro el array y voy construyendo la estructura de la tabla de transacciones
+            $printer->text("\n");
+            $printer->text("DESCRIPCION     CANT.    IMPORTE"."\n");//Nombre de la empresa
+			$printer->text("================================"."\n");//Nombre de la empresa        
+            foreach($items as $data){ // recorro el array y voy imprimiendo los items
+                //$printer->setJustification(Printer::JUSTIFY_LEFT);
+				//$printer->text($data["descripcion"]."\n");//Nombre/descripcion del producto
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-				$printer->text($data["descripcion"]."\n");//Nombre del producto
-                $printer->setJustification(Printer::JUSTIFY_RIGHT);
-				$printer->text("$ ".number_format($data["precio"],2)." Und x ".$data["cantidad"]." = $ ".number_format($cabecera['importe'],2)."\n");
+                $subtotal = number_format($data["precio"],2) * $data["cantidad"];
+                if(strlen($data["descripcion"])>13){
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
+				    $printer->text($data["descripcion"]."\n");//Nombre/descripcion del producto
+                    $printer->text("               ".$data["cantidad"]."   "."$".number_format($subtotal,2)."\n");
+                }else{
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
+				    $printer->text($data["descripcion"]."    ".$data["cantidad"]."   "."$".number_format($subtotal,2)."\n");
+                }
             }
+            $printer->text("\n");
+            $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->text("Total: $".number_format($cabecera["importe"],2)."\n");//Total
+            $printer->text("Pago con: $".number_format($cabecera["pagaCon"],2)."\n");//Nombre del vendedor
+            $printer->text("Su cambio: $".number_format($cabecera["cambio"],2)."\n");//Nombre del vendedor
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->text("\n");
+            $printer->text("GRACIAS POR SU COMPRA,"."\n");//thanks
+            $printer->text("VUELVA PRONTO"."\n");//thanks
+
             $printer->text("\n");
             $printer->text("\n");
             $printer->text("\n");
