@@ -11,7 +11,7 @@
 </ol>
     
 <div class="row">
-    <div class="col-xl-12">
+    <div class="col-md-12">
         @can('create', $clientes->first())
             <a href="{{route('admin.clientes.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar cliente</a>
         @endcan

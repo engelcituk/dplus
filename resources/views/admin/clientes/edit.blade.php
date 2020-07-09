@@ -11,7 +11,7 @@
     </ol> 
 
 <div class="row"> 
-    <div class="col-xl-12 ">
+    <div class="col-md-12 ">
         <div class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -24,7 +24,7 @@
                     <form action="{{route('admin.clientes.update',$cliente)}}" method="POST">
                         @csrf  {{ method_field('PUT') }}
                         <div class="row">
-                            <div class="col-xl-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="addon-wrapping-left">Nombre completo del cliente</label>
                                     <div class="input-group flex-nowrap">
@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="selectPeriodo">Selecciona servicio de TV</label>
                                     <div class="input-group flex-nowrap">
@@ -64,7 +64,7 @@
                                     </div>
                                 </div> 
                             </div>
-                            <div class="col-xl-6">
+                            <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label" for="selectInternet">Selecciona servicio de Internet</label>
                                         <div class="input-group flex-nowrap">

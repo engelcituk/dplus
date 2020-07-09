@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6">
+    <div class="col-md-6">
           
     </div>    
 </div>

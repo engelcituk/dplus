@@ -11,7 +11,7 @@
     </ol> 
 
     <div class="row">
-        <div class="col-xl-12 ">
+        <div class="col-md-12 ">
             <div class="panel">
                 <div class="panel-hdr">
                     <h2>
@@ -22,7 +22,7 @@
                     <div class="panel-content">
                         @include('admin.shared.error-messages') {{-- incluyo el bloque para mensajes flash --}} 
                             <div class="row">
-                                <div class="col-xl-6">
+                                <div class="col-md-6">
                                     <form action="{{route('admin.users.update',$user)}}" method="POST">  
                                         @csrf  {{ method_field('PUT') }} 
                                         <div class="form-group">
@@ -65,7 +65,7 @@
                                             <button class="mt-3 btn btn-primary btn-block"> Actualizar datos del usuario</button> 
                                     </form>
                                 </div>
-                                <div class="col-xl-6">
+                                <div class="col-md-6">
 
                                     @role('Admin')
                                         <form action="{{route('admin.users.roles.update',$user)}}" method="POST">  

@@ -12,7 +12,7 @@
     </ol> 
 
 <div class="row">    
-    <div class="col-xl-6">       
+    <div class="col-md-6">       
         <div class="card mb-g rounded-top">
             <div class="row no-gutters row-grid">
                 <div class="col-12">

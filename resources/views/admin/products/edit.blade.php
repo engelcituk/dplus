@@ -13,7 +13,7 @@
 </ol> 
 
 <div class="row"> 
-    <div class="col-xl-12 ">
+    <div class="col-md-12 ">
         <div class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -27,7 +27,7 @@
                     @csrf
                     @csrf  {{ method_field('PUT') }}                        
                         <div class="row">
-                            <div class="col-xl-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="addon-wrapping-left">Código de barras</label>
                                     <div class="input-group flex-nowrap">
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="addon-wrapping-left">Precio Costo</label>
                                     <div class="input-group flex-nowrap">

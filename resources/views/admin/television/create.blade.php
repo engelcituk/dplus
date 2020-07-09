@@ -13,7 +13,7 @@
 </ol> 
 
 <div class="row"> 
-    <div class="col-xl-12 ">
+    <div class="col-md-12 ">
         <div class="panel">
             <div class="panel-hdr">
                 <h2>
@@ -26,7 +26,7 @@
                     <form action="{{route('admin.television.store')}}" method="POST">
                     @csrf
                         <div class="row">
-                            <div class="col-xl-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="addon-wrapping-left">Nombre  del servicio</label>
                                     <div class="input-group flex-nowrap">
@@ -65,7 +65,7 @@
                                     <textarea class="form-control" name="description" id="descripción" rows="3">{{ old('description')}}</textarea>
                                 </div>
                             </div>
-                            <div class="col-xl-6">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label" for="addon-wrapping-left">Código</label>
                                     <div class="input-group flex-nowrap">

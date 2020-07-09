@@ -12,7 +12,7 @@
 </ol>
     
 <div class="row">
-    <div class="col-xl-12">
+    <div class="col-md-12">
         @can('create', $serviciosTV->first())
             <a href="{{route('admin.television.create')}}" class="btn btn-primary" > <i class="fal fa-pen"></i> Registrar servicio TV</a> 
         @endcan        
