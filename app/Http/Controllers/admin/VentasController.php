@@ -256,7 +256,7 @@ class VentasController extends Controller
             $printer->setJustification(Printer::JUSTIFY_RIGHT);
             $printer->text("IVA: $".number_format($cabecera["iva"],2)."\n");//Iva
             $printer->text("SubTotal: $".number_format($cabecera["subTotal"],2)."\n");//subTotal
-            $printer->text("Total: $".number_format($cabecera["importe"],2)."\n");//Total
+            $printer->text("Total: $".number_format($cabecera["total"],2)."\n");//Total
             $printer->text("Pago con: $".number_format($cabecera["pagaCon"],2)."\n");//Nombre del vendedor
             $printer->text("Su cambio: $".number_format($cabecera["cambio"],2)."\n");//Nombre del vendedor
             $printer->setJustification(Printer::JUSTIFY_CENTER);

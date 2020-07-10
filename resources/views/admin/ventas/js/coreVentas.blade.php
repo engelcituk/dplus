@@ -916,7 +916,7 @@ function cobrar(necesitaTicket) {
         'folio': folio,
         'pagaCon': pagaCon,
         'iva': totalesIVA,
-        'subTotal': totalSinIVA
+        'subTotal': totalSinIVA,
         'total': importe,
         'cambio': cambio,
         'nota': notaCabecera
