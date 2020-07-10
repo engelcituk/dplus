@@ -35,7 +35,7 @@ class VentasController extends Controller
         })
         ->join('clientes', 'clientes.id', '=', 'cliente_television.cliente_id')
         ->join('televisions', 'televisions.id', '=', 'cliente_television.television_id')
-        ->select('clientes.id as idCliente', 'cliente_television.television_id as idTelevision','televisions.code as code','clientes.name','cliente_television.referencia')
+        ->select('clientes.id as idCliente', 'cliente_television.television_id as idTelevision','televisions.code as code','televisions.iva as iva','clientes.name','cliente_television.referencia')
         ->get();
 
         return response()->json(
@@ -58,7 +58,7 @@ class VentasController extends Controller
             'ok' => true,
             'mensaje' => 'llegaste aquí',
             'productos' => $productos,
-            ]
+            ] 
         );
     }
     public function getDatosServicioTv(Request $request){
@@ -164,7 +164,9 @@ class VentasController extends Controller
 
         $formData  = array(
             'folio' => $cabecera['folio'],
-            'amount' => $cabecera['importe'],
+            'iva' => $cabecera['iva'],
+            'subtotal' => $cabecera['subTotal'],
+            'total' => $cabecera['total'],
             'pay_with' => $cabecera['pagaCon'],
             'cambio' => $cabecera['cambio'],
             'note' => $cabecera['nota']
@@ -252,6 +254,8 @@ class VentasController extends Controller
             }
             $printer->text("\n");
             $printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $printer->text("IVA: $".number_format($cabecera["iva"],2)."\n");//Iva
+            $printer->text("SubTotal: $".number_format($cabecera["subTotal"],2)."\n");//subTotal
             $printer->text("Total: $".number_format($cabecera["importe"],2)."\n");//Total
             $printer->text("Pago con: $".number_format($cabecera["pagaCon"],2)."\n");//Nombre del vendedor
             $printer->text("Su cambio: $".number_format($cabecera["cambio"],2)."\n");//Nombre del vendedor

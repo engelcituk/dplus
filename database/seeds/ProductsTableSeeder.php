@@ -22,6 +22,7 @@ class ProductsTableSeeder extends Seeder
         $product->sale_price=50;
         $product->wholesale_price=40;
         $product->has_inventory=true;
+        $product->iva=true;
         $product->units=25;
         $product->minimum=5;
         $product->save();
@@ -34,6 +35,7 @@ class ProductsTableSeeder extends Seeder
         $product->sale_price=20;
         $product->wholesale_price=10;
         $product->has_inventory=true;
+        $product->iva=true;
         $product->units=25;
         $product->minimum=5;
         $product->save();
@@ -46,6 +48,7 @@ class ProductsTableSeeder extends Seeder
         $product->sale_price=30;
         $product->wholesale_price=15;
         $product->has_inventory=true;
+        $product->iva=true;
         $product->units=25;
         $product->minimum=5;
         $product->save();

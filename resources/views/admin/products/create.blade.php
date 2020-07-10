@@ -55,7 +55,6 @@
                                 </div>
                                 
                                 <div class="frame-wrap">
-                                    
                                     <label class="form-label" for="descripción">Tiene inventario</label><br>
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" class="custom-control-input" id="radioSi" name="has_inventory" value="1" required>
@@ -66,6 +65,17 @@
                                         <label class="custom-control-label" for="radioNo">No</label>
                                     </div>
                                 </div>
+                                <div class="frame-wrap">
+                                    <label class="form-label" for="descripción">IVA 16%</label><br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioSiIva" name="iva" value="1" required>
+                                        <label class="custom-control-label" for="radioSiIva">Sí</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioNoIva" name="iva" value="0" required>
+                                        <label class="custom-control-label" for="radioNoIva">No</label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -74,7 +84,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
                                         </div>
-                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio costo" aria-label="Precio costo" aria-describedby="addon-wrapping-left" id="precioCosto" name="price_cost" value="{{ old('price_cost')}}">
+                                    <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio costo (considera el iva)" aria-label="Precio costo" aria-describedby="addon-wrapping-left" id="precioCosto" name="price_cost" value="{{ old('price_cost')}}">
                                     </div>
                                 </div>
                                 <div class="form-group">

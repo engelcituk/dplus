@@ -22,6 +22,7 @@ class CreateProductosTable extends Migration
             $table->decimal('sale_price');
             $table->decimal('wholesale_price');
             $table->boolean('has_inventory');
+            $table->boolean('iva');
             $table->integer('units');
             $table->integer('minimum');
 

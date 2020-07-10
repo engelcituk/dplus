@@ -23,6 +23,7 @@ class TelevisionsTableSeeder extends Seeder
         $servicio->price=135;
         $servicio->commission=16;
         $servicio->final_price=151;
+        $servicio->iva=true;
         $servicio->save();
 
         $servicio = new Television;
@@ -34,6 +35,7 @@ class TelevisionsTableSeeder extends Seeder
         $servicio->price=185;
         $servicio->commission=16;
         $servicio->final_price=201;
+        $servicio->iva=true;
         $servicio->save();
 
         $servicio = new Television;
@@ -45,6 +47,7 @@ class TelevisionsTableSeeder extends Seeder
         $servicio->price=235;
         $servicio->commission=16;
         $servicio->final_price=251;
+        $servicio->iva=true;
         $servicio->save();
     }
 }

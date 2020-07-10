@@ -16,7 +16,9 @@ class CreateTotalsTable extends Migration
         Schema::create('totals', function (Blueprint $table) {
             //$table->id();
             $table->string('folio')->primary();
-            $table->decimal('amount');
+            $table->decimal('iva');
+            $table->decimal('subtotal');
+            $table->decimal('total');
             $table->decimal('pay_with');
             $table->decimal('cambio');
             $table->string('note')->nullable();

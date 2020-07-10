@@ -103,6 +103,19 @@
                                     <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" id="precioFinal" name="final_price" value="{{ old('final_price', $television->final_price)}}" readonly>
                                     </div>
                                 </div>
+
+                                <div class="frame-wrap">
+                                    <label class="form-label" for="descripción">IVA 16%</label><br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioSi" name="iva" value="1" {{ old('iva',$television->iva == 1) ? 'checked':''}} required>
+                                        <label class="custom-control-label" for="radioSi">Sí</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioNo" name="iva" value="0" {{ old('iva',$television->iva == 0) ? 'checked':''}} required>
+                                        <label class="custom-control-label" for="radioNo">No</label>
+                                    </div>
+                                </div>
+                                
                                 <button class="mt-3 btn btn-primary btn-block"> Actualizar servicio TV</button>
                             </div>
                         </div>        

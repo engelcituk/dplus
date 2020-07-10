@@ -23,6 +23,8 @@ class CreateTelevisionsTable extends Migration
             $table->decimal('price');
             $table->decimal('commission');
             $table->decimal('final_price');
+            $table->boolean('iva');
+        
             $table->timestamps();
             $table->foreign('category_id')->references('id')->on('categories')
                     ->onDelete('cascade')

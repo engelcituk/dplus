@@ -37,6 +37,7 @@ function buscarClientes(){
                 let idTV = clientes[i].idTelevision
                 let code = clientes[i].code
                 let nombreCliente = clientes[i].name
+                let iva = clientes[i].iva
                 let referencia = clientes[i].referencia
                 listaClientes += `
                 <tr>
@@ -46,7 +47,7 @@ function buscarClientes(){
                   <td>
                     <button type="button" class="btn btn-primary btn-sm" onclick="getDataCliente(${idCliente})"><i class="fal fa-edit"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="copiar(${idCliente})"><i class="fal fa-copy"></i></button>
-                    <button type="button" class="btn btn-info btn-sm" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${code}','${nombreCliente}','${referencia}')">
+                    <button type="button" class="btn btn-info btn-sm" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${code}','${nombreCliente}','${referencia}',${iva})">
                       <i class="fal fa-plus-circle"></i>
                     </button
                   </td>
@@ -114,6 +115,7 @@ function buscarProductos(event){
                   const code = productos[i].code
                   const nombreProducto = productos[i].description
                   const precio = productos[i].sale_price
+                  const iva = productos[i].iva
                   const precioMayoreo = productos[i].wholesale_price
                   const unidades = productos[i].units
     
@@ -124,7 +126,7 @@ function buscarProductos(event){
                     <td>${nombreProducto}</td>
                     <td>${unidades}</td>
                     <td>${precio}</td>
-                    <td><button type="button" class="btn btn-info btn-sm" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}','${precioMayoreo}',${unidades})"><i class="fal fa-plus-circle"></i></button></td>
+                    <td><button type="button" class="btn btn-info btn-sm" onclick="addProducto(${idProducto},'${code}','${nombreProducto}','${precio}','${precioMayoreo}',${unidades},${iva})"><i class="fal fa-plus-circle"></i></button></td>
                   </tr>`;
                 }
                 listaProductos += `</tbody></table>`

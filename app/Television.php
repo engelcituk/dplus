@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Television extends Model
 {
     protected $fillable = [
-        'name','code','category_id','days_periods_id','description','price','commission','final_price'
+        'name','code','category_id','days_periods_id','description','price','commission','final_price','iva'
     ];
 
     public function periodo() // un servicio pertenece a un periodo de tiempo (tabla days_periods)

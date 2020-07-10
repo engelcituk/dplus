@@ -102,6 +102,17 @@
                                     <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" id="precioFinal" name="final_price" value="{{ old('final_price')}}" readonly>
                                     </div>
                                 </div>
+                                <div class="frame-wrap">
+                                    <label class="form-label" for="descripción">IVA 16%</label><br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioSiIva" name="iva" value="1" required>
+                                        <label class="custom-control-label" for="radioSiIva">Sí</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioNoIva" name="iva" value="0" required>
+                                        <label class="custom-control-label" for="radioNoIva">No</label>
+                                    </div>
+                                </div>
                                 <button class="mt-3 btn btn-primary btn-block"> Crear servicio TV</button>
                             </div>
                         </div>        

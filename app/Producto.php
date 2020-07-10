@@ -14,6 +14,7 @@ class Producto extends Model
         'sale_price',
         'wholesale_price',
         'has_inventory',
+        'iva',
         'units',
         'minimum'
     ];

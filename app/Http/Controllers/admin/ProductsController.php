@@ -46,7 +46,7 @@ class ProductsController extends Controller
 
     }
     public function store(Request $request)
-    {
+    { 
         
        $this->authorize('create',new Producto);// politica de acceso
 
@@ -59,6 +59,7 @@ class ProductsController extends Controller
             'sale_price'=>'required', 
             'wholesale_price' => 'required',
             'has_inventory' => 'required',
+            'iva' => 'required',
             'units' => 'required',
             'minimum'=>'required'
         ]);
@@ -80,6 +81,7 @@ class ProductsController extends Controller
             'sale_price'=>'required', 
             'wholesale_price' => 'required',
             'has_inventory' => 'required',
+            'iva' => 'required',
             'units' => 'required',
             'minimum'=>'required'
         ]);

@@ -40,7 +40,7 @@ function copiarDesdeInput(){
 }
 
 //para obtener los datos del servicio de tv del cliente
-function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referencia){
+function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referencia, iva){
   $.ajax({
       url: "{{ url('admin/ventas/datostvservicio') }}" ,
       type: "GET",
@@ -74,6 +74,8 @@ function showModalservicio(servicio, idCliente, idTV, nombreCliente, referencia)
   $('#idClienteInputTVService').val(idCliente);
   $('#idTvServicio').val(idTV);
   $('#codeTvService').val(servicio.code);
+  $('#ivaTVServicio').val(servicio.iva);
+
 
   $('#nombreClienteInputTVService').val(nombreCliente);
   $('#referenciaClienteInputTVService').val(referencia);
@@ -153,6 +155,8 @@ function getTickets(){
     let datosTicket = {
       'ticket' : ticket,
       'estado':'activo',
+      'totalesIVA':'0.00',
+      'totalSinIVA':'0.00',
       'total':'0.00',
       'nota':''
     }
@@ -233,7 +237,9 @@ function nuevoTicket() {
     let datosTicket = {
       'ticket' : ticket,
       'estado':'desactivado',
-      'total': 0,
+      'totalesIVA':'0.00',
+      'totalSinIVA':'0.00',
+      'total': '0.00',
       'nota':''
     }
     const tickets = listaTickets.concat(datosTicket);// fusiono el array de localstorage con el nuevo
@@ -328,6 +334,8 @@ function addServicioCliente() {
 
   const idCliente = document.getElementById("idClienteInputTVService").value;
   const idTV = document.getElementById("idTvServicio").value;
+  const IVA = document.getElementById("ivaTVServicio").value;
+
   const code = document.getElementById("codeTvService").value;
   const nombreCliente = document.getElementById("nombreClienteInputTVService").value;
   const referencia = document.getElementById("referenciaClienteInputTVService").value;
@@ -356,6 +364,7 @@ function addServicioCliente() {
     'existencia' : 'Ilim',
     'tieneMayoreo': false,
     'mayoreoAplicado':false,
+    'iva':IVA,
     'precio' : precioFinal,
     'precioMayoreo':precioFinal,
     'comision' : comision,
@@ -373,7 +382,7 @@ function addServicioCliente() {
   }
  }
 
- function addProducto(idProducto,code,descripcion,precio,precioMayoreo, existencia) {
+ function addProducto(idProducto,code,descripcion,precio,precioMayoreo, existencia, iva) {
   const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
   const ticketActivo = getTicketActivo();
 
@@ -393,6 +402,7 @@ function addServicioCliente() {
     'existencia' : existencia,
     'tieneMayoreo': true,
     'mayoreoAplicado':false,
+    'iva':iva,
     'precio' : precio,
     'precioMayoreo':precioMayoreo,
     'comision' : 0,
@@ -535,17 +545,28 @@ function showTotals(){
     if (localStorage.getItem(ticketActivo.ticket)){
       listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
       if (listaItems.length > 0 ) {
+        totalSinIva=0;
         total = 0;
+        ivaSuma=0;
         for (let i = 0; i < listaItems.length; i++) {
           const precio = parseFloat(listaItems[i]['precio']);
+          const iva = listaItems[i]['iva'];
+          const precioConIvaDescontado = iva == 1 ? ((precio)-(precio/1.16)) : 0.00;
           const cantidad = parseInt(listaItems[i]['cantidad']);
           const subtoTotal = precio * cantidad;
           total = total + subtoTotal;
+          ivaSuma = ivaSuma + precioConIvaDescontado;
+          totalSinIVA = total-ivaSuma;  
+
         }
         const trItem =`
           <tr >
-            <td colspan="4" style='text-align:center;vertical-align:middle'>Total</td>
-            <td colspan="3" style='text-align:center;vertical-align:middle'>${(Math.round(total * 100) / 100).toFixed(2)}</td>
+            <td colspan="1" style='text-align:center;vertical-align:middle'>IVA</td>
+            <td colspan="1" style='text-align:center;vertical-align:middle'>${(Math.round(ivaSuma * 100) / 100).toFixed(2)}</td>
+            <td colspan="1" style='text-align:center;vertical-align:middle'>subTotal</td>
+            <td colspan="1" style='text-align:center;vertical-align:middle'>${(Math.round(totalSinIVA * 100) / 100).toFixed(2)}</td>
+            <td colspan="2" style='text-align:center;vertical-align:middle'>Total</td>
+            <td colspan="1" style='text-align:center;vertical-align:middle'>${(Math.round(total * 100) / 100).toFixed(2)}</td>
           </tr>
           <tr>
             <td colspan="7" style='text-align:center;vertical-align:middle'>
@@ -555,6 +576,9 @@ function showTotals(){
         `;
         $("#tabla_items_tr tfoot").append(trItem);
         listadoTickets[positionTicketActivo]["total"] = (Math.round(total * 100) / 100).toFixed(2);
+        listadoTickets[positionTicketActivo]["totalSinIVA"] = (Math.round(totalSinIVA * 100) / 100).toFixed(2);
+        listadoTickets[positionTicketActivo]["totalesIVA"] = (Math.round(ivaSuma * 100) / 100).toFixed(2);
+
         localStorage.setItem('ticketsVentas',JSON.stringify(listadoTickets));
 
       }else{
@@ -564,6 +588,8 @@ function showTotals(){
           </tr>`;
         $("#tabla_items_tr tfoot").append(trItem);
         listadoTickets[positionTicketActivo]["total"] = (Math.round(0 * 100) / 100).toFixed(2);
+        listadoTickets[positionTicketActivo]["totalSinIVA"] = (Math.round(0 * 100) / 100).toFixed(2);
+        listadoTickets[positionTicketActivo]["totalesIVA"] = (Math.round(0 * 100) / 100).toFixed(2);
         localStorage.setItem('ticketsVentas',JSON.stringify(listadoTickets));
       }
     }
@@ -874,7 +900,10 @@ function cobrar(necesitaTicket) {
   const ticketActivoPosition = getPositionTicketActivo();
   const listaTickets = JSON.parse(localStorage.getItem('ticketsVentas'));
   const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
+  const totalesIVA = listaTickets[ticketActivoPosition]['totalesIVA'];
+  const totalSinIVA = listaTickets[ticketActivoPosition]['totalSinIVA'];
   const importe = listaTickets[ticketActivoPosition]['total'];
+
   const folio = listaTickets[ticketActivoPosition]['ticket'];
   const notaCabecera = listaTickets[ticketActivoPosition]['nota'];
 
@@ -886,7 +915,9 @@ function cobrar(necesitaTicket) {
       cabecera = {
         'folio': folio,
         'pagaCon': pagaCon,
-        'importe': importe,
+        'iva': totalesIVA,
+        'subTotal': totalSinIVA
+        'total': importe,
         'cambio': cambio,
         'nota': notaCabecera
       };
@@ -939,7 +970,9 @@ function generaNuevoTicketAlCobrar() {
       const datosTicket = {
         'ticket' : ticket,
         'estado':'activo',
-        'total': 0,
+        'totalesIVA':'0.00',
+        'totalSinIVA':'0.00',
+        'total': '0.00',
         'nota':''
       }
       listaTickets.splice(ticketActivoPosition, 1);   

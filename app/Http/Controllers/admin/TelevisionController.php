@@ -45,7 +45,9 @@ class TelevisionController extends Controller
             'description' =>     'required',
             'price' => 'required',
             'commission' => 'required',
-            'final_price' => 'required'
+            'final_price' => 'required',
+            'iva' => 'required'
+
             
         ]);
         
@@ -85,7 +87,8 @@ class TelevisionController extends Controller
             'days_periods_id'=>'required', 
             'price' => 'required',
             'commission' => 'required',
-            'final_price' => 'required' 
+            'final_price' => 'required',
+            'iva' => 'required'
         ]);
 
         $television->update($data);
