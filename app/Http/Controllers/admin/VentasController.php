@@ -240,9 +240,9 @@ class VentasController extends Controller
 			$printer->text("================================"."\n");//Nombre de la empresa        
             foreach($items as $data){ // recorro el array y voy imprimiendo los items
                 //$printer->setJustification(Printer::JUSTIFY_LEFT);
-				//$printer->text($data["descripcion"]."\n");//Nombre/descripcion del producto
+                $precioSinIva = $data["iva"] == 1 ? $data["precio"] / 1.16 : $data["precio"];
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-                $subtotal = number_format($data["precio"],2) * $data["cantidad"];
+                $subtotal = number_format($precioSinIva,2) * $data["cantidad"];
                 if(strlen($data["descripcion"])>13){
                     $printer->setJustification(Printer::JUSTIFY_CENTER);
 				    $printer->text($data["descripcion"]."\n");//Nombre/descripcion del producto

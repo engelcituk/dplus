@@ -364,7 +364,7 @@ function addServicioCliente() {
     'existencia' : 'Ilim',
     'tieneMayoreo': false,
     'mayoreoAplicado':false,
-    'iva':IVA,
+    'iva':parseInt(IVA),
     'precio' : precioFinal,
     'precioMayoreo':precioFinal,
     'comision' : comision,
@@ -492,12 +492,14 @@ function leerItemsTicket() {
           const folio = listaItems[i]['folio'];
           const descripcion = listaItems[i]['descripcion'];
           const precio = parseFloat(listaItems[i]['precio']);
+          const iva = listaItems[i]['iva'];
+          const precioSinIva = iva == 1 ? precio/1.16 : precio;
           const tipo = listaItems[i]['tipo'];
           const cantidad = parseInt(listaItems[i]['cantidad']);
           const existencia = listaItems[i]['existencia'];
           const tieneMayoreo = listaItems[i]['tieneMayoreo'];
           const mayoreoAplicado = listaItems[i]['mayoreoAplicado'];
-          const total = precio * cantidad;
+          const total = precioSinIva * cantidad;
           //ternarios
           const disabledButtonDisminuir = cantidad == 1 ? 'disabled' : '';
           const cssNotAllowedCantidad = cantidad == 1 ? 'cursor:not-allowed' : 'cursor:pointer'; 
@@ -511,7 +513,7 @@ function leerItemsTicket() {
           const trItem =`<tr>
               <th>${buttonTieneMayoreo}</th>
               <th>${descripcion}</th>
-              <td>${(Math.round(precio * 100) / 100).toFixed(2)}</td>
+              <td>${(Math.round(precioSinIva * 100) / 100).toFixed(2)}</td>
               <td contenteditable=${cantidadEditable} id='cantidadItemTr${i}' onBlur="modificarCantidadItem(${i})">${cantidad}</td>
               <td>${existencia}</td>
               <td>${(Math.round(total * 100) / 100).toFixed(2)}</td>
@@ -550,12 +552,12 @@ function showTotals(){
         ivaSuma=0;
         for (let i = 0; i < listaItems.length; i++) {
           const precio = parseFloat(listaItems[i]['precio']);
-          const iva = listaItems[i]['iva'];
-          const precioConIvaDescontado = iva == 1 ? ((precio)-(precio/1.16)) : 0.00;
           const cantidad = parseInt(listaItems[i]['cantidad']);
+          const iva = listaItems[i]['iva'];
+          const IvaDescontado = iva == 1 ? ((precio)-(precio/1.16))*cantidad : 0.00;
           const subtoTotal = precio * cantidad;
           total = total + subtoTotal;
-          ivaSuma = ivaSuma + precioConIvaDescontado;
+          ivaSuma = ivaSuma + IvaDescontado;
           totalSinIVA = total-ivaSuma;  
 
         }
@@ -922,7 +924,7 @@ function cobrar(necesitaTicket) {
         'nota': notaCabecera
       };
       $.ajaxSetup({
-      headers: {
+      headers: { 
         'X-CSRF-TOKEN': csrf_token
       }
     });
