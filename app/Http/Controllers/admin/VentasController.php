@@ -15,8 +15,7 @@ use App\Transaction;
 use App\Total;
 use App\Printer as MiniPrinter; // con alias porque choca con la clase de la librería de mike42
 
-class VentasController extends Controller
-{
+class VentasController extends Controller {
     
     public function index()
     {
@@ -24,7 +23,8 @@ class VentasController extends Controller
 
         return view('admin.ventas.index', compact('tvServicios'));
     }
-    public function getClientesServicios(Request $request){
+
+    public function getClientesTV(Request $request){
     
         $datosCliente = $request->get('datosCliente');
     
@@ -61,6 +61,28 @@ class VentasController extends Controller
             ] 
         );
     }
+    public function getClientesInternet(Request $request){
+    
+        $datosCliente = $request->get('datosCliente');
+
+        $clientes = DB::table('cliente_internet')
+        ->where(function($query) use ($datosCliente){
+            $query->where('clientes.name', 'like', '%'.$datosCliente.'%');
+            //$query->orWhere('cliente_television.referencia', 'like', '%'.$datosCliente.'%');
+        })
+        ->join('clientes', 'clientes.id', '=', 'cliente_internet.cliente_id')
+        ->join('internets', 'internets.id', '=', 'cliente_internet.internet_id')
+        ->select('clientes.id as idCliente','cliente_internet.internet_id as idInternet','clientes.name','internets.code as code','internets.name as nameServicio', 'internets.description as description','internets.price as precio','internets.assurance as seguro','internets.final_price as precioFinal','internets.iva as iva','cliente_internet.antenna_ip','cliente_internet.date_expiration')
+        ->get();
+
+        return response()->json(
+            [
+                'ok' => true,
+                'mensaje' => 'Datos de los clientes obtenidos',
+                'clientes' => $clientes,
+            ]
+        );
+    }
     public function getDatosServicioTv(Request $request){
         $idTvServicio = $request->get('idTvServicio');
 
@@ -74,6 +96,7 @@ class VentasController extends Controller
             ]
         );
     }
+
     public function getDataCliente(Request $request){
         $idCliente = $request->get('id');
 
@@ -156,8 +179,8 @@ class VentasController extends Controller
             ]
         );
     }
-    public function cobrar(Request $request)
-    {
+    public function cobrar(Request $request){
+
         $cabecera = $request->get('cabecera');
         $items = $request->get('items'); //array de productos y o servicios
         $necesitaTicket = $request->get('necesitaTicket');
@@ -195,6 +218,7 @@ class VentasController extends Controller
 
             $transaction->save(); // guardo
         }
+        
         if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
             $printer = MiniPrinter::where('available', 1)->Where('default',1)->first();//get first miniprinter available and default
             if($printer){ // si hay impresora, mando a imprimir
@@ -215,8 +239,8 @@ class VentasController extends Controller
         );
     }
 
-    public function imprimeTicketPorUsbCompartido($printer,$cabecera,$items)
-    {
+    public function imprimeTicketPorUsbCompartido($printer,$cabecera,$items){
+
         $namePrinterUsbShared = $printer['shared_name'];
         $folio = $cabecera['folio'];
         $user = auth()->user();

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     protected $fillable = ['name'];
+    protected $dates = ['date_expiration'];
 
     // un cliente pertenece a muchas televisiones   
     public function televisions(){
@@ -17,6 +18,6 @@ class Cliente extends Model
     // un cliente pertenece a muchas internet   
     public function internets(){
 
-        return $this->belongsToMany(Internet::class)->withPivot('antenna_ip','client_ip','antenna_password','router_password'); 
+        return $this->belongsToMany(Internet::class)->withPivot('antenna_ip','client_ip','antenna_password','router_password','date_start', 'date_expiration'); 
     }
 }

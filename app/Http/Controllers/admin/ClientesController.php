@@ -67,15 +67,14 @@ class ClientesController extends Controller
         
         $clienteTV = $clienteTelevision ? $cliente->televisions()->where('cliente_id', $cliente->id)->first() :  null;
         $clienteWifi = $clienteInternet ? $cliente->internets()->where('cliente_id', $cliente->id)->first() :  null;
-
-       
+                
         return view('admin.clientes.edit', compact('cliente','clienteTV','clienteWifi','tvServicios','wifiServicios'));
         
     }
 
     
-    public function update(Request $request, Cliente $cliente)
-    {
+    public function update(Request $request, Cliente $cliente){
+        
        $this->authorize('update',$cliente); // politica de acceso
 
         $data = $request->validate([
@@ -95,7 +94,9 @@ class ClientesController extends Controller
                 'antenna_ip' => $request->get('antenna_ip'),
                 'client_ip' =>$request->get('client_ip'),
                 'antenna_password' => $request->get('antenna_password'),
-                'router_password' => $request->get('router_password')
+                'router_password' => $request->get('router_password'),
+                'date_start' => $request->get('date_start'),
+                'date_expiration' => $request->get('date_expiration')
             ]
         );
 

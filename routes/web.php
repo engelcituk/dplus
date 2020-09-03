@@ -38,8 +38,9 @@ function(){
     Route::post('prints/shared', 'PrintsController@sharedPrinterTest')->name('admin.prints.compartido'); 
     //area de ventas
     Route::get('ventas', 'VentasController@index')->name('admin.ventas.index'); 
-    Route::get('ventas/clienteservicios', 'VentasController@getClientesServicios')->name('admin.ventas.clientesservicios'); 
-    Route::get('ventas/listaproductos', 'VentasController@getListaProductos')->name('admin.ventas.listaproductos'); 
+    Route::get('ventas/clientestv', 'VentasController@getClientesTV')->name('admin.ventas.clientestv'); 
+    Route::get('ventas/listaproductos', 'VentasController@getListaProductos')->name('admin.ventas.listaproductos');
+    Route::get('ventas/clientesinternet', 'VentasController@getClientesInternet')->name('admin.ventas.clientesinternet'); 
     Route::get('ventas/datostvservicio', 'VentasController@getDatosServicioTv')->name('admin.ventas.datostvservicio');
     Route::get('ventas/getdatacliente', 'VentasController@getDataCliente')->name('admin.ventas.getdatacliente');
     Route::post('ventas/savecliente', 'VentasController@saveCliente')->name('admin.ventas.savecliente');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Internet extends Model
 {
     protected $fillable = [
-        'name','category_id','days_periods_id','description','price','assurance','final_price'
+        'code','name','category_id','days_periods_id','description','price','assurance','final_price','iva'
     ];
 
     public function periodo() // un servicio de internet pertenece a un periodo de tiempo (tabla days_periods)

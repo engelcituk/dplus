@@ -17,9 +17,8 @@
                 <div class="panel-content">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tabVentas-1" role="tab">Servicios</a></li>
-                        
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabVentas-3" role="tab">Productos</a></li>
-                        
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabVentas-2" role="tab">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabVentas-3" role="tab">Internet</a></li>
                     </ul>
                     <div class="tab-content p-3">
                         <div class="tab-pane fade show active" id="tabVentas-1" role="tabpanel">
@@ -37,7 +36,7 @@
                                 
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tabVentas-3" role="tabpanel">
+                        <div class="tab-pane fade" id="tabVentas-2" role="tabpanel">
                             <div class="form-group">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Indique el nombre del producto o su código de barras" aria-label="producto o barcode" aria-describedby="btnBuscarProducto" id="nameBarcodeProducto" onkeyup="buscarProductos(event)">
@@ -45,6 +44,16 @@
                             </div>
                             <div id="listaProductos">
 
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tabVentas-3" role="tabpanel">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Indique el nombre del cliente" aria-label="cliente" aria-describedby="btnBuscarClienteInt" id="nameClienteInternet" onkeyup="buscarClientesInternet(event)">
+                                </div>
+                            </div>
+                            <div id="listaClientesInternet">
+                                
                             </div>
                         </div>
                     </div>
@@ -69,6 +78,7 @@
     </div>
 </div>
 @include('admin.ventas.modals.servicioTV') 
+@include('admin.ventas.modals.servicioInternet') 
 @include('admin.ventas.modals.registrarCliente') 
 @include('admin.ventas.modals.updateCliente') 
 @include('admin.ventas.modals.notaItem') 

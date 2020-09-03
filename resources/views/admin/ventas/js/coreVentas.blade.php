@@ -40,7 +40,7 @@ function copiarDesdeInput(){
 }
 
 //para obtener los datos del servicio de tv del cliente
-function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referencia, iva){
+function getDataServicioTVCliente(idCliente, idTV, nombreCliente, referencia){
   $.ajax({
       url: "{{ url('admin/ventas/datostvservicio') }}" ,
       type: "GET",
@@ -53,7 +53,7 @@ function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referenci
           ok= respuesta.ok;
           if(ok){
             servicio = respuesta.servicioTV;
-            showModalservicio(servicio, idCliente, idTV, nombreCliente, referencia);          
+            showModalServicioTV(servicio, idCliente, idTV, nombreCliente, referencia);          
           }else {
             console.log(respuesta.mensaje)
         } 
@@ -68,8 +68,72 @@ function getDataServicioTVCliente(idCliente, idTV, code,nombreCliente, referenci
       }
   })
 }
+//para obtener los datos del servicio de tv del cliente
+function getDataServicioInternetCliente(idCliente, idInternet,nombreCliente, iva){
+  $.ajax({
+      url: "{{ url('admin/ventas/datostvservicio') }}" ,
+      type: "GET",
+      data: {
+          '_method': 'GET',
+          '_token': csrf_token,
+          'idInternetServicio': idInternet
+      },
+      success: function(respuesta) {
+          ok= respuesta.ok;
+          if(ok){
+            servicio = respuesta.servicioTV;
+            showModalServicioTV(servicio, idCliente, idTV, nombreCliente, referencia);          
+          }else {
+            console.log(respuesta.mensaje)
+        } 
+      },
+      error: function(respuesta) {
+          swal({
+              title: 'Oops...',
+              text: '¡Algo salió mal!'+respuesta,
+              type: 'error',
+              timer: '1500'
+          })
+      }
+  })
+}
+
+// para mostrar el modal donde se pintan los datos de cliente y su servicio de internet
+function showModalServicioInternet(idCliente, idInternet, code, nombreServicio, nombreCliente, iva, description, precio, seguro, precioFinal, dateExpiration){
+  //le pinto los valores en los campos
+  $('#idClienteInputServicioInternet').val(idCliente);
+  $('#idServicioInternet').val(idInternet);
+  $('#descripcionServicioInternet').val(nombreServicio);
+  $('#ivaServicioInternet').val(iva);
+  $('#nombreClienteServicioInternet').val(nombreCliente);
+  $('#precioServicioInternet').val(precio);
+  $('#seguroServicioInternet').val(seguro);
+  $('#precioFinalServicioInternet').val(precioFinal);
+  $('#codigoServicioInternet').val(code);
+  $('#dateExpiration').val(dateExpiration.slice(0, -8));
+
+  document.getElementById("aplyAssurance").checked = true;
+  showTicketActivoEnModal();
+  $('#servicioInternet').modal({backdrop: 'static', keyboard: false})
+}
+
+// para cambiar el valor del precio final al considarar seguro
+function addRemoveAssurance(){
+  const precio = parseFloat($('#precioServicioInternet').val());
+  const seguro = parseFloat ($('#seguroServicioInternet').val());
+  
+  precioFinal = precio + seguro;
+
+  if (document.getElementById('aplyAssurance').checked){
+    document.getElementById('precioFinalServicioInternet').value = (Math.round( precioFinal * 100) / 100).toFixed(2);
+  } else {
+    document.getElementById('precioFinalServicioInternet').value =  (Math.round(precio * 100) / 100).toFixed(2);
+  }
+
+}
+
 // para mostrar el modal donde se pintan los datos de cliente y su servicio de tv
-function showModalservicio(servicio, idCliente, idTV, nombreCliente, referencia){
+function showModalServicioTV(servicio, idCliente, idTV, nombreCliente, referencia){
   //le pinto los valores en los campos
   $('#idClienteInputTVService').val(idCliente);
   $('#idTvServicio').val(idTV);
@@ -89,12 +153,16 @@ function showModalservicio(servicio, idCliente, idTV, nombreCliente, referencia)
   $('#servicioTV').modal({backdrop: 'static', keyboard: false})
 }
 
+
+
 function showTicketActivoEnModal(){
   if(localStorage.getItem('ticketsVentas')){
     listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
     const ticketActivo = getTicketActivo();
     button=`<button type="button" class="btn btn-primary" onclick="addServicioCliente()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
-    $("#lstTicketsTvServicios").html(button);  
+    $("#lstTicketsTvServicios").html(button); 
+    $("#lstTicketsServicioInternets").html(button);  
+
   }
 }
 /*=======================================================================
@@ -104,6 +172,10 @@ $('#servicioTV').on('hidden.bs.modal', function () {
     texto = document.getElementById('referenciaModalSpan');
     $('#servicioTV form')[0].reset();
     texto.innerHTML = '';
+});
+
+$('#servicioInternet').on('hidden.bs.modal', function () {
+    $('#servicioInternet form')[0].reset();
 });
 
 $('#modalNotaItem').on('hidden.bs.modal', function () {
@@ -125,23 +197,45 @@ $('#cobrarVenta').on('hidden.bs.modal', function () {
 ========================================================================*/
 
 // calculo el precio final con base al precio inicial + la comision
-function calculoPrecioFinal(){
+function calculoPrecioFinalTV(){
     
     let precio = document.getElementById("precioInputTVService").value;
     let comision = document.getElementById("comisionInputTVService").value;
     
     if( precio == ''){
-        document.getElementById("precioInputTVService").value = 0;
-        precio = 0;
+        document.getElementById("precioInputTVService").value = 0.00;
+        precio = 0.00;
     }
     if( comision == ''){
-        document.getElementById("comisionInputTVService").value = 0;
-        comision = 0;
+        document.getElementById("comisionInputTVService").value = 0.00;
+        comision = 0.00;
     }
-    document.getElementById("precioFinalInputTVService").value = parseFloat(precio) + parseFloat(comision);
- 
+    
+    precioFinal = parseFloat(precio) + parseFloat(comision);
+    document.getElementById("precioFinalInputTVService").value = (Math.round(precioFinal * 100) / 100).toFixed(2);
 }
+//calcular el precio final del servicio de internet para el cliente
+function calculoPrecioFinalInternet(){
+  let precio = document.getElementById("precioServicioInternet").value;
+  let seguro = document.getElementById("seguroServicioInternet").value;
+    if( precio == ''){
+        document.getElementById("precioServicioInternet").value = 0.00;
+        precio = 0.00;
+    }
+    if( seguro == ''){
+        document.getElementById("seguroServicioInternet").value = 0.00;
+        seguro = 0.00;
+    }
 
+    precioFinal = parseFloat(precio) + parseFloat(seguro);
+
+    if (document.getElementById('aplyAssurance').checked){
+      document.getElementById('precioFinalServicioInternet').value = (Math.round( precioFinal * 100) / 100).toFixed(2);
+    } else {
+      document.getElementById('precioFinalServicioInternet').value =  (Math.round(precio * 100) / 100).toFixed(2);
+    }
+
+}
 getTickets();
 leerItemsTicket(); //leo el contenido de los tickets
 showButtonsTickets()// muestro los botones de los tickets

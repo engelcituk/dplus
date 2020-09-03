@@ -1,9 +1,9 @@
-<div class="modal fade" id="servicioTV" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="servicioInternet" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    Datos del servicio Tv del cliente 
+                    Datos del servicio Internet
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true"><i class="fal fa-times"></i></span>
@@ -20,18 +20,18 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-key fs-xl"></i></span>
                                     </div>
-                                <input type="text" class="form-control"  id="idClienteInputTVService" readonly>
+                                <input type="text" class="form-control"  id="idClienteInputServicioInternet" readonly>
                                 </div>
                             </div>
                         </div>  
                         <div class="col-xs-6 m-auto d-none">
                             <div class="form-group">
-                                <label class="form-label" for="addon-wrapping-left">idTvServicio</label>
+                                <label class="form-label" for="addon-wrapping-left">idServicioInternet</label>
                                 <div class="input-group flex-nowrap">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-key fs-xl"></i></span>
                                     </div>
-                                <input type="text" class="form-control"  id="idTvServicio" readonly>
+                                <input type="text" class="form-control"  id="idServicioInternet" readonly>
                                 </div>
                             </div>
                         </div> 
@@ -42,18 +42,19 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-key fs-xl"></i></span>
                                     </div>
-                                <input type="text" class="form-control"  id="ivaTVServicio" readonly>
+                                <input type="text" class="form-control"  id="ivaServicioInternet" readonly>
                                 </div>
                             </div>
                         </div> 
                         <div class="col-xs-6 m-auto">
                             <div class="form-group">
-                                <label class="form-label" for="addon-wrapping-left">Código</label>
+                                <label class="form-label" for="addon-wrapping-left">Nombre servicio</label>
                                 <div class="input-group flex-nowrap">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fal fa-barcode fs-xl"></i></span>
+                                        <span class="input-group-text"><i class="fal fa-edit fs-xl"></i></span>
+                                        
                                     </div>
-                                <input type="text" class="form-control" id="codeTvService" readonly>
+                                <input type="text" class="form-control" id="descripcionServicioInternet" readonly>
                                 </div>
                             </div>
                         </div>
@@ -64,32 +65,11 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
                                     </div>
-                                    <input type="text" class="form-control"  id="nombreClienteInputTVService" readonly>
+                                    <input type="text" class="form-control"  id="nombreClienteServicioInternet" readonly>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-6 m-auto">
-                            <div class="form-group">
-                                <label class="form-label" for="addon-wrapping-left">Referencia del cliente</label>
-                                <div class="input-group flex-nowrap">
-                                <input type="text" class="form-control" id="referenciaClienteInputTVService" readonly>
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-info btn-sm" onclick="copiarDesdeInput()"><i class="fal fa-copy"></i></button>                  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                    
-                        <div class="col-xs-6 m-auto">
-                            <div class="form-group">
-                                <label class="form-label" for="addon-wrapping-left">Servicio</label>
-                                <div class="input-group flex-nowrap">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fal fa-tv fs-xl"></i></span>
-                                    </div>
-                                <input type="text" class="form-control"  id="nombreInputTVService" readonly>
-                                </div>
-                            </div>
-                        </div> 
+                                            
                         <div class="col-xs-6 m-auto">
                             <div class="form-group">
                                 <label class="form-label" for="addon-wrapping-left">Precio del servicio</label>
@@ -97,61 +77,74 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
                                     </div>
-                                <input type="number" class="form-control" step="0.01" id="precioInputTVService" onchange=" calculoPrecioFinalTV()">
+                                <input type="number" class="form-control" step="0.01" id="precioServicioInternet" onchange="calculoPrecioFinalInternet()">
                                 </div>
                             </div>
-                        </div>                    
+                        </div>   
+
                         <div class="col-xs-6 m-auto">
                             <div class="form-group">
-                                <label class="form-label" for="addon-wrapping-left">Comisión</label>
+                                <label class="form-label" for="addon-wrapping-left">Seguro</label>
                                 <div class="input-group flex-nowrap">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-money-bill fs-xl"></i></span>
                                     </div>
-                                <input type="number" class="form-control"  step="0.01" id="comisionInputTVService" onchange=" calculoPrecioFinalTV()">
+                                <input type="number" class="form-control"  step="0.01" id="seguroServicioInternet" onchange="calculoPrecioFinalInternet()">
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-xs-6 m-auto">
                             <div class="form-group">
-                                <label class="form-label" for="addon-wrapping-left">Número de pago proveedor</label>
+                                <label class="form-label" for="addon-wrapping-left">Código del servicio</label>
                                 <div class="input-group flex-nowrap">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fal fa-sort-numeric-up fs-xl"></i></span>
+                                        <span class="input-group-text"><i class="fal fa-barcode fs-xl"></i></span>
                                     </div>
-                                <input type="text" class="form-control" id="numPago">
+                                <input type="text" class="form-control" step="0.01" id="codigoServicioInternet" readonly>
                                 </div>
                             </div>
-                        </div>                    
-                        <div class="col-xs-6 m-auto"> 
-                            <div class="form-group">
-                                <label class="form-label" for="addon-wrapping-left">No. de autorización proveedor</label>
-                                <div class="input-group flex-nowrap">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fal fa-sort-numeric-up fs-xl"></i></span>
+                        </div> 
+                        <div class="col-xs-6 m-auto">
+                                <div class="form-group">
+                                    <label class="form-label" for="addon-wrapping-left">Fecha Límite</label>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fal fa-calendar fs-xl"></i></span>
+                                        </div>
+                                    <input type="text" class="form-control" id="dateExpiration" readonly>
                                     </div>
-                                <input type="text" class="form-control"  id="numAutorizacion">
                                 </div>
-                            </div>
-                        </div>                    
+                            </div>          
                     </div>
                     <br>
+                 
                     <div class="form-group">
-                            <label class="form-label" for="addon-wrapping-left">Precio final</label>
-                            <div class="input-group flex-nowrap">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
-                                </div>
-                            <input type="text" class="form-control"  id="precioFinalInputTVService" readonly>
+                        <label class="form-label" for="addon-wrapping-left">Aplicar el seguro</label>
+                        <div class="input-group flex-nowrap">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="aplyAssurance" onclick="addRemoveAssurance();">
+                                <label class="custom-control-label" for="aplyAssurance">Aplicar</label>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="addon-wrapping-left">Precio final</label>
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fal fa-dollar-sign fs-xl"></i></span>
+                            </div>
+                        <input type="text" class="form-control"  id="precioFinalServicioInternet" readonly>
+                        </div>
+                    </div>
                     <span class="badge badge-info" id="referenciaModalSpan"></span>
                 </div>                            
             </div> 
         </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal"><i class="fal fa-window-close fs-xl"></i></button>
-                <div id="lstTicketsTvServicios" class="form-group">
+                <div id="lstTicketsServicioInternets" class="form-group">
 
                 </div>
             </div>

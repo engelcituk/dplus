@@ -36,6 +36,17 @@
                                     <input type="text" class="form-control" placeholder="Nombre completo" aria-label="Nombre completo" aria-describedby="addon-wrapping-left" name="name" value="{{ old('name', $internet->name)}}">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="addon-wrapping-left">Código</label>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fal fa-barcode fs-xl"></i></span>
+                                        </div>
+                                    <input type="text" class="form-control" placeholder="código" aria-label="código" aria-describedby="addon-wrapping-left" name="code" value="{{ old('name', $internet->code)}}">
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="form-label" for="selectPeriodo">Selecciona categoría</label>
                                     <select class="form-control" name="category_id">
@@ -92,6 +103,19 @@
                                     <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" id="precioFinal" name="final_price" value="{{ old('final_price', $internet->final_price)}}" readonly>
                                     </div>
                                 </div>
+
+                                <div class="frame-wrap">
+                                    <label class="form-label" for="descripción">IVA 16%</label><br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioSi" name="iva" value="1" {{ old('iva',$internet->iva == 1) ? 'checked':''}} required>
+                                        <label class="custom-control-label" for="radioSi">Sí</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioNo" name="iva" value="0" {{ old('iva',$internet->iva == 0) ? 'checked':''}} required>
+                                        <label class="custom-control-label" for="radioNo">No</label>
+                                    </div>
+                                </div>
+
                                 <button class="mt-3 btn btn-primary btn-block"> Actualizar servicio</button>
                             </div>
                         </div>        

@@ -38,13 +38,15 @@ class InternetsController extends Controller
 
         //Validar el formulario
         $data = $request->validate([
+            'code' => 'required',
             'name' => ['required', 'string', 'max:255'],
             'category_id'=>'required',
             'days_periods_id'=>'required',
             'description' => 'required',
             'price' => 'required',
             'assurance' => 'required',
-            'final_price' => 'required'
+            'final_price' => 'required',
+            'iva' => 'required'
             
         ]);
         
@@ -78,12 +80,15 @@ class InternetsController extends Controller
        $this->authorize('update',$internet);
        
        $data = $request->validate([
+            'code' => 'required',
             'name' => ['required', 'string', 'max:255'],
             'days_periods_id'=>'required', 
             'description' => 'required',
             'price' => 'required',  
             'assurance' => 'required',
-            'final_price' => 'required'
+            'final_price' => 'required',
+            'iva' => 'required'
+
             
         ]);
 

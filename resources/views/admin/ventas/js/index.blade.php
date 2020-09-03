@@ -12,7 +12,7 @@ function buscarClientes(){
       }
     });
     $.ajax({
-      url: "{{ url('admin/ventas/clienteservicios') }}" ,
+      url: "{{ url('admin/ventas/clientestv') }}" ,
       type: "GET",
       data: {
           'datosCliente': datosCliente
@@ -47,7 +47,7 @@ function buscarClientes(){
                   <td>
                     <button type="button" class="btn btn-primary btn-sm" onclick="getDataCliente(${idCliente})"><i class="fal fa-edit"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="copiar(${idCliente})"><i class="fal fa-copy"></i></button>
-                    <button type="button" class="btn btn-info btn-sm" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${code}','${nombreCliente}','${referencia}',${iva})">
+                    <button type="button" class="btn btn-info btn-sm" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${nombreCliente}','${referencia}')">
                       <i class="fal fa-plus-circle"></i>
                     </button
                   </td>
@@ -73,9 +73,10 @@ function buscarClientes(){
     $("#listaClientes").html('');
   }
 }
+
 function buscarProductos(event){
   let datosProducto = $('#nameBarcodeProducto').val();
-  const isNumber = esNumero(datosProducto);
+  //const isNumber = esNumero(datosProducto);
   const codigoClave = event.keyCode;
   const ticketActivo = getTicketActivo();
   const listaItems = JSON.parse(localStorage.getItem(ticketActivo.ticket));
@@ -162,6 +163,82 @@ function buscarProductos(event){
     $("#listaProductos").html('');
   }
 }
+
+function buscarClientesInternet(){
+  const datosCliente= $('#nameClienteInternet').val();
+  if (datosCliente != '' && datosCliente.length > 1) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
+    $.ajax({
+      url: "{{ url('admin/ventas/clientesinternet') }}" ,
+      type: "GET",
+      data: {
+          'datosCliente': datosCliente
+      },
+      success: function(respuesta) {
+          const ok= respuesta.ok;
+          if(ok){
+            clientes = respuesta.clientes;
+            console.log(clientes);
+            listaClientes = `
+            <table class="table table-bordered m-2">
+                <thead>
+                    <tr>
+                        <th>Nombre Cliente</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+              <tbody>`
+              for(i = 0; i < clientes.length; i++){
+                let idCliente = clientes[i].idCliente
+                let idInternet = clientes[i].idInternet
+                let code = clientes[i].code
+                let nombreCliente = clientes[i].name
+                let nombreServicio = clientes[i].nameServicio
+                let description = clientes[i].description
+                let precio = clientes[i].precio
+                let seguro = clientes[i].seguro
+                let precioFinal = clientes[i].precioFinal
+                let iva = clientes[i].iva
+                let dateExpiration = clientes[i].date_expiration
+
+                listaClientes += `
+                <tr>
+                  <td>${nombreCliente}</td>
+                  <td> <span id="ref${idCliente}">${description}</span></td>
+                  <td>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getDataCliente(${idCliente})"><i class="fal fa-edit"></i></button>
+                    <button type="button" class="btn btn-info btn-sm" onclick="showModalServicioInternet(${idCliente},${idInternet},'${code}','${nombreServicio}','${nombreCliente}','${iva}','${description}','${precio}','${seguro}','${precioFinal}','${dateExpiration}')">
+                      <i class="fal fa-plus-circle"></i>
+                    </button
+                  </td>
+              </tr>`;
+              }
+            listaClientes += `</tbody></table>`;
+            $("#listaClientesInternet").html(listaClientes);
+          }else {
+            console.log(respuesta.mensaje)
+        } 
+      },
+      error: function(respuesta) {
+          swal({
+              title: 'Oops...',
+              text: '¡Algo salió mal!'+respuesta,
+              type: 'error',
+              timer: '1500'
+          })
+      }
+    });
+  }else {
+    //console.log("campos vacios o caracteres muy limitados");
+    $("#listaClientes").html('');
+  }
+}
+
 function esNumero(cadena) {
   if (!isNaN(cadena)) {
     return true;

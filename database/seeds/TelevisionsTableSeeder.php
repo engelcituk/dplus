@@ -14,40 +14,40 @@ class TelevisionsTableSeeder extends Seeder
     {
         Television::truncate();// limpio la tabla
 
-        $servicio = new Television;
-        $servicio->name="VeTV 135";
-        $servicio->category_id=1;
-        $servicio->days_periods_id=3;
-        $servicio->description="VeTV el más básico";
-        $servicio->code="135tv";
-        $servicio->price=135;
-        $servicio->commission=16;
-        $servicio->final_price=151;
-        $servicio->iva=true;
-        $servicio->save();
+        $tv = new Television;
+        $tv->name="VeTV 135";
+        $tv->category_id=1;
+        $tv->days_periods_id=3;
+        $tv->description="VeTV el más básico";
+        $tv->code="135tv";
+        $tv->price=135;
+        $tv->commission=16;
+        $tv->final_price=151;
+        $tv->iva=true;
+        $tv->save();
 
-        $servicio = new Television;
-        $servicio->name="Sky/VeTV 185";
-        $servicio->category_id=1;
-        $servicio->days_periods_id=3;
-        $servicio->description="VeTV básico nivel 2";
-        $servicio->code="185tv";
-        $servicio->price=185;
-        $servicio->commission=16;
-        $servicio->final_price=201;
-        $servicio->iva=true;
-        $servicio->save();
+        $tv = new Television;
+        $tv->name="Sky/VeTV 185";
+        $tv->category_id=1;
+        $tv->days_periods_id=3;
+        $tv->description="VeTV básico nivel 2";
+        $tv->code="185tv";
+        $tv->price=185;
+        $tv->commission=16;
+        $tv->final_price=201;
+        $tv->iva=true;
+        $tv->save();
 
-        $servicio = new Television;
-        $servicio->name="Sky/VeTV 235";
-        $servicio->category_id=1;
-        $servicio->days_periods_id=3;
-        $servicio->description="VeTV plus";
-        $servicio->code="235tv";
-        $servicio->price=235;
-        $servicio->commission=16;
-        $servicio->final_price=251;
-        $servicio->iva=true;
-        $servicio->save();
+        $tv = new Television;
+        $tv->name="Sky/VeTV 235";
+        $tv->category_id=1;
+        $tv->days_periods_id=3;
+        $tv->description="VeTV plus";
+        $tv->code="235tv";
+        $tv->price=235;
+        $tv->commission=16;
+        $tv->final_price=251;
+        $tv->iva=true;
+        $tv->save();
     }
 }

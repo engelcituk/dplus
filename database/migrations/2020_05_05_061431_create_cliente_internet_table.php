@@ -21,7 +21,8 @@ class CreateClienteInternetTable extends Migration
             $table->string('client_ip')->nullable();
             $table->string('antenna_password')->nullable();
             $table->string('router_password')->nullable();
-
+            $table->timestamp('date_start')->nullable();
+            $table->timestamp('date_expiration')->nullable();
             $table->foreign('cliente_id')->references('id')->on('clientes')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');

@@ -131,6 +131,32 @@
                                             </div> 
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="addon-wrapping-left">Fecha de pago</label>
+                                                    <div class="input-group flex-nowrap">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fal fa-calendar fs-xl"></i></span>
+                                                        </div> 
+                                                        <input type="text" class="form-control" id="datepicker-1" name="date_start" placeholder="Fechad de pago" value="{{$clienteWifi ? Carbon\Carbon::parse($clienteWifi->pivot->date_start)->format('Y/ m/d') : ''}}">
+                                                    </div>
+                                                    
+                                                </div> 
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="addon-wrapping-left">Fecha fin</label>
+                                                    <div class="input-group flex-nowrap">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="fal fa-calendar fs-xl"></i></span>
+                                                        </div> 
+                                                        <input type="text" class="form-control" id="datepicker-2" name="date_expiration" placeholder="Fecha vence" value="{{$clienteWifi ?  Carbon\Carbon::parse($clienteWifi->pivot->date_expiration)->format('Y/ m/d'): ''}}">           
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
                                     
                                     
                                     <button class="mt-3 btn btn-primary btn-block"> Actualizar Cliente</button>
@@ -148,11 +174,15 @@
 @push('stylesCss')
     <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/datagrid/datatables/datatables.bundle.css') }}">
     <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/notifications/sweetalert2/sweetalert2.bundle.css') }}">
+    <link rel="stylesheet" media="screen, print" href="{{ asset('smartadmin/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+
 @endpush
 @push('scriptsJs') 
     <script src="{{ asset('smartadmin/js/datagrid/datatables/datatables.bundle.js') }}" ></script>  
     <script src="{{ asset('smartadmin/js/notifications/sweetalert2/sweetalert2.bundle.js') }}" ></script> 
-    <script src="{{ asset('smartadmin/js/formplugins/inputmask/inputmask.bundle.js') }}" ></script>  
+    <script src="{{ asset('smartadmin/js/formplugins/inputmask/inputmask.bundle.js') }}" ></script> 
+    <script src="{{ asset('smartadmin/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js') }}" ></script>  
+
 
     @include('admin.clientes.js.edit') {{-- include con un file blade porque un archivo js no me permitía --}}
 @endpush

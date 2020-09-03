@@ -36,6 +36,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="form-label" for="addon-wrapping-left">Código</label>
+                                    <div class="input-group flex-nowrap">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fal fa-barcode fs-xl"></i></span>
+                                        </div>
+                                    <input type="text" class="form-control" placeholder="Código único" aria-label="Código" aria-describedby="addon-wrapping-left" id="code" name="code" value="{{ old('code')}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="form-label" for="selectPeriodo">Selecciona categoría</label>
                                     <select class="form-control" name="category_id">
                                         @forelse ($categorias as $categoria)
@@ -92,6 +101,19 @@
                                     <input type="number" step="0.01" class="form-control validarDecimal" placeholder="Precio final" aria-label="Precio final" aria-describedby="addon-wrapping-left" id="precioFinal" name="final_price" value="{{ old('final_price')}}" readonly>
                                     </div>
                                 </div>
+
+                                <div class="frame-wrap">
+                                    <label class="form-label" for="descripción">IVA 16%</label><br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioSiIva" name="iva" value="1" required>
+                                        <label class="custom-control-label" for="radioSiIva">Sí</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="radioNoIva" name="iva" value="0" required>
+                                        <label class="custom-control-label" for="radioNoIva">No</label>
+                                    </div>
+                                </div>
+                                
                                 <button class="mt-3 btn btn-primary btn-block"> Crear servicio internet</button>
                             </div>
                         </div>        
