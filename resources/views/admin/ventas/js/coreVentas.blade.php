@@ -101,7 +101,7 @@ function getDataServicioInternetCliente(idCliente, idInternet,nombreCliente, iva
 // para mostrar el modal donde se pintan los datos de cliente y su servicio de internet
 function showModalServicioInternet(idCliente, idInternet, code, nombreServicio, nombreCliente, iva, description, precio, seguro, precioFinal, dateExpiration){
   //le pinto los valores en los campos
-  $('#idClienteInputServicioInternet').val(idCliente);
+  $('#idClienteServicioInternet').val(idCliente);
   $('#idServicioInternet').val(idInternet);
   $('#descripcionServicioInternet').val(nombreServicio);
   $('#ivaServicioInternet').val(iva);
@@ -159,9 +159,10 @@ function showTicketActivoEnModal(){
   if(localStorage.getItem('ticketsVentas')){
     listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
     const ticketActivo = getTicketActivo();
-    button=`<button type="button" class="btn btn-primary" onclick="addServicioCliente()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
+    button=`<button type="button" class="btn btn-primary" onclick="addServicioTVCliente()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
+    button2=`<button type="button" class="btn btn-primary" onclick="addServicioInternetCliente()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
     $("#lstTicketsTvServicios").html(button); 
-    $("#lstTicketsServicioInternets").html(button);  
+    $("#lstTicketsServicioInternets").html(button2);  
 
   }
 }
@@ -423,7 +424,7 @@ function showDivTableTicket(){
   }
 }
 
-function addServicioCliente() {
+function addServicioTVCliente() {
   const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
 
   const idCliente = document.getElementById("idClienteInputTVService").value;
@@ -481,27 +482,27 @@ function addServicioCliente() {
   const ticketActivo = getTicketActivo();
 
   const datosItem = JSON.stringify({
-    'folio' : ticketActivo.ticket,    
-    'idCliente' : '',
-    'idUsuario' : parseInt(auth_user_id),
+    'folio': ticketActivo.ticket,    
+    'idCliente': '',
+    'idUsuario': parseInt(auth_user_id),
     'idProducto':idProducto,
     'transactionable_type':'App\\Producto',
     'transactionable_id':idProducto,
-    'nombreCliente' : '',
-    'referencia' : '',
-    'descripcion' :  descripcion,
-    'tipo' : 'producto',
-    'codigo' : code,
-    'cantidad' : 1,
-    'existencia' : existencia,
+    'nombreCliente': '',
+    'referencia': '',
+    'descripcion': descripcion,
+    'tipo': 'producto',
+    'codigo': code,
+    'cantidad': 1,
+    'existencia': existencia,
     'tieneMayoreo': true,
     'mayoreoAplicado':false,
-    'iva':iva,
-    'precio' : precio,
+    'iva':parseInt(iva),
+    'precio': precio,
     'precioMayoreo':precioMayoreo,
-    'comision' : 0,
-    'numPagoProveedor' : '',
-    'numAutorizacionProveedor' : '',
+    'comision': 0,
+    'numPagoProveedor': '',
+    'numAutorizacionProveedor': '',
     'nota':''
   });
   //añado al ticket y leo listado
@@ -509,6 +510,57 @@ function addServicioCliente() {
   leerItemsTicket();
 
  }
+ function addServicioInternetCliente(){
+
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+
+  const idCliente = document.getElementById("idClienteServicioInternet").value;
+  const idInternet = document.getElementById("idServicioInternet").value;
+  const IVA = document.getElementById("ivaServicioInternet").value;
+
+  const code = document.getElementById("codigoServicioInternet").value;
+  const nombreCliente = document.getElementById("nombreClienteServicioInternet").value;
+  const descripcion = document.getElementById("descripcionServicioInternet").value;
+  const precio = document.getElementById("precioServicioInternet").value;
+  const seguro = document.getElementById("seguroServicioInternet").value;
+  const precioFinal = document.getElementById("precioFinalServicioInternet").value;
+
+  const ticketActivo = getTicketActivo();
+  
+  const datosItem = JSON.stringify({
+    'folio': ticketActivo.ticket,
+    'idCliente': parseInt(idCliente),
+    'idUsuario': parseInt(auth_user_id),
+    'idProducto':'',
+    'transactionable_type':'App\\Internet',
+    'transactionable_id':parseInt(idInternet),
+    'nombreCliente': nombreCliente,
+    'referencia': '',
+    'descripcion':  descripcion,
+    'tipo': 'servicio',
+    'codigo': code,
+    'cantidad': 1,
+    'existencia': 'Ilim',
+    'tieneMayoreo': false,
+    'mayoreoAplicado':false,
+    'iva':parseInt(IVA),
+    'precio': precioFinal,
+    'precioMayoreo':precioFinal,
+    'comision': seguro,
+    'numPagoProveedor': '',
+    'numAutorizacionProveedor': '',
+    'nota':''
+  });
+
+  if( precio != '' && seguro != ''){
+    addToTicket(datosItem);
+    leerItemsTicket(); //leo el contenido del ticket
+    $('#servicioInternet').modal('hide');// oculto el modal servicio de interent
+  }else{
+    showMessageNotify("Precio o seguro está vacío", "danger", 3000)
+  }
+ }
+
  // funcion exclusiva para mostrar mensajes como notificaciones
  function showMessageNotify(mensaje, tipo, duracion) {
   $.notify({							

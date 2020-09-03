@@ -20,7 +20,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fal fa-key fs-xl"></i></span>
                                     </div>
-                                <input type="text" class="form-control"  id="idClienteInputServicioInternet" readonly>
+                                <input type="text" class="form-control"  id="idClienteServicioInternet" readonly>
                                 </div>
                             </div>
                         </div>  

@@ -219,7 +219,7 @@ class VentasController extends Controller {
             $transaction->save(); // guardo
         }
         
-        if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
+       /* if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
             $printer = MiniPrinter::where('available', 1)->Where('default',1)->first();//get first miniprinter available and default
             if($printer){ // si hay impresora, mando a imprimir
                 $modoUso = $printer['use_mode']; // se obtiene el tipo de impresora
@@ -229,7 +229,7 @@ class VentasController extends Controller {
                     // $this->imprimeTicketPorIpRed($printer,$cabecera,$items);
                 }
             }
-        }
+        }*/
         
         return response()->json(
             [
