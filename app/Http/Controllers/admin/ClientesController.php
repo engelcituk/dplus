@@ -86,6 +86,8 @@ class ClientesController extends Controller
         $cliente->televisions()->detach();
         $cliente->televisions()->attach($request->get('televisions'),['referencia'=>$request->get('referencia')]);
 
+        $dateExpiration = \Carbon\Carbon::parse($request->get('date_start') )->addDays(30); //le sumo 30 dias con carbon
+
         // detach y attach de servicios de wifi
         $cliente->internets()->detach();
         $cliente->internets()->attach(
@@ -96,7 +98,7 @@ class ClientesController extends Controller
                 'antenna_password' => $request->get('antenna_password'),
                 'router_password' => $request->get('router_password'),
                 'date_start' => $request->get('date_start'),
-                'date_expiration' => $request->get('date_expiration')
+                'date_expiration' => $dateExpiration
             ]
         );
 

@@ -1086,11 +1086,14 @@ function cobrar(necesitaTicket) {
               ok = respuesta.ok;
               if(ok){
                 mensaje = respuesta.mensaje;
+                //cliente = respuesta.cliente;
+
                 $('#cobrarVenta').modal('hide');// oculto el modal servicio
                 showMessageNotify(mensaje,'success',2000)
                 generaNuevoTicketAlCobrar()// borro los datos del ticket, variables localstorage
                 showButtonsTickets()// muestro los botones de tickets
                 leerItemsTicket()// leo tabla de items de productos, servicios
+                //console.log(cliente);
               } 
           },
           error: function(respuesta) {

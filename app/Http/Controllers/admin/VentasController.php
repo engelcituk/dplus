@@ -14,6 +14,8 @@ use App\Cliente;
 use App\Transaction;
 use App\Total;
 use App\Printer as MiniPrinter; // con alias porque choca con la clase de la librería de mike42
+use Carbon\Carbon;
+
 
 class VentasController extends Controller {
     
@@ -204,7 +206,7 @@ class VentasController extends Controller {
                 'user_id' => $data['idUsuario'],
                 'cliente_id' => $data['idCliente'],
                 'transactionable_type' => $data['transactionable_type'],
-                'transactionable_id' => $data['transactionable_id'],
+                'transactionable_id' => $data['transactionable_id'], //id del modelo como tv, internet 
                 'description' => $data['descripcion'],
                 'name_cliente' => $data['nombreCliente'],
                 'reference' => $data['referencia'],
@@ -217,6 +219,8 @@ class VentasController extends Controller {
             ]);
 
             $transaction->save(); // guardo
+
+            $this->updateFechaExpiracionPagoInternet($data['idCliente'], $data['transactionable_id']);
         }
         
        /* if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
@@ -234,9 +238,37 @@ class VentasController extends Controller {
         return response()->json(
             [
             'ok' => true,
-            'mensaje' => 'Cobro realizado exitosamente'
+            'mensaje' => 'Cobro realizado exitosamente',
+            //'cliente'=>  $cliente->internets[0]->pivot
             ]
         );
+    }
+
+    public function updateFechaExpiracionPagoInternet($idCliente, $idInternet){
+
+        $cliente = Cliente::with('internets')->find($idCliente); //obtengo el cliente y los datos de su servicio de tv mediante su relacion
+
+        $dateStart = $cliente->internets[0]->pivot->date_expiration;
+        $dateExpiration = \Carbon\Carbon::parse($dateStart )->addDays(30); //le sumo 30 dias con carbon
+        $antenaIp = $cliente->internets[0]->pivot->antenna_ip;
+        $clienteIp = $cliente->internets[0]->pivot->client_ip;
+        $antennaPassword = $cliente->internets[0]->pivot->antenna_password;
+        $routerPassword = $cliente->internets[0]->pivot->router_password;  
+
+        // detach y attach de servicios de wifi del cliente
+        $cliente->internets()->detach();
+        $cliente->internets()->attach(
+            $idInternet, 
+            [
+                'antenna_ip' => $antenaIp,
+                'client_ip' =>$clienteIp,
+                'antenna_password' => $antennaPassword,
+                'router_password' => $routerPassword,
+                'date_start' => $dateStart,
+                'date_expiration' => $dateExpiration
+            ]
+        );
+        
     }
 
     public function imprimeTicketPorUsbCompartido($printer,$cabecera,$items){
