@@ -73,8 +73,8 @@
                     </ul>
                 </li>
             @endcan            
-            @can('view', [new App\Television, new App\Internet, new App\Producto])
-                <li class=" {{setCollapseShow(['admin.television.*','admin.internet.*'])}}">
+            @can('view', [new App\Television, new App\Recarga, new App\Producto, new App\Recarga])
+                <li class=" {{setCollapseShow(['admin.television.*','admin.internet.*', 'admin.recargas.*'])}}">
                     <a href="#" title="Servicios" data-filter-tags="servicios service">
                         <i class="fal fa-table"></i>
                         <span class="nav-link-text" data-i18n="nav.servicios">Servicios</span>
@@ -96,8 +96,15 @@
                         @endcan   
                         @can('view', new App\Producto)
                             <li class="{{ setActiveRoute('admin.products.*') }}">
-                                <a href="{{route('admin.products.index')}}" title="Internet" data-filter-tags="products service int">
+                                <a href="{{route('admin.products.index')}}" title="Producto" data-filter-tags="products service int">
                                     <span class="nav-link-text" data-i18n="nav.products_int">Productos</span>
+                                </a>
+                            </li>
+                        @endcan 
+                        @can('view', new App\Recarga)
+                            <li class="{{ setActiveRoute('admin.recargas.*') }}">
+                                <a href="{{route('admin.recargas.index')}}" title="Recarga" data-filter-tags="recargas service int">
+                                    <span class="nav-link-text" data-i18n="nav.recargas_int">Recargas</span>
                                 </a>
                             </li>
                         @endcan              

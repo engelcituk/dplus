@@ -91,8 +91,6 @@ class ProductsController extends Controller
         return back()->withFlash('Producto actualizado');
     }
 
-    
-
     public function destroy($idProducto) //solo el admin hace esto
     {
         $authUser = Auth::user(); // get current logged in user
