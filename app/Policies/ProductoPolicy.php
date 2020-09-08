@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProductoPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization; 
 
     public function before($user) // funcion que se ejecuta primero
     {

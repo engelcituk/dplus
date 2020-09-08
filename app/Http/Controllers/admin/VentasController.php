@@ -249,7 +249,7 @@ class VentasController extends Controller {
         $cliente = Cliente::with('internets')->find($idCliente); //obtengo el cliente y los datos de su servicio de tv mediante su relacion
 
         $dateStart = $cliente->internets[0]->pivot->date_expiration;
-        $dateExpiration = \Carbon\Carbon::parse($dateStart )->addDays(30); //le sumo 30 dias con carbon
+        $dateExpiration = \Carbon\Carbon::parse( $dateStart )->addDays(30); //le sumo 30 dias con carbon
         $antenaIp = $cliente->internets[0]->pivot->antenna_ip;
         $clienteIp = $cliente->internets[0]->pivot->client_ip;
         $antennaPassword = $cliente->internets[0]->pivot->antenna_password;

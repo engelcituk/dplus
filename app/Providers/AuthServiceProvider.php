@@ -24,9 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Printer' => 'App\Policies\PrinterPolicy',
         'App\Television' => 'App\Policies\TelevisionPolicy',
         'App\Producto' => 'App\Policies\ProductoPolicy',
-
-
-
+        'App\Recarga' => 'App\Policies\RecargaPolicy',
     ];
 
     /**

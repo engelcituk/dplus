@@ -62,6 +62,11 @@ class UsersTableSeeder extends Seeder
         Permission::create(['name'=>'Update products','display_name'=>'Actualizar productos']);
         Permission::create(['name'=>'Delete products','display_name'=>'Borrar productos']);
 
+        Permission::create(['name'=>'View recargas','display_name'=>'Ver recargas']);
+        Permission::create(['name'=>'Create recargas','display_name'=>'Crear recargas']);
+        Permission::create(['name'=>'Update recargas','display_name'=>'Actualizar recargas']);
+        Permission::create(['name'=>'Delete recargas','display_name'=>'Borrar recargas']);
+
         Permission::create(['name'=>'View roles','display_name'=>'Ver roles']);
         Permission::create(['name'=>'Create roles','display_name'=>'Crear roles']);
         Permission::create(['name'=>'Delete roles','display_name'=>'Borrar roles']);
