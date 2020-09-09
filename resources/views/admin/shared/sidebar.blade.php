@@ -65,7 +65,7 @@
                         @can('view', new App\Cliente)
                         <li class="{{ setActiveRoute('admin.clientes.*') }}">
                             <a href="{{route('admin.clientes.index')}}" title="Clientes" data-filter-tags="clientes ">
-                                <span class="nav-link-text" data-i18n="nav.clientes">Clientes</span>
+                                <span class="nav-link-text" data-i18n="nav.clientes">Todos</span>
                                 <span class="dl-ref label bg-primary-400 ml-2">9 KB</span>
                             </a>
                         </li>

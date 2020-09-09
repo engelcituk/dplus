@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Television;
+use App\Internet;
+use App\Recarga;
 use App\Producto;
 use App\Cliente;
 use App\Transaction;
@@ -22,8 +24,10 @@ class VentasController extends Controller {
     public function index()
     {
         $tvServicios = Television::all();
+        $internetServicios = Internet::all();
 
-        return view('admin.ventas.index', compact('tvServicios'));
+
+        return view('admin.ventas.index', compact('tvServicios','internetServicios'));
     }
 
     public function getClientesTV(Request $request){
@@ -63,6 +67,7 @@ class VentasController extends Controller {
             ] 
         );
     }
+
     public function getClientesInternet(Request $request){
     
         $datosCliente = $request->get('datosCliente');
@@ -85,6 +90,22 @@ class VentasController extends Controller {
             ]
         );
     }
+
+    public function getListaRecargas(Request $request){
+        
+        $datosRecarga = $request->get('datosRecarga');
+    
+        $recargas = Recarga::where('description', 'like', '%' .$datosRecarga. '%')->orWhere('price', 'like', '%' .$datosRecarga. '%')->orWhere('code', 'like', '%' .$datosRecarga. '%')->get();
+
+        return response()->json(
+            [
+            'ok' => true,
+            'mensaje' => 'llegaste aquí',
+            'recargas' => $recargas,
+            ] 
+        );
+    }
+    
     public function getDatosServicioTv(Request $request){
         $idTvServicio = $request->get('idTvServicio');
 
@@ -99,7 +120,7 @@ class VentasController extends Controller {
         );
     }
 
-    public function getDataCliente(Request $request){
+    public function getDataClienteTV(Request $request){
         $idCliente = $request->get('id');
 
         $cliente = Cliente::with('televisions')->find($idCliente); //obtengo el cliente y los datos de su servicio de tv mediante su relacion
@@ -120,8 +141,30 @@ class VentasController extends Controller {
             ]
         );
     }
-    public function saveCliente(Request $request)
-    {
+    public function getDataClienteInternet(Request $request){
+        $idCliente = $request->get('id');
+
+        $cliente = Cliente::with('internets')->find($idCliente); //obtengo el cliente y los datos de su servicio de internet mediante su relacion
+        if ($cliente ) {
+            $ok=true;
+            $mensaje = 'cliente encontrado';
+            $objeto = $cliente;
+        } else {
+           $ok=false;
+           $mensaje = 'cliente no se encuentra';
+           $objeto = [];
+        }
+        return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje,
+            'cliente' => $objeto,
+            ]
+        );
+    }
+
+    public function saveClienteTV(Request $request){
+
         $nombreCliente = trim(ucwords($request->get('name'),' '));
 
         $respuestaCliente = Cliente::where('name', $nombreCliente)->get();// busco en la tabla sino existe el cliente con ese nombre
@@ -137,7 +180,7 @@ class VentasController extends Controller {
             $ok=true;
             $mensaje = 'cliente ya registrado y actualizado';
             $objeto = $cliente;
-        }else {
+        } else {
 
             $cliente = Cliente::create($formData); // retorno el objeto cliente
             $cliente->televisions()->detach();
@@ -156,8 +199,9 @@ class VentasController extends Controller {
             ]
         );
     }
-    public function updateCliente(Request $request)
-    {
+
+    public function updateClienteTV(Request $request){
+
         $nombreCliente = trim(ucwords($request->get('name'),' '));
         $idCliente = $request->get('id');
 
@@ -181,6 +225,45 @@ class VentasController extends Controller {
             ]
         );
     }
+
+    public function updateClienteInternet(Request $request){
+
+        $nombreCliente = trim(ucwords($request->get('nombreCliente'),' '));
+        $idCliente = $request->get('idCliente');
+
+        $formData = array('name'=>$nombreCliente); //array con los campos para el cliente
+        $dateExpiration = \Carbon\Carbon::parse($request->get('fechaInicio') )->addDays(30); //le sumo 30 dias con carbon
+
+        
+        Cliente::whereId($idCliente)->update($formData);//actualizo, aunque no es necesario
+        $cliente = Cliente::find($idCliente);
+        // detach y attach de servicios de TV            
+        $cliente->internets()->detach();
+        $cliente->internets()->attach(
+            $request->get('idInternet'), 
+            [
+                'antenna_ip' => $request->get('ipAntena'),
+                'client_ip' =>$request->get('ipCliente'),
+                'antenna_password' => $request->get('passwordAntena'),
+                'router_password' => $request->get('passwordRouter'),
+                'date_start' => $request->get('fechaInicio'),
+                'date_expiration' => $dateExpiration
+            ]
+        );
+        //respuesta
+        $ok=true;
+        $mensaje = 'Los datos del cliente han sido actualizados';
+        $objeto = $cliente;
+    
+        return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje,
+            'cliente' => $objeto,
+            ]
+        );
+    }
+
     public function cobrar(Request $request){
 
         $cabecera = $request->get('cabecera');
@@ -220,7 +303,9 @@ class VentasController extends Controller {
 
             $transaction->save(); // guardo
 
-            $this->updateFechaExpiracionPagoInternet($data['idCliente'], $data['transactionable_id']);
+            if($data['idCliente'] != '' && $data['transactionable_type'] == 'App\Internet' ){ //si idCliente no viene vacio
+                $this->updateFechaExpiracionPagoInternet($data['idCliente'], $data['transactionable_id']);
+            }
         }
         
        /* if($necesitaTicket){// si necesita ticket se manda a ticket de impresoras
@@ -247,7 +332,7 @@ class VentasController extends Controller {
     public function updateFechaExpiracionPagoInternet($idCliente, $idInternet){
 
         $cliente = Cliente::with('internets')->find($idCliente); //obtengo el cliente y los datos de su servicio de tv mediante su relacion
-
+        
         $dateStart = $cliente->internets[0]->pivot->date_expiration;
         $dateExpiration = \Carbon\Carbon::parse( $dateStart )->addDays(30); //le sumo 30 dias con carbon
         $antenaIp = $cliente->internets[0]->pivot->antenna_ip;

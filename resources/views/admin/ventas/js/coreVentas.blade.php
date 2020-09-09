@@ -117,6 +117,21 @@ function showModalServicioInternet(idCliente, idInternet, code, nombreServicio, 
   $('#servicioInternet').modal({backdrop: 'static', keyboard: false})
 }
 
+// para mostrar el modal donde se pintan los datos de la recarga
+function showModalServicioRecarga(idRecarga, code, description, price, commission, finalPrice, iva){
+  //le pinto los valores en los campos
+  $('#idServicioRecarga').val(idRecarga);
+  $('#codigoServicioRecarga').val(code);
+  $('#descripcionServicioRecarga').val(description);
+  $('#precioServicioRecarga').val(price);
+  $('#comisionServicioRecarga').val(commission);
+  $('#precioFinalServicioRecarga').val(finalPrice);
+  $('#ivaServicioRecarga').val(iva);
+
+  showTicketActivoEnModal();
+  $('#servicioRecarga').modal({backdrop: 'static', keyboard: false})
+}
+
 // para cambiar el valor del precio final al considarar seguro
 function addRemoveAssurance(){
   const precio = parseFloat($('#precioServicioInternet').val());
@@ -161,8 +176,11 @@ function showTicketActivoEnModal(){
     const ticketActivo = getTicketActivo();
     button=`<button type="button" class="btn btn-primary" onclick="addServicioTVCliente()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
     button2=`<button type="button" class="btn btn-primary" onclick="addServicioInternetCliente()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
+    button3=`<button type="button" class="btn btn-primary" onclick="addServicioRecarga()"><i class="fal fa-plus-square fs-xl"></i> ${ticketActivo.ticket}</button>`
     $("#lstTicketsTvServicios").html(button); 
     $("#lstTicketsServicioInternets").html(button2);  
+    $("#lstTicketsServicioRecargas").html(button3);  
+
 
   }
 }
@@ -179,14 +197,18 @@ $('#servicioInternet').on('hidden.bs.modal', function () {
     $('#servicioInternet form')[0].reset();
 });
 
+$('#servicioRecarga').on('hidden.bs.modal', function () {
+    $('#servicioRecarga form')[0].reset();
+});
+
 $('#modalNotaItem').on('hidden.bs.modal', function () {
     texto = document.getElementById('positionItemModalNote');
     $('#modalNotaItem form')[0].reset();
     texto.innerHTML = '';
 });
 
-$('#registrarCliente').on('hidden.bs.modal', function () {
-    $('#registrarCliente form')[0].reset();
+$('#registrarClienteTV').on('hidden.bs.modal', function () {
+    $('#registrarClienteTV form')[0].reset();
 });
 
 $('#cobrarVenta').on('hidden.bs.modal', function () {
@@ -237,6 +259,25 @@ function calculoPrecioFinalInternet(){
     }
 
 }
+
+//calcular el precio final del servicio de recarga
+function calculoPrecioFinalRecarga(){
+
+  let precio = document.getElementById("precioServicioRecarga").value;
+  let comision = document.getElementById("comisionServicioRecarga").value;
+
+    if( precio == ''){
+        document.getElementById("precioServicioRecarga").value = 0.00;
+        precio = 0.00;
+    }
+    if( comision == ''){
+        document.getElementById("comisionServicioRecarga").value = 0.00;
+        comision = 0.00;
+    }
+    precioFinal = parseFloat(precio) + parseFloat(comision);
+    document.getElementById('precioFinalServicioRecarga').value = (Math.round( precioFinal * 100) / 100).toFixed(2);
+}
+
 getTickets();
 leerItemsTicket(); //leo el contenido de los tickets
 showButtonsTickets()// muestro los botones de los tickets
@@ -447,7 +488,6 @@ function addServicioTVCliente() {
     'folio' : ticketActivo.ticket,
     'idCliente' : parseInt(idCliente),
     'idUsuario' : parseInt(auth_user_id),
-    'idProducto':'',
     'transactionable_type':'App\\Television',
     'transactionable_id':parseInt(idTV),
     'nombreCliente' : nombreCliente,
@@ -485,7 +525,6 @@ function addServicioTVCliente() {
     'folio': ticketActivo.ticket,    
     'idCliente': '',
     'idUsuario': parseInt(auth_user_id),
-    'idProducto':idProducto,
     'transactionable_type':'App\\Producto',
     'transactionable_id':idProducto,
     'nombreCliente': '',
@@ -510,6 +549,7 @@ function addServicioTVCliente() {
   leerItemsTicket();
 
  }
+
  function addServicioInternetCliente(){
 
   const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
@@ -531,7 +571,6 @@ function addServicioTVCliente() {
     'folio': ticketActivo.ticket,
     'idCliente': parseInt(idCliente),
     'idUsuario': parseInt(auth_user_id),
-    'idProducto':'',
     'transactionable_type':'App\\Internet',
     'transactionable_id':parseInt(idInternet),
     'nombreCliente': nombreCliente,
@@ -558,6 +597,54 @@ function addServicioTVCliente() {
     $('#servicioInternet').modal('hide');// oculto el modal servicio de interent
   }else{
     showMessageNotify("Precio o seguro está vacío", "danger", 3000)
+  }
+ }
+
+// para añadir al ticket la recarga
+ function addServicioRecarga() {
+ 
+  const listadoTickets = JSON.parse(localStorage.getItem('ticketsVentas')); //convierto a json
+
+  const idRecarga = document.getElementById("idServicioRecarga").value;
+  const iva = document.getElementById("ivaServicioRecarga").value;
+  const code = document.getElementById("codigoServicioRecarga").value;
+  const descripcion = document.getElementById("descripcionServicioRecarga").value;
+  const precio = document.getElementById("precioServicioRecarga").value;
+  const comision = document.getElementById("comisionServicioRecarga").value;
+  const precioFinal = document.getElementById("precioFinalServicioRecarga").value;
+
+  const ticketActivo = getTicketActivo();
+
+  const datosItem = JSON.stringify({
+    'folio': ticketActivo.ticket,    
+    'idCliente': '',
+    'idUsuario': parseInt(auth_user_id),
+    'transactionable_type':'App\\Recarga',
+    'transactionable_id':idRecarga,
+    'nombreCliente': '',
+    'referencia': '',
+    'descripcion': descripcion,
+    'tipo': 'servicio',
+    'codigo': code,
+    'cantidad': 1,
+    'existencia': 'Ilim',
+    'tieneMayoreo': false,
+    'mayoreoAplicado':false,
+    'iva':parseInt(iva),
+    'precio': precioFinal,
+    'precioMayoreo': precioFinal,
+    'comision': comision,
+    'numPagoProveedor': '',
+    'numAutorizacionProveedor': '',
+    'nota':''
+  });
+  
+  if( precio > 0){
+    addToTicket(datosItem);
+    leerItemsTicket(); //leo el contenido del ticket
+    $('#servicioRecarga').modal('hide');// oculto el modal servicio de interent
+  }else{
+    showMessageNotify("Debe tener un valor  mayor a cero para la recarga", "danger", 3000)
   }
  }
 
@@ -861,19 +948,20 @@ function aplicarMayoreo(position) { // aplica y quita el mayoreo
     })
  }
  /*=======================================================================
---- Get data del cliente
+--- Get data del clienteTV
+--- Get data del clienteInternet
 --- registrar cliente
---- actualizar cliente
+--- actualizar cliente TV
+--- actualizar cliente Internet
 ========================================================================*/
-function getDataCliente(idCliente) {
-
+function getDataClienteTV(idCliente) {
   $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': csrf_token
       }
     });
   $.ajax({
-      url: "{{ url('admin/ventas/getdatacliente') }}" ,
+      url: "{{ url('admin/ventas/getdataclientetv') }}" ,
       type: "get",
       data: {
           'id':idCliente
@@ -892,7 +980,7 @@ function getDataCliente(idCliente) {
             //$("div.selectTvOption select").val(idTvServicio); //seteo el select
             $("#televisionsSelectIdEdit").val(idTvServicio); //seteo el select
             $('#referenciaClienteModalEdit').val(referencia);
-            $('#updateCliente').modal({backdrop: 'static', keyboard: false});
+            $('#updateClienteTV').modal({backdrop: 'static', keyboard: false});
           } 
       },
       error: function(respuesta) {
@@ -905,7 +993,64 @@ function getDataCliente(idCliente) {
       }
   }) 
 }
-function saveCliente() {
+
+function getDataClienteInternet(idCliente) {
+
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': csrf_token
+    }
+  });
+  $.ajax({
+    url: "{{ url('admin/ventas/getdataclienteinternet') }}" ,
+    type: "get",
+    data: {
+        'id':idCliente
+    },
+    success: function(respuesta) {
+        ok = respuesta.ok;
+        if(ok){
+
+          mensaje = respuesta.mensaje;
+
+          cliente = respuesta.cliente;
+
+          idCliente = cliente.id;
+          nombre = cliente.name;
+          idServicioInternet= cliente.internets[0].pivot.internet_id;//id del internet service
+          antennaIp= cliente.internets[0].pivot.antenna_ip;
+          clientIp= cliente.internets[0].pivot.client_ip;
+          antennaPassword= cliente.internets[0].pivot.antenna_password;
+          routerPassword= cliente.internets[0].pivot.router_password;
+          dateStart= cliente.internets[0].pivot.date_start;
+          dateExpiration= cliente.internets[0].pivot.date_expiration;
+
+         $('#idClienteModalInternet').val(idCliente); 
+         $('#internetsSelectModalInternet').val(idServicioInternet);            
+         $('#nombreClienteModalInternet').val(nombre);            
+         $('#ipAntenaModalInternet').val(antennaIp);            
+         $('#ipClienteModalInternet').val(clientIp);            
+         $('#passwordAntenaModalInternet').val(antennaPassword);            
+         $('#passwordRouterModalInternet').val(routerPassword);            
+         $('#fechaInicioModalInternet').val(dateStart.slice(0, -8));            
+         $('#fechaExpiracionModalInternet').val(dateExpiration.slice(0, -8));            
+
+         $('#updateClienteInternet').modal({backdrop: 'static', keyboard: false});
+
+        } 
+    },
+    error: function(respuesta) {
+        swal({
+            title: 'Oops...',
+            text: '¡Algo salió mal!'+respuesta,
+            type: 'error',
+            timer: '1500'
+        })
+    }
+}) 
+}
+
+function saveClienteTV() {
   let idCliente = document.getElementById("idClienteModalEdit").value;
   let nombreCliente = document.getElementById("nombreClienteModal").value;
   let idTvServicio = document.getElementById("televisionsSelectId").value;
@@ -916,7 +1061,7 @@ function saveCliente() {
       }
     });
   $.ajax({
-      url: "{{ url('admin/ventas/savecliente') }}" ,
+      url: "{{ url('admin/ventas/saveclientetv') }}" ,
       type: "POST",
       data: {
         'name':nombreCliente,
@@ -928,7 +1073,7 @@ function saveCliente() {
           if(ok){
             cliente = respuesta.cliente; 
             mensaje = respuesta.mensaje;
-            $('#registrarCliente').modal('hide');// oculto el modal registrarCliente
+            $('#registrarClienteTV').modal('hide');// oculto el modal registrarCliente
             showMessageNotify(mensaje, "info", 3000);
           }
       },
@@ -942,45 +1087,109 @@ function saveCliente() {
       }
   }) 
 }
-function updateCliente() {
+
+function updateClienteTV() {
   let idCliente = document.getElementById("idClienteModalEdit").value;
   let nombreCliente = document.getElementById("nombreClienteModalEdit").value;
   let idTvServicio = document.getElementById("televisionsSelectIdEdit").value;
   let referenciaCliente = document.getElementById("referenciaClienteModalEdit").value;
-  $.ajaxSetup({
+
+  if(referenciaCliente != ''){
+    $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': csrf_token
       }
     });
-  $.ajax({
-      url: "{{ url('admin/ventas/updatecliente') }}" ,
-      type: "PUT",
-      data: {
-        'id':idCliente,
-        'name':nombreCliente,
-        'television_id': idTvServicio,
-        'referencia':referenciaCliente
-      },
-      success: function(respuesta) {
-          ok = respuesta.ok;
-          if(ok){
-            cliente = respuesta.cliente; 
-            mensaje = respuesta.mensaje;
-            $('#updateCliente').modal('hide');// oculto el modal updateCliente
-            $('#clienteReferencia').val('');
-            $("#listaClientes").html('');
-            showMessageNotify(mensaje, "info", 3000);
-          }
-      },
-      error: function(respuesta) {
-          swal({
-              title: 'Oops...',
-              text: '¡Algo salió mal!'+respuesta,
-              type: 'error',
-              timer: '1500'
-          })
+    $.ajax({
+        url: "{{ url('admin/ventas/updateclientetv') }}" ,
+        type: "PUT",
+        data: {
+          'id':idCliente,
+          'name':nombreCliente,
+          'television_id': idTvServicio,
+          'referencia':referenciaCliente
+        },
+        success: function(respuesta) {
+            ok = respuesta.ok;
+            if(ok){
+              cliente = respuesta.cliente; 
+              mensaje = respuesta.mensaje;
+              $('#updateClienteTV').modal('hide');// oculto el modal updateCliente
+              $('#clienteReferencia').val('');
+              $("#listaClientes").html('');
+              showMessageNotify(mensaje, "info", 3000);
+            }
+        },
+        error: function(respuesta) {
+            swal({
+                title: 'Oops...',
+                text: '¡Algo salió mal!'+respuesta,
+                type: 'error',
+                timer: '1500'
+            })
+        }
+    })
+  }else {
+    showMessageNotify('Inidque la referencia para el cliente', "danger", 3000);
+  } 
+}
+
+function updateClienteInternet() {
+
+  let idCliente = document.getElementById("idClienteModalInternet").value;
+  let nombreCliente = document.getElementById("nombreClienteModalInternet").value;
+  let idInternetServicio = document.getElementById("internetsSelectModalInternet").value;
+  let ipAntena = document.getElementById("ipAntenaModalInternet").value;
+  let ipCliente = document.getElementById("ipClienteModalInternet").value;
+  let passwordAntena = document.getElementById("passwordAntenaModalInternet").value;
+  let passworRouter = document.getElementById("passwordRouterModalInternet").value;
+  let dateStart = document.getElementById("fechaInicioModalInternet").value;
+  let dateExpiration = document.getElementById("fechaExpiracionModalInternet").value;
+
+  if(ipAntena != '' && ipCliente != '' && passwordAntena != '' && passworRouter != '' && dateStart != ''){
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
       }
-  }) 
+    });
+    $.ajax({
+        url: "{{ url('admin/ventas/updateclienteinternet') }}" ,
+        type: "PUT",
+        data: {
+          'nombreCliente':nombreCliente,
+          'idCliente':idCliente,
+          'idInternet': idInternetServicio,
+          'ipAntena':ipAntena,
+          'ipCliente':ipCliente,
+          'passwordAntena':passwordAntena,
+          'passwordRouter':passworRouter,
+          'fechaInicio':dateStart,
+          'fechaExpiracion':dateExpiration,
+
+        },
+        success: function(respuesta) {
+            ok = respuesta.ok;
+            if(ok){
+              cliente = respuesta.cliente; 
+              mensaje = respuesta.mensaje;
+              $('#updateClienteInternet').modal('hide');// oculto el modal updateClienteInternet
+              $('#nameClienteInternet').val('');
+              $("#listaClientesInternet").html('');
+              showMessageNotify(mensaje, "info", 3000);
+            }
+        },
+        error: function(respuesta) {
+            swal({
+                title: 'Oops...',
+                text: '¡Algo salió mal!'+respuesta,
+                type: 'error',
+                timer: '1500'
+            })
+        }
+    })
+  }else {
+    showMessageNotify('Inidque la referencia para el cliente', "danger", 3000);
+  } 
 }
 /*=======================================================================
 --- fin de Get data del cliente

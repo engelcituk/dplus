@@ -41,11 +41,15 @@ function(){
     Route::get('ventas', 'VentasController@index')->name('admin.ventas.index'); 
     Route::get('ventas/clientestv', 'VentasController@getClientesTV')->name('admin.ventas.clientestv'); 
     Route::get('ventas/listaproductos', 'VentasController@getListaProductos')->name('admin.ventas.listaproductos');
-    Route::get('ventas/clientesinternet', 'VentasController@getClientesInternet')->name('admin.ventas.clientesinternet'); 
+    Route::get('ventas/clientesinternet', 'VentasController@getClientesInternet')->name('admin.ventas.clientesinternet');
+    Route::get('ventas/recargas', 'VentasController@getListaRecargas')->name('admin.ventas.recargas'); 
     Route::get('ventas/datostvservicio', 'VentasController@getDatosServicioTv')->name('admin.ventas.datostvservicio');
-    Route::get('ventas/getdatacliente', 'VentasController@getDataCliente')->name('admin.ventas.getdatacliente');
-    Route::post('ventas/savecliente', 'VentasController@saveCliente')->name('admin.ventas.savecliente');
-    Route::put('ventas/updatecliente', 'VentasController@updateCliente')->name('admin.ventas.updatecliente');
+    Route::get('ventas/getdataclientetv', 'VentasController@getDataClienteTV')->name('admin.ventas.getdataclientetv');
+    Route::get('ventas/getdataclienteinternet', 'VentasController@getDataClienteInternet')->name('admin.ventas.getdataclienteint');
+    Route::post('ventas/saveclientetv', 'VentasController@saveClienteTV')->name('admin.ventas.saveclientetv');
+    Route::put('ventas/updateclientetv', 'VentasController@updateClienteTV')->name('admin.ventas.updateclientetv');
+    Route::put('ventas/updateclienteinternet', 'VentasController@updateClienteInternet')->name('admin.ventas.updateclienteinternet');
+
     Route::post('ventas/cobrar', 'VentasController@cobrar')->name('admin.ventas.cobrar');
 
 

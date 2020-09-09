@@ -1,4 +1,4 @@
-<div class="modal fade" id="updateCliente" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="updateClienteTV" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,7 +27,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fal fa-user fs-xl"></i></span>
                                 </div>
-                            <input type="text" class="form-control" id="nombreClienteModalEdit">
+                            <input type="text" class="form-control" id="nombreClienteModalEdit" readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -60,7 +60,7 @@
             </div> 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal"><i class="fal fa-window-close fs-xl"></i></button>
-                <button type="button" class="btn btn-primary" onclick="updateCliente()"><i class="fal fa-plus-square fs-xl"></i> Actualizar</button> 
+                <button type="button" class="btn btn-primary" onclick="updateClienteTV()"><i class="fal fa-plus-square fs-xl"></i> Actualizar</button> 
             </div>
         </div>
     </div>

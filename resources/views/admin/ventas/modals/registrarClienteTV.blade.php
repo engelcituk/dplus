@@ -1,4 +1,4 @@
-<div class="modal fade" id="registrarCliente" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="registrarClienteTV" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -51,7 +51,7 @@
             </div> 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal"><i class="fal fa-window-close fs-xl"></i></button>
-                <button type="button" class="btn btn-primary" onclick="saveCliente()"><i class="fal fa-plus-square fs-xl"></i> Guardar</button> 
+                <button type="button" class="btn btn-primary" onclick="saveClienteTV()"><i class="fal fa-plus-square fs-xl"></i> Guardar</button> 
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@ const csrf_token = $('meta[name="csrf-token"]').attr('content');
 const auth_user_id = $('meta[name="user_id"]').attr('content');     
 
 
-function buscarClientes(){
+function buscarClientesTV(){
   const datosCliente= $('#clienteReferencia').val();
   if (datosCliente != '' && datosCliente.length > 1) {
     $.ajaxSetup({
@@ -45,7 +45,7 @@ function buscarClientes(){
                   <td>${code}</td>
                   <td> <span id="ref${idCliente}">${referencia}</span></td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="getDataCliente(${idCliente})"><i class="fal fa-edit"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getDataClienteTV(${idCliente})"><i class="fal fa-edit"></i></button>
                     <button type="button" class="btn btn-primary btn-sm" onclick="copiar(${idCliente})"><i class="fal fa-copy"></i></button>
                     <button type="button" class="btn btn-info btn-sm" onclick="getDataServicioTVCliente(${idCliente}, ${idTV},'${nombreCliente}','${referencia}')">
                       <i class="fal fa-plus-circle"></i>
@@ -210,8 +210,8 @@ function buscarClientesInternet(){
                 <tr>
                   <td>${nombreCliente}</td>
                   <td> <span id="ref${idCliente}">${description}</span></td>
-                  <td>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="getDataCliente(${idCliente})"><i class="fal fa-edit"></i></button>
+                  <td>  
+                    <button type="button" class="btn btn-primary btn-sm" onclick="getDataClienteInternet(${idCliente})"><i class="fal fa-edit"></i></button>
                     <button type="button" class="btn btn-info btn-sm" onclick="showModalServicioInternet(${idCliente},${idInternet},'${code}','${nombreServicio}','${nombreCliente}','${iva}','${description}','${precio}','${seguro}','${precioFinal}','${dateExpiration}')">
                       <i class="fal fa-plus-circle"></i>
                     </button
@@ -239,6 +239,78 @@ function buscarClientesInternet(){
   }
 }
 
+function buscarRecargas(){
+  const datosRecarga= $('#nameRecarga').val();
+  if (datosRecarga != '' && datosRecarga.length > 1) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
+      }
+    });
+    $.ajax({
+      url: "{{ url('admin/ventas/recargas') }}" ,
+      type: "GET",
+      data: {
+          'datosRecarga': datosRecarga
+      },
+      success: function(respuesta) {
+          const ok = respuesta.ok;
+          if(ok){
+            recargas = respuesta.recargas;
+            
+            listaRecargas = `
+            <table class="table table-bordered m-2">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descripción</th>
+                        <th>Precio/Com.</th>
+                        <th></th>
+                    </tr>
+                </thead>
+              <tbody>`
+              for(i = 0; i < recargas.length; i++){
+                let idRecarga = recargas[i].id
+                let code = recargas[i].code
+                let description = recargas[i].description
+                let price = recargas[i].price
+                let commission = recargas[i].commission
+                let finalPrice = recargas[i].final_price
+                let iva = recargas[i].iva
+                
+                listaRecargas += `
+                <tr>
+                  <td>${code}</td>
+                  <td>${description}</td>
+                  <td>${price}+${commission}=${finalPrice}</td>  
+                  <td>
+                    <button type="button" class="btn btn-info btn-sm" onclick="showModalServicioRecarga(${idRecarga},'${code}','${description}','${price}','${commission}','${finalPrice}','${iva}')">
+                      <i class="fal fa-plus-circle"></i>
+                    </button
+                  </td>      
+              </tr>`;
+              }
+            listaRecargas += `</tbody></table>`;
+            $("#listaRecargas").html(listaRecargas);
+          }else {
+            console.log(respuesta.mensaje)
+        }
+          
+      },
+      error: function(respuesta) {
+          swal({
+              title: 'Oops...',
+              text: '¡Algo salió mal!'+respuesta,
+              type: 'error',
+              timer: '1500'
+          })
+      }
+    });
+  }else {
+    //console.log("campos vacios o caracteres muy limitados");
+    $("#listaClientes").html('');
+  }
+}
 function esNumero(cadena) {
   if (!isNaN(cadena)) {
     return true;
