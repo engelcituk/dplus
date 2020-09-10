@@ -26,7 +26,28 @@
                 //startDate: new Date(),
                 //startDate: '-0d',
                 startDate: 'now()',  
-            });   
+            });
+
+            // minimum setup
+            $('#fechaInicioInternetR').datepicker({
+                todayHighlight: true,
+                format: 'yyyy/mm/dd',
+                orientation: "bottom left",
+                templates: controls,
+                //startDate: new Date(),
+                //startDate: '-0d',
+                startDate: 'now()',  
+            });
+      
+            $('#fechaExpiracionInternetR').datepicker({
+                todayHighlight: true,
+                format: 'yyyy/mm/dd',
+                orientation: "bottom left",
+                templates: controls,
+                //startDate: new Date(),
+                //startDate: '-0d',
+                startDate: 'now()',  
+            });    
       });
       
         

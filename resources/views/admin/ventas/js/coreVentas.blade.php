@@ -950,7 +950,8 @@ function aplicarMayoreo(position) { // aplica y quita el mayoreo
  /*=======================================================================
 --- Get data del clienteTV
 --- Get data del clienteInternet
---- registrar cliente
+--- registrar cliente TV
+--- registrar cliente Internet
 --- actualizar cliente TV
 --- actualizar cliente Internet
 ========================================================================*/
@@ -1050,42 +1051,123 @@ function getDataClienteInternet(idCliente) {
 }) 
 }
 
-function saveClienteTV() {
-  let idCliente = document.getElementById("idClienteModalEdit").value;
+function saveClienteTV(){
   let nombreCliente = document.getElementById("nombreClienteModal").value;
   let idTvServicio = document.getElementById("televisionsSelectId").value;
   let referenciaCliente = document.getElementById("referenciaClienteModal").value;
-  $.ajaxSetup({
+
+  if(nombreCliente != '' && referenciaCliente != ''){
+    $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': csrf_token
       }
     });
-  $.ajax({
-      url: "{{ url('admin/ventas/saveclientetv') }}" ,
-      type: "POST",
-      data: {
-        'name':nombreCliente,
-        'television_id': idTvServicio,
-        'referencia':referenciaCliente
-      },
-      success: function(respuesta) {
-          ok = respuesta.ok;
-          if(ok){
-            cliente = respuesta.cliente; 
-            mensaje = respuesta.mensaje;
-            $('#registrarClienteTV').modal('hide');// oculto el modal registrarCliente
-            showMessageNotify(mensaje, "info", 3000);
-          }
-      },
-      error: function(respuesta) {
-          swal({
-              title: 'Oops...',
-              text: '¡Algo salió mal!'+respuesta,
-              type: 'error',
-              timer: '1500'
-          })
+    $.ajax({
+        url: "{{ url('admin/ventas/saveclientetv') }}" ,
+        type: "POST",
+        data: {
+          'name':nombreCliente,
+          'television_id': idTvServicio,
+          'referencia':referenciaCliente
+        },
+        success: function(respuesta) {
+            ok = respuesta.ok;
+            if(ok){
+              cliente = respuesta.cliente; 
+              mensaje = respuesta.mensaje;
+              $('#registrarClienteTV').modal('hide');// oculto el modal registrarCliente
+              showMessageNotify(mensaje, "info", 3000);
+            }
+        },
+        error: function(respuesta) {
+            swal({
+                title: 'Oops...',
+                text: '¡Algo salió mal!'+respuesta,
+                type: 'error',
+                timer: '1500'
+            })
+        }
+    })
+  } else {
+
+    if(nombreCliente == ''){
+      showMessageNotify('Indique el nombre para el cliente', "danger", 3000);
+      document.getElementById('nombreClienteModal').focus();
+    } else if(referenciaCliente == ''){
+      showMessageNotify('Indique la referencia para el cliente', "danger", 3000);
+      document.getElementById('referenciaClienteModal').focus();
+    }
+
+  } 
+}
+
+function saveClienteInternet(){
+
+  let nombreCliente = document.getElementById("nombreClienteInternetR").value;
+  let idInternetServicio = document.getElementById("internetsSelectInternetR").value;
+  let ipAntena = document.getElementById("ipAntenaInternetR").value;
+  let ipCliente = document.getElementById("ipClienteInternetR").value;
+  let passwordAntena = document.getElementById("passwordAntenaInternetR").value;
+  let passworRouter = document.getElementById("passwordRouterInternetR").value;
+  let dateStart = document.getElementById("fechaInicioInternetR").value;
+
+  if(nombreCliente !='' && ipAntena != '' && ipCliente != '' && passwordAntena != '' && passworRouter != '' && dateStart != ''){
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': csrf_token
       }
-  }) 
+    });
+    $.ajax({
+        url: "{{ url('admin/ventas/saveclienteinternet') }}" ,
+        type: "POST",
+        data: {
+          'nombreCliente': nombreCliente,
+          'idInternet': idInternetServicio,
+          'ipAntena': ipAntena,
+          'ipCliente': ipCliente,
+          'passwordAntena': passwordAntena,
+          'passwordRouter': passworRouter,
+          'fechaInicio': dateStart
+        },
+        success: function(respuesta) {
+            ok = respuesta.ok;
+            if(ok){
+              cliente = respuesta.cliente; 
+              mensaje = respuesta.mensaje;
+              $('#registrarClienteInternet').modal('hide');// oculto el modal registrarClienteInternet
+              showMessageNotify(mensaje, "info", 3000);
+            }
+        },
+        error: function(respuesta) {
+            swal({
+                title: 'Oops...',
+                text: '¡Algo salió mal!'+respuesta,
+                type: 'error',
+                timer: '1500'
+            })
+        }
+    })
+  } else {
+    if(nombreCliente == ''){
+      showMessageNotify('Indique el nombre para el cliente', "danger", 3000);
+      document.getElementById('nombreClienteInternetR').focus();
+    } else if(ipAntena == ''){
+      showMessageNotify('Indique Ip de la antena', "danger", 3000);
+      document.getElementById('ipAntenaInternetR').focus();
+    } else if(ipCliente == ''){
+      showMessageNotify('Indique ip del cliente', "danger", 3000);
+      document.getElementById('ipClienteInternetR').focus();
+    }else if(passwordAntena == ''){
+      showMessageNotify('Indique la contraseña de la antena', "danger", 3000);
+      document.getElementById('passwordAntenaInternetR').focus();
+    }else if(passworRouter == ''){
+      showMessageNotify('Indique la contraseña del router', "danger", 3000);
+      document.getElementById('passwordRouterInternetR').focus();
+    }else if(dateStart == ''){
+      showMessageNotify('Indique la fecha de pago', "danger", 3000);
+      document.getElementById('dateStart').focus();
+    }
+  } 
 }
 
 function updateClienteTV() {
@@ -1144,7 +1226,6 @@ function updateClienteInternet() {
   let passwordAntena = document.getElementById("passwordAntenaModalInternet").value;
   let passworRouter = document.getElementById("passwordRouterModalInternet").value;
   let dateStart = document.getElementById("fechaInicioModalInternet").value;
-  let dateExpiration = document.getElementById("fechaExpiracionModalInternet").value;
 
   if(ipAntena != '' && ipCliente != '' && passwordAntena != '' && passworRouter != '' && dateStart != ''){
     $.ajaxSetup({
@@ -1163,9 +1244,7 @@ function updateClienteInternet() {
           'ipCliente':ipCliente,
           'passwordAntena':passwordAntena,
           'passwordRouter':passworRouter,
-          'fechaInicio':dateStart,
-          'fechaExpiracion':dateExpiration,
-
+          'fechaInicio':dateStart
         },
         success: function(respuesta) {
             ok = respuesta.ok;
@@ -1188,13 +1267,15 @@ function updateClienteInternet() {
         }
     })
   }else {
-    showMessageNotify('Inidque la referencia para el cliente', "danger", 3000);
+    showMessageNotify('No deje ningún campo vacío', "danger", 3000);
   } 
 }
 /*=======================================================================
---- fin de Get data del cliente
---- fin de registrar cliente
---- fin de actualizar cliente
+--- fin de Get data del clienteInternet
+--- fin de registrar cliente TV
+--- fin de registrar cliente Internet
+--- fin de actualizar cliente TV
+--- fin de actualizar cliente Internet
 ========================================================================*/
 
 /*=======================================================================

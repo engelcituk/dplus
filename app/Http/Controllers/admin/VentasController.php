@@ -200,6 +200,66 @@ class VentasController extends Controller {
         );
     }
 
+    public function saveClienteInternet(Request $request){
+
+        $nombreCliente = trim(ucwords($request->get('nombreCliente'),' '));
+
+        $respuestaCliente = Cliente::where('name', $nombreCliente)->get();// busco en la tabla sino existe el cliente con ese nombre
+        $formData = array('name'=>$nombreCliente); //array con los campos para el cliente
+        $dateExpiration = \Carbon\Carbon::parse($request->get('fechaInicio') )->addDays(30); //le sumo 30 dias con carbon
+        
+        if(count($respuestaCliente) > 0){// si el cliente existe actuaizo sus datos de tv servicio
+
+            Cliente::whereId($respuestaCliente[0]->id)->update($formData);//actualizo, aunque no es necesario
+            $cliente = Cliente::find($respuestaCliente[0]->id);
+            // detach y attach de servicios de TV            
+            $cliente->internets()->detach();
+            $cliente->internets()->attach(
+            $request->get('idInternet'), 
+            [
+                'antenna_ip' => $request->get('ipAntena'),
+                'client_ip' =>$request->get('ipCliente'),
+                'antenna_password' => $request->get('passwordAntena'),
+                'router_password' => $request->get('passwordRouter'),
+                'date_start' => $request->get('fechaInicio'),
+                'date_expiration' => $dateExpiration
+            ]
+        );
+            //respuesta
+            $ok=true;
+            $mensaje = 'cliente ya registrado y actualizado su servicio de internet';
+            $objeto = $cliente;
+
+        } else {
+
+            $cliente = Cliente::create($formData); // retorno el objeto cliente
+            $cliente->internets()->detach();
+            $cliente->internets()->attach(
+            $request->get('idInternet'), 
+            [
+                'antenna_ip' => $request->get('ipAntena'),
+                'client_ip' =>$request->get('ipCliente'),
+                'antenna_password' => $request->get('passwordAntena'),
+                'router_password' => $request->get('passwordRouter'),
+                'date_start' => $request->get('fechaInicio'),
+                'date_expiration' => $dateExpiration
+            ]
+        );
+
+            $ok=true;
+            $mensaje = 'cliente se registró y se le agrega su servicio de internet';
+            $objeto = [];
+        }
+
+        return response()->json(
+            [
+            'ok' => $ok,
+            'mensaje' => $mensaje,
+            'cliente' => $objeto,
+            ]
+        );
+    }
+
     public function updateClienteTV(Request $request){
 
         $nombreCliente = trim(ucwords($request->get('name'),' '));
@@ -234,7 +294,6 @@ class VentasController extends Controller {
         $formData = array('name'=>$nombreCliente); //array con los campos para el cliente
         $dateExpiration = \Carbon\Carbon::parse($request->get('fechaInicio') )->addDays(30); //le sumo 30 dias con carbon
 
-        
         Cliente::whereId($idCliente)->update($formData);//actualizo, aunque no es necesario
         $cliente = Cliente::find($idCliente);
         // detach y attach de servicios de TV            

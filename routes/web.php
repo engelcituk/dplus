@@ -47,6 +47,7 @@ function(){
     Route::get('ventas/getdataclientetv', 'VentasController@getDataClienteTV')->name('admin.ventas.getdataclientetv');
     Route::get('ventas/getdataclienteinternet', 'VentasController@getDataClienteInternet')->name('admin.ventas.getdataclienteint');
     Route::post('ventas/saveclientetv', 'VentasController@saveClienteTV')->name('admin.ventas.saveclientetv');
+    Route::post('ventas/saveclienteinternet', 'VentasController@saveClienteInternet')->name('admin.ventas.saveclienteinternet');
     Route::put('ventas/updateclientetv', 'VentasController@updateClienteTV')->name('admin.ventas.updateclientetv');
     Route::put('ventas/updateclienteinternet', 'VentasController@updateClienteInternet')->name('admin.ventas.updateclienteinternet');
 

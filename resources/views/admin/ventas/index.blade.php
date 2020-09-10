@@ -49,6 +49,7 @@
                         </div>
                         <div class="tab-pane fade" id="tabVentas-3" role="tabpanel">
                             <div class="form-group">
+                                <button class="btn btn-info btn-sm float-right mb-3" data-toggle="modal"  data-target="#registrarClienteInternet"> <i class="fal fa-pen"></i> Registrar cliente</button> 
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Indique el nombre del cliente" aria-label="cliente" aria-describedby="btnBuscarClienteInt" id="nameClienteInternet" onkeyup="buscarClientesInternet()">
                                 </div>
@@ -92,6 +93,7 @@
 @include('admin.ventas.modals.servicioInternet') 
 @include('admin.ventas.modals.servicioRecarga') 
 @include('admin.ventas.modals.registrarClienteTV') 
+@include('admin.ventas.modals.registrarClienteInternet') 
 @include('admin.ventas.modals.updateClienteTV') 
 @include('admin.ventas.modals.updateClienteInternet') 
 @include('admin.ventas.modals.notaItem') 

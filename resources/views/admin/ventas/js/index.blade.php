@@ -235,7 +235,7 @@ function buscarClientesInternet(){
     });
   }else {
     //console.log("campos vacios o caracteres muy limitados");
-    $("#listaClientes").html('');
+    $("#listaClientesInternet").html('');
   }
 }
 
@@ -308,7 +308,7 @@ function buscarRecargas(){
     });
   }else {
     //console.log("campos vacios o caracteres muy limitados");
-    $("#listaClientes").html('');
+    $("#listaRecargas").html('');
   }
 }
 function esNumero(cadena) {
